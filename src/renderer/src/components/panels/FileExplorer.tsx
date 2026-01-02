@@ -16,13 +16,43 @@ const getFileIcon = (fileName: string, isDirectory: boolean): string => {
   
   const ext = fileName.split('.').pop()?.toLowerCase() || '';
   const iconMap: Record<string, string> = {
-    js: '📜', jsx: '⚛️', ts: '📘', tsx: '⚛️', py: '🐍', java: '☕',
-    cpp: '⚙️', c: '⚙️', cs: '#️⃣', go: '🐹', rs: '🦀', php: '🐘',
-    rb: '💎', swift: '🦅', kt: '🟣', html: '🌐', css: '🎨',
-    scss: '🎨', sass: '🎨', json: '📋', xml: '📋', yaml: '📋',
-    yml: '📋', md: '📝', txt: '📄', pdf: '📕', png: '🖼️',
-    jpg: '🖼️', jpeg: '🖼️', gif: '🖼️', svg: '🎨', ico: '🖼️',
+    // JavaScript/TypeScript
+    js: '📜', jsx: '⚛️', ts: '📘', tsx: '⚛️', mjs: '📜', cjs: '📜',
+    // Python
+    py: '🐍', pyw: '🐍', pyc: '🐍', pyd: '🐍',
+    // Java/JVM
+    java: '☕', jar: '☕', class: '☕', kt: '🟣', scala: '🔴',
+    // C/C++
+    c: '⚙️', cpp: '⚙️', cxx: '⚙️', cc: '⚙️', h: '⚙️', hpp: '⚙️', hxx: '⚙️',
+    // C#/.NET
+    cs: '#️⃣', csx: '#️⃣', vb: '#️⃣', fs: '#️⃣',
+    // Other languages
+    go: '🐹', rs: '🦀', php: '🐘', rb: '💎', swift: '🦅', lua: '🌙',
+    r: '📊', dart: '🎯', elixir: '💧', ex: '💧', exs: '💧',
+    // Web
+    html: '🌐', htm: '🌐', css: '🎨', scss: '🎨', sass: '🎨', less: '🎨',
+    vue: '💚', svelte: '🧡',
+    // Data formats
+    json: '📋', xml: '📋', yaml: '📋', yml: '📋', toml: '📋', ini: '📋',
+    csv: '📊', tsv: '📊',
+    // Docs
+    md: '📝', markdown: '📝', txt: '📄', pdf: '📕', doc: '📄', docx: '📄',
+    // Images
+    png: '🖼️', jpg: '🖼️', jpeg: '🖼️', gif: '🖼️', svg: '🎨', ico: '🖼️',
+    bmp: '🖼️', webp: '🖼️',
+    // Shell/Config
+    sh: '🔧', bash: '🔧', zsh: '🔧', fish: '🔧', ps1: '🔧',
+    env: '⚙️', config: '⚙️', conf: '⚙️',
+    // Build/Package
+    dockerfile: '🐳', makefile: '🔨', cmake: '🔨',
+    'package.json': '📦', 'package-lock.json': '🔒',
+    // Databases
+    sql: '🗄️', db: '🗄️', sqlite: '🗄️',
   };
+  
+  // Check exact filename matches first
+  const lowerName = fileName.toLowerCase();
+  if (iconMap[lowerName]) return iconMap[lowerName];
   
   return iconMap[ext] || '📄';
 };

@@ -105,4 +105,49 @@
   white-space: nowrap;
   color: var(--color-text-primary);
   font-size: 13px;
+  transition: color 0.2s ease;
+}
+
+.fileItem:hover .fileName {
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+.arrow.expanded {
+  transform: rotate(90deg);
+}
+
+/* Cool animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fileItem {
+  animation: slideIn 0.2s ease-out;
+}
+
+/* Custom scrollbar */
+.fileList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.fileList::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+.fileList::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.fileList::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
 }

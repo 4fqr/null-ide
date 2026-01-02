@@ -1,103 +1,191 @@
-﻿#  Null IDE
+﻿# Null IDE
 
-**The Ultimate Hacker & Master Programmer IDE by NullSec**
+![Null IDE Banner](./null-ide.png)
 
-A powerful, privacy-focused Electron-based IDE designed for hackers, penetration testers, and programmers. Built with security research and development workflows in mind.
+**The Ultimate Dual-Mode IDE for Hackers & Developers**
 
-![Null IDE](https://img.shields.io/badge/version-1.0.0-green) ![License](https://img.shields.io/badge/license-MIT-blue) ![Platform](https://img.shields.io/badge/platform-Windows-lightgrey)
+> A privacy-focused Electron IDE with **DeepZero** code editor and **GalaxyMind** security/developer tools suite.
+
+![Version](https://img.shields.io/badge/version-2.0.0-green) ![License](https://img.shields.io/badge/license-MIT-blue) ![Platform](https://img.shields.io/badge/platform-Windows-lightgrey)
 
 ---
 
-##  Features
+## 🌟 What is Null IDE?
 
-###  **Monaco Editor Integration**
-- Full-featured VS Code editor engine
-- Syntax highlighting for 50+ languages
-- IntelliSense and auto-completion
-- Multi-tab editing with file management
-- Dark theme optimized for long coding sessions
+Null IDE is a professional development environment designed for security researchers, penetration testers, and developers. It combines a powerful Monaco-based code editor with 27 built-in security testing and developer utility tools.
 
-## The Hacking & Programming Tool's are not yet completely ready.
+### Two Modes, Infinite Possibilities
 
-###  **Hacking Tools**
-Advanced penetration testing and security research utilities:
+- **⚡ DeepZero Mode**: Full-featured code editor powered by VS Code's Monaco engine
+- **🌌 GalaxyMind Mode**: 27 professional security & developer tools at your fingertips
 
-#### **Reconnaissance**
-- Port Scanner (with service detection)
-- DNS Lookup & Reverse DNS
-- Subdomain Enumeration
-- WHOIS Lookup
-- HTTP Header Analysis
-- SSL/TLS Certificate Inspector
+---
 
-#### **Payload Generation**
-- Reverse Shell Generator (Bash, Python, PHP, Netcat, PowerShell)
-- SQL Injection Payloads
-- XSS Payload Generator
-- Command Injection Payloads
-- LDAP Injection Payloads
+## 🚀 Quick Start
 
-#### **Cryptography**
-- Hash Generator (MD5, SHA-1, SHA-256, SHA-512, NTLM)
-- Base64 Encoder/Decoder
-- URL Encoder/Decoder
-- JWT Decoder
-- ROT13 Cipher
-- Caesar Cipher
-- Bcrypt Hash Generator
+### Download & Install
 
-#### **Web Exploitation**
-- Directory Bruteforce Path Generator
-- LFI/RFI Payload Generator
-- SSTI (Server-Side Template Injection) Payloads
-- XXE (XML External Entity) Payloads
+1. Download the latest installer from [Releases](https://github.com/4fqr/null-ide/releases)
+2. Run `Null-IDE-Setup-2.0.0.exe`
+3. Launch from Start Menu or Desktop shortcut
 
-###  **Programmer Utilities**
+### Development Setup
 
-#### **Digital Forensics**
-- File Hash Calculator (MD5, SHA-1, SHA-256)
-- Binary to Hex Converter
-- Hex Dump Analyzer
-- String Extractor from Binary
+\`\`\`bash
+git clone https://github.com/4fqr/null-ide.git
+cd null-ide
+npm install
+npm run dev
+\`\`\`
 
-#### **Network Analysis**
-- IP Address Validator
-- CIDR Calculator
-- MAC Address Lookup
-- TCP/UDP Port Scanner
+---
 
-#### **Code Analysis**
-- JSON Validator & Beautifier
-- XML Validator & Beautifier
-- JavaScript Deobfuscator
-- SQL Query Formatter
-- Regex Tester & Validator
+## ✨ Features
 
-#### **Deobfuscation**
-- JavaScript Beautifier
-- CSS Minifier/Beautifier
-- HTML Formatter
-- Base64 Decoder
+### 💻 DeepZero Code Editor
 
-###  **System Tools**
-- File Explorer with directory browsing
-- Integrated Terminal (PowerShell)
-- Process Monitor
-- Environment Variables Viewer
-- System Information Dashboard
+- **Monaco Editor** - The same engine that powers VS Code
+- **100+ Languages** - Syntax highlighting for all major programming languages
+- **IntelliSense** - Smart autocomplete and suggestions
+- **Multi-Tab Editing** - Work on multiple files simultaneously
+- **Integrated Terminal** - PowerShell terminal built-in
+- **File Explorer** - Browse and manage project files
+- **Git Integration** - Track changes and commits
 
-###  **DeepHat AI Assistant**
-- Embedded uncensored hacker AI (powered by Deep Hat)
-- Security research assistance
-- Code generation and debugging
-- Exploit development guidance
-- Privacy-focused (no telemetry)
+### 🌌 GalaxyMind Tools (27 Total)
 
-###  **Interface**
-- Modern dark UI with NullSec branding
-- Resizable panels and sidebars
-- Keyboard shortcuts for power users
-- Context menu integration ("Open with Null IDE")
+#### 🔐 Security & Network Tools (8)
+- **API Tester** - Test REST & GraphQL APIs
+- **Port Scanner** - Scan ports with service detection
+- **DNS Analyzer** - Analyze DNS records and lookups
+- **Subdomain Finder** - Discover subdomains
+- **WHOIS Lookup** - Domain registration information
+- **Header Analyzer** - Analyze HTTP security headers
+- **SQL Injection Tester** - Test SQL injection vectors (educational)
+- **XSS Detector** - Detect XSS vulnerabilities (educational)
+- **Uptime Checker** - Monitor website availability
+
+#### 🛠️ Developer Utilities (18)
+- **Base64 Tool** - Encode/decode Base64
+- **URL Tool** - Encode/decode URLs
+- **Hash Generator** - Generate SHA-256, SHA-512, MD5 hashes
+- **JWT Decoder** - Decode and analyze JWT tokens
+- **JSON Formatter** - Format and validate JSON
+- **JSON Beautifier** - Beautify and minify JSON with indent control
+- **Regex Tester** - Test regular expressions with live results
+- **UUID Generator** - Generate UUID v4 identifiers
+- **Timestamp Converter** - Convert between timestamp formats
+- **Password Generator** - Generate cryptographically secure passwords
+- **Color Converter** - Convert HEX/RGB/HSL color formats
+- **HTML Entity Encoder** - Encode/decode HTML entities
+- **Markdown Preview** - Live markdown rendering
+- **Lorem Ipsum Generator** - Generate placeholder text
+- **Diff Viewer** - Compare text differences line-by-line
+- **CSS Minifier** - Minify and beautify CSS
+- **Slug Generator** - Generate URL-friendly slugs
+- **Cron Generator** - Create cron expressions visually
+
+### 🤖 DeepHat AI Assistant
+
+- **Uncensored AI** - No restrictions on security research queries
+- **Code Generation** - Generate code in any language
+- **Security Guidance** - Get help with penetration testing
+- **Privacy First** - Your conversations stay local
+
+---
+
+## ⌨️ Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl+N` | New File |
+| `Ctrl+O` | Open File |
+| `Ctrl+S` | Save File |
+| `Ctrl+W` | Close Tab |
+| `Ctrl+Shift+W` | Close All Tabs |
+| `Ctrl+Tab` | Next Tab |
+| `Ctrl+Shift+Tab` | Previous Tab |
+| `Ctrl+B` | Toggle Left Sidebar |
+| `Ctrl+\`` | Toggle Terminal |
+| `Ctrl+,` | Open Settings |
+
+---
+
+## 🔒 Privacy & Security
+
+**Your code never leaves your machine.**
+
+- ✅ All data stored locally
+- ✅ No telemetry or tracking
+- ✅ No analytics
+- ✅ No user data collection
+- ✅ Open source and auditable
+
+---
+
+## 📦 Building from Source
+
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+
+### Build Commands
+
+\`\`\`bash
+# Install dependencies
+npm install
+
+# Run in development
+npm run dev
+
+# Build production
+npm run build
+
+# Create installer
+npm run package
+\`\`\`
+
+---
+
+## 🛠️ Tech Stack
+
+- **Electron** - Desktop application framework
+- **React** - UI library
+- **TypeScript** - Type-safe development
+- **Monaco Editor** - VS Code's editor engine
+- **Zustand** - State management
+- **Vite** - Fast build tool
+
+---
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details
+
+---
+
+## 🙏 Credits
+
+**Created by NullSec**
+
+Made with ❤️ for hackers, by hackers.
+
+---
+
+## ⚠️ Disclaimer
+
+Null IDE's security testing tools are provided for **educational and authorized testing purposes only**. Users are responsible for ensuring all usage complies with applicable laws and regulations. Unauthorized testing of systems you do not own or have explicit permission to test is illegal.
+
+---
+
+## 🐛 Bug Reports & Feature Requests
+
+Found a bug or have a feature idea? [Open an issue](https://github.com/4fqr/null-ide/issues)
+
+---
+
+**Star ⭐ this repo if you find it useful!**
+
 - Multi-tab workflow support
 
 ---

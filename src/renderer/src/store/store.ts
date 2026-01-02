@@ -145,31 +145,57 @@ export const useStore = create<UIState>((set) => ({
 
 ## Quick Start
 
+- **Ctrl+N**: New file
 - **Ctrl+O**: Open file
 - **Ctrl+S**: Save file
-- **Ctrl+Shift+P**: Command palette
+- **Ctrl+W**: Close tab
+- **Ctrl+Shift+W**: Close all tabs
+- **Ctrl+Tab**: Next tab
+- **Ctrl+Shift+Tab**: Previous tab
 - **Ctrl+B**: Toggle left sidebar
-- **Ctrl+Shift+B**: Toggle right sidebar
+- **Ctrl+\`**: Toggle terminal
+- **Ctrl+,**: Settings
 
 ## Features
 
-✓ Monaco Editor with syntax highlighting
-✓ 100+ hacking utilities
-✓ 1000+ programmer tools
+✓ Monaco Editor with VS Code engine
+✓ 28 GalaxyMind security & developer tools
 ✓ Embedded DeepHat AI assistant
 ✓ Privacy-focused (local-only storage)
+✓ Full keyboard shortcuts support
 
-## Left Sidebar Tools
+## Mode Switching
 
-Explore the Swiss army knife of tools in the left sidebar:
-- **File Explorer**: Browse and manage files
-- **Hacking Tools**: Network, security, and penetration testing utilities
-- **Programmer Utilities**: Text transformations, encoders, generators
-- **System Tools**: OS information and diagnostics
+**⚡ DeepZero Mode**: Full-featured code editor with Monaco Editor
+**🌌 GalaxyMind Mode**: 28 security testing and developer utility tools
+
+## GalaxyMind Tools (28 Total)
+
+**🔐 Security Tools (8)**
+- Port Scanner, Subdomain Finder, DNS Analyzer
+- WHOIS Lookup, Header Analyzer
+- SQL Injection Tester, XSS Detector, Uptime Checker
+
+**🛠️ Developer Tools (20)**
+- Base64/URL/Hash/JWT tools
+- JSON Formatter/Beautifier
+- Regex Tester, UUID Generator
+- Timestamp Converter, Password Generator
+- Color Converter, HTML Entity Encoder
+- Markdown Preview, QR Code Generator
+- Lorem Ipsum Generator, Diff Viewer
+- CSS Minifier, Slug Generator, Cron Generator
+
+## Left Sidebar
+
+- **Explorer**: Browse and manage files
+- **Hacking Tools**: Launch security testing tools
+- **Utilities**: Launch developer utilities
+- **Extensions**: Manage extensions
 
 ## Right Sidebar
 
-Access DeepHat AI - your uncensored hacker AI assistant - in the right sidebar.
+Access DeepHat AI - your uncensored hacker AI assistant.
 
 ---
 

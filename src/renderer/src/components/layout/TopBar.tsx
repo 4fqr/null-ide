@@ -66,10 +66,8 @@ const TopBar: React.FC = () => {
             <span className={styles.title}>Null IDE</span>
             <span className={styles.subtitle}>NullSec</span>
           </div>
-        </div>
-
-        <div className={styles.center}>
-          {/* Mode Toggle */}
+          
+          {/* Mode Toggle - Moved to left side */}
           <div className={styles.modeToggle}>
             <button
               className={`${styles.modeButton} ${mode === 'deepzero' ? styles.active : ''}`}
@@ -78,7 +76,6 @@ const TopBar: React.FC = () => {
               <span className={styles.modeIcon}>⚡</span>
               DeepZero
             </button>
-            <div className={styles.modeDivider}>|</div>
             <button
               className={`${styles.modeButton} ${mode === 'galaxymind' ? styles.active : ''}`}
               onClick={() => setMode('galaxymind')}
@@ -87,7 +84,9 @@ const TopBar: React.FC = () => {
               GalaxyMind
             </button>
           </div>
+        </div>
 
+        <div className={styles.center}>
           <div className={styles.tabs}>
             {tabs.map((tab) => (
               <div

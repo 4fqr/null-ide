@@ -261,6 +261,21 @@
   margin-bottom: var(--spacing-xl);
 }
 
+.featuresList {
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--color-bg-tertiary);
+  border-left: 3px solid var(--color-accent);
+  border-radius: 4px;
+}
+
+.featuresList h4 {
+  margin: var(--spacing-sm) 0;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
 .features h3,
 .tech h3,
 .privacy h3 {

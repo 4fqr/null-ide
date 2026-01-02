@@ -2,119 +2,90 @@
   flex: 1;
   overflow-y: auto;
   padding: var(--spacing-xl);
-  animation: fadeIn 0.5s ease;
+  animation: fadeIn 0.3s ease;
 }
 
 .header {
-  text-align: center;
   margin-bottom: var(--spacing-xl);
-  animation: slideDown 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .title {
-  font-size: 48px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #00ffaa 0%, #4facfe 50%, #00f2fe 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-size: var(--font-size-xxl);
+  font-weight: 600;
+  color: var(--color-text-primary);
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-sm);
-  filter: drop-shadow(0 0 20px rgba(0, 255, 170, 0.3));
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
 }
 
 .titleIcon {
-  font-size: 56px;
-  animation: pulseGlow 3s ease-in-out infinite;
+  font-size: var(--font-size-xxl);
+  opacity: 0.8;
 }
 
 .subtitle {
-  color: #b8b8d1;
-  font-size: var(--font-size-lg);
-  letter-spacing: 1px;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+  letter-spacing: 0.3px;
 }
 
 .category {
-  margin-bottom: var(--spacing-xl);
-  animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: var(--spacing-xxl);
 }
 
 .categoryTitle {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
   font-weight: 600;
-  color: #00ffaa;
+  color: var(--color-text-primary);
   margin-bottom: var(--spacing-md);
-  padding-bottom: var(--spacing-sm);
-  border-bottom: 2px solid rgba(0, 255, 170, 0.2);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid var(--color-border);
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 .toolCards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--spacing-lg);
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--spacing-md);
 }
 
 .toolCard {
-  background: linear-gradient(135deg, rgba(26, 15, 46, 0.6) 0%, rgba(10, 10, 15, 0.8) 100%);
-  border: 1px solid rgba(0, 255, 170, 0.2);
-  border-radius: 12px;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
   padding: var(--spacing-lg);
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.toolCard::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(0, 255, 170, 0.1) 0%, transparent 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .toolCard:hover {
-  transform: translateY(-5px) scale(1.02);
-  border-color: #00ffaa;
-  box-shadow: 
-    0 10px 30px rgba(0, 255, 170, 0.3),
-    0 0 50px rgba(0, 255, 170, 0.2),
-    inset 0 0 20px rgba(0, 255, 170, 0.1);
-}
-
-.toolCard:hover::before {
-  opacity: 1;
+  border-color: var(--color-accent);
+  background: var(--color-bg-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .toolIcon {
-  font-size: 48px;
-  margin-bottom: var(--spacing-md);
-  filter: drop-shadow(0 0 10px currentColor);
-  transition: transform 0.3s ease;
-}
-
-.toolCard:hover .toolIcon {
-  transform: scale(1.2) rotate(5deg);
-  filter: drop-shadow(0 0 20px currentColor);
+  font-size: 32px;
+  margin-bottom: var(--spacing-sm);
+  opacity: 0.8;
 }
 
 .toolName {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base);
   font-weight: 600;
-  color: #ffffff;
-  margin-bottom: var(--spacing-sm);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
 }
 
 .toolDescription {
   font-size: var(--font-size-sm);
-  color: #9a9aad;
-  line-height: 1.5;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
 }
 
 @keyframes fadeIn {
@@ -123,36 +94,5 @@
   }
   to {
     opacity: 1;
-  }
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    filter: drop-shadow(0 0 10px rgba(0, 255, 170, 0.6));
-  }
-  50% {
-    filter: drop-shadow(0 0 30px rgba(0, 255, 170, 1));
   }
 }

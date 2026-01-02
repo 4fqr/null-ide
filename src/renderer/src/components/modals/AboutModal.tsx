@@ -21,32 +21,59 @@ const AboutModal: React.FC<AboutModalProps> = ({ onClose }) => {
             <div className={styles.logo}>
               <span className={styles.logoIcon}>⚡</span>
               <h1>Null IDE</h1>
-              <p className={styles.version}>Version 1.0.0</p>
+              <p className={styles.version}>Version 2.0.0</p>
             </div>
 
             <div className={styles.branding}>
-              <p className={styles.tagline}>The Ultimate Hacker & Master Programmer IDE</p>
-              <p className={styles.subtitle}>Created by <strong>NullSec</strong> — A Hacker's Foundation</p>
+              <p className={styles.tagline}>Dual-Mode Professional IDE</p>
+              <p className={styles.subtitle}>Created by <strong>NullSec</strong></p>
             </div>
 
             <div className={styles.description}>
               <p>
                 Null IDE is a privacy-focused, high-performance integrated development environment
-                designed for hackers, security researchers, and master programmers. It combines
-                powerful tools, a clean hacker aesthetic, and local-first privacy principles.
+                with dual modes: <strong>DeepZero</strong> for coding and <strong>GalaxyMind</strong> for
+                security testing and developer utilities.
               </p>
+              <div className={styles.featuresList}>
+                <h4>✓ Monaco Editor with syntax highlighting</h4>
+                <h4>✓ 25+ GalaxyMind tools (security & developer utilities)</h4>
+                <h4>✓ Embedded DeepHat AI assistant</h4>
+                <h4>✓ Privacy-focused (local-only storage)</h4>
+                <h4>✓ Full keyboard shortcuts support</h4>
+              </div>
             </div>
 
             <div className={styles.features}>
-              <h3>✨ Features</h3>
+              <h3>⚡ DeepZero Mode</h3>
               <ul>
-                <li>🎨 Monaco Editor with advanced syntax highlighting</li>
-                <li>🔐 100+ hacking and security utilities</li>
-                <li>🛠️ 1000+ programmer tools and transformations</li>
-                <li>🤖 Integrated DeepHat AI assistant</li>
-                <li>🔒 Local-only data storage (no cloud, no telemetry)</li>
-                <li>⚡ Fast, lightweight, and fully customizable</li>
-                <li>🌐 Cross-platform (Windows, macOS, Linux)</li>
+                <li>Monaco Editor (VS Code engine)</li>
+                <li>Multi-tab file editing</li>
+                <li>Integrated terminal</li>
+                <li>DeepHat AI assistant</li>
+              </ul>
+              
+              <h3>🌌 GalaxyMind Mode (25+ Tools)</h3>
+              <ul>
+                <li>🔐 Encoding: Base64, URL, Hash Generator, JWT Decoder, HTML Encoder</li>
+                <li>🛠️ Developer: JSON, Regex, UUID, Timestamp, Password, Color, Markdown</li>
+                <li>📝 Generators: Lorem Ipsum, QR Code, Secure Passwords</li>
+                <li>🎨 Tools: CSS Minifier, Diff Viewer, Color Converter</li>
+                <li>🌐 Network: API Tester, DNS Analyzer, Port Scanner</li>
+                <li>🔒 Security: Header Analyzer, SQL/XSS Testing (Educational)</li>
+              </ul>
+              
+              <h3>⌨️ Keyboard Shortcuts</h3>
+              <ul>
+                <li><strong>Ctrl+N</strong> - New File</li>
+                <li><strong>Ctrl+S</strong> - Save File</li>
+                <li><strong>Ctrl+W</strong> - Close Tab</li>
+                <li><strong>Ctrl+Shift+W</strong> - Close All Tabs</li>
+                <li><strong>Ctrl+Tab</strong> - Next Tab</li>
+                <li><strong>Ctrl+Shift+Tab</strong> - Previous Tab</li>
+                <li><strong>Ctrl+`</strong> - Toggle Terminal</li>
+                <li><strong>Ctrl+B</strong> - Toggle Left Sidebar</li>
+                <li><strong>Ctrl+,</strong> - Settings</li>
               </ul>
             </div>
 

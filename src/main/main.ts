@@ -35,6 +35,7 @@ function createWindow() {
     minWidth: 1200,
     minHeight: 700,
     title: 'Null IDE – NullSec',
+    icon: path.join(__dirname, 'null_ide.png'),
     backgroundColor: '#0a0a0a',
     webPreferences: {
       preload: path.join(__dirname, '../preload/preload.js'),

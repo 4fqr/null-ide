@@ -20,6 +20,9 @@
 }
 
 .left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
   flex-shrink: 0;
 }
 
@@ -51,81 +54,61 @@
   min-width: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: var(--spacing-lg);
+  justify-content: flex-start;
+  overflow: hidden;
 }
 
-/* Mode Toggle Styles */
+/* Mode Toggle Styles - Minimal & Professional */
 .modeToggle {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 4px 16px;
+  gap: 0;
   background: var(--color-bg-tertiary);
   border: 1px solid var(--color-border);
-  border-radius: 20px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .modeButton {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 16px;
+  gap: 8px;
+  padding: 6px 20px;
   font-size: var(--font-size-sm);
   font-weight: 500;
   letter-spacing: 0.5px;
-  border-radius: 16px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  color: var(--color-text-tertiary);
+  transition: all 0.2s ease;
+  color: var(--color-text-secondary);
+  border-right: 1px solid var(--color-border);
 }
 
-.modeButton::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, transparent 0%, transparent 100%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
+.modeButton:last-child {
+  border-right: none;
 }
 
 .modeButton:hover {
   color: var(--color-text-primary);
   background: var(--color-bg-hover);
-  transform: translateY(-1px);
 }
 
 .modeButton.active {
-  color: #ffffff;
-  background: linear-gradient(135deg, var(--color-accent) 0%, #1976d2 100%);
-  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4), 
-              0 0 20px rgba(33, 150, 243, 0.2);
-  transform: scale(1.05);
-}
-
-.modeButton.active::before {
-  opacity: 1;
-  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+  color: var(--color-text-primary);
+  background: var(--color-bg-secondary);
+  border-bottom: 2px solid var(--color-accent);
 }
 
 .modeIcon {
-  font-size: 16px;
-  filter: drop-shadow(0 0 2px currentColor);
-  transition: transform 0.3s ease;
+  font-size: 14px;
+  opacity: 0.7;
 }
 
 .modeButton.active .modeIcon {
-  transform: scale(1.2);
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
+  opacity: 1;
 }
 
 .modeDivider {
-  color: var(--color-border);
-  font-weight: 300;
-  opacity: 0.5;
+  display: none;
 }
 
 .tabs {

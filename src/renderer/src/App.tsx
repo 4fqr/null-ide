@@ -29,6 +29,69 @@ const App: React.FC = () => {
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Ctrl+N: New file
+      if (e.ctrlKey && e.key === 'n') {
+        e.preventDefault();
+        useStore.getState().openTab({
+          id: `untitled-${Date.now()}`,
+          name: 'Untitled',
+          content: '',
+          language: 'plaintext',
+          path: '',
+          modified: false
+        });
+      }
+
+      // Ctrl+S: Save file
+      if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+        const { activeTabId, tabs } = useStore.getState();
+        if (activeTabId) {
+          const tab = tabs.find(t => t.id === activeTabId);
+          if (tab && tab.path) {
+            window.electronAPI.fs.writeFile(tab.path, tab.content);
+          }
+        }
+      }
+
+      // Ctrl+W: Close tab
+      if (e.ctrlKey && e.key === 'w') {
+        e.preventDefault();
+        const { activeTabId } = useStore.getState();
+        if (activeTabId) {
+          useStore.getState().closeTab(activeTabId);
+        }
+      }
+
+      // Ctrl+Shift+W: Close all tabs
+      if (e.ctrlKey && e.shiftKey && e.key === 'W') {
+        e.preventDefault();
+        const { tabs } = useStore.getState();
+        tabs.forEach(tab => useStore.getState().closeTab(tab.id));
+      }
+
+      // Ctrl+Tab: Next tab
+      if (e.ctrlKey && e.key === 'Tab' && !e.shiftKey) {
+        e.preventDefault();
+        const { tabs, activeTabId } = useStore.getState();
+        if (tabs.length > 0) {
+          const currentIndex = tabs.findIndex(t => t.id === activeTabId);
+          const nextIndex = (currentIndex + 1) % tabs.length;
+          useStore.getState().setActiveTab(tabs[nextIndex].id);
+        }
+      }
+
+      // Ctrl+Shift+Tab: Previous tab
+      if (e.ctrlKey && e.shiftKey && e.key === 'Tab') {
+        e.preventDefault();
+        const { tabs, activeTabId } = useStore.getState();
+        if (tabs.length > 0) {
+          const currentIndex = tabs.findIndex(t => t.id === activeTabId);
+          const prevIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+          useStore.getState().setActiveTab(tabs[prevIndex].id);
+        }
+      }
+
       // Ctrl+B: Toggle left sidebar
       if (e.ctrlKey && e.key === 'b') {
         e.preventDefault();

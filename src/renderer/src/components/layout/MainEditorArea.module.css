@@ -13,8 +13,44 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-md);
   font-family: var(--font-mono);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-xl);
   color: var(--color-text-tertiary);
+  background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.empty::before {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0, 255, 170, 0.05) 0%, transparent 70%);
+  animation: pulse 4s ease-in-out infinite;
+}
+
+.empty p:first-of-type {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-shadow: 0 0 20px rgba(0, 255, 170, 0.5);
+  z-index: 1;
+}
+
+.empty p:last-of-type {
+  font-size: 14px;
+  z-index: 1;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.6;
+  }
 }

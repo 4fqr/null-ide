@@ -8,42 +8,74 @@ let connected = false;
 export function initDiscordRPC() {
   if (rpc) return;
 
-  rpc = new Client({ transport: 'ipc' });
+  try {
+    rpc = new Client({ transport: 'ipc' });
 
-  rpc.on('ready', () => {
-    console.log('Discord RPC connected');
-    connected = true;
-    updateActivity('Idling', null);
-  });
+    rpc.on('ready', () => {
+      console.log('✅ Discord RPC connected successfully');
+      connected = true;
+      // Set initial activity
+      setTimeout(() => {
+        updateActivity('Idling', null);
+      }, 500);
+    });
 
-  rpc.on('disconnected', () => {
-    console.log('Discord RPC disconnected');
+    rpc.on('disconnected', () => {
+      console.log('❌ Discord RPC disconnected');
+      connected = false;
+    });
+
+    rpc.on('error', (err: Error) => {
+      console.error('Discord RPC error:', err);
+      connected = false;
+    });
+
+    // Login with retry mechanism
+    rpc.login({ clientId }).then(() => {
+      console.log('Discord RPC login successful');
+    }).catch((err: Error) => {
+      console.error('Failed to connect to Discord RPC:', err);
+      console.error('Make sure Discord is running and the client ID is correct');
+      connected = false;
+      // Retry after 5 seconds
+      setTimeout(() => {
+        console.log('Retrying Discord RPC connection...');
+        rpc = null;
+        initDiscordRPC();
+      }, 5000);
+    });
+  } catch (error) {
+    console.error('Error initializing Discord RPC:', error);
     connected = false;
-  });
-
-  rpc.login({ clientId }).catch((err: Error) => {
-    console.error('Failed to connect to Discord RPC:', err);
-    connected = false;
-  });
+  }
 }
 
 export function updateActivity(state: string, fileName: string | null) {
-  if (!rpc || !connected) return;
+  if (!rpc || !connected) {
+    console.log('Discord RPC not connected, skipping activity update');
+    return;
+  }
 
-  const activity: any = {
-    details: fileName ? `Editing ${fileName}` : 'Idling',
-    state: fileName ? 'Working on a file' : 'No files open',
-    startTimestamp: Date.now(),
-    largeImageKey: 'clearnull', // Upload logo to Discord app assets
-    largeImageText: 'Null IDE',
-    smallImageKey: fileName ? 'editing' : 'idle',
-    smallImageText: fileName ? 'Coding' : 'Idle',
-    instance: false,
-  };
+  try {
+    const activity: any = {
+      details: fileName ? `Editing ${fileName}` : 'Idling',
+      state: fileName ? 'Working on a file' : 'No files open',
+      startTimestamp: Date.now(),
+      largeImageKey: 'clearnull',
+      largeImageText: 'Null IDE',
+      smallImageKey: fileName ? 'editing' : 'idle',
+      smallImageText: fileName ? 'Coding' : 'Idle',
+      instance: false,
+    };
 
-  rpc.setActivity(activity).catch((err: Error) => {
-    console.error('Failed to set Discord activity:', err);
-  });
+    rpc.setActivity(activity).then(() => {
+      console.log(`✅ Discord activity updated: ${fileName || 'Idling'}`);
+    }).catch((err: Error) => {
+      console.error('Failed to set Discord activity:', err);
+    });
+  } catch (error) {
+    console.error('Error updating Discord activity:', error);
+  }
 }
 
 export function clearActivity() {

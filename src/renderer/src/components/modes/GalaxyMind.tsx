@@ -16,6 +16,11 @@ import XSSDetector from '../galaxymind/XSSDetector';
 import LFIScanner from '../galaxymind/LFIScanner';
 import CSRFTester from '../galaxymind/CSRFTester';
 import DirectoryFuzzer from '../galaxymind/DirectoryFuzzer';
+import CommandInjectionTester from '../galaxymind/CommandInjectionTester';
+import SSRFTester from '../galaxymind/SSRFTester';
+import XXETester from '../galaxymind/XXETester';
+import SSTIDetector from '../galaxymind/SSTIDetector';
+import FileUploadTester from '../galaxymind/FileUploadTester';
 
 // Payload Tools
 import ReverseShellGenerator from '../galaxymind/ReverseShellGenerator';
@@ -30,6 +35,7 @@ import HashGenerator from '../galaxymind/HashGenerator';
 import Base64Tool from '../galaxymind/Base64Tool';
 import JWTCracker from '../galaxymind/JWTCracker';
 import EncryptionTool from '../galaxymind/EncryptionTool';
+import CertificateAnalyzer from '../galaxymind/CertificateAnalyzer';
 
 // API Tools
 import PacketAnalyzer from '../galaxymind/PacketAnalyzer';
@@ -84,6 +90,16 @@ const GalaxyMind: React.FC = () => {
         return <CSRFTester />;
       case 'directory-fuzzer':
         return <DirectoryFuzzer />;
+      case 'command-injection':
+        return <CommandInjectionTester />;
+      case 'ssrf-tester':
+        return <SSRFTester />;
+      case 'xxe-tester':
+        return <XXETester />;
+      case 'ssti-detector':
+        return <SSTIDetector />;
+      case 'file-upload-tester':
+        return <FileUploadTester />;
 
       // Payload Tools
       case 'reverse-shell':
@@ -108,6 +124,8 @@ const GalaxyMind: React.FC = () => {
         return <JWTCracker />;
       case 'encryption-tool':
         return <EncryptionTool />;
+      case 'certificate-analyzer':
+        return <CertificateAnalyzer />;
 
       // API Tools (additional)
       case 'packet-analyzer':

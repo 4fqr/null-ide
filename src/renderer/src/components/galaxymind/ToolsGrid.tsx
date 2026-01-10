@@ -25,6 +25,11 @@ const tools: Tool[] = [
   { id: 'lfi-scanner', name: 'LFI/RFI Scanner', icon: '📂', category: 'Web Security', description: 'File inclusion vulnerability scanner' },
   { id: 'csrf-tester', name: 'CSRF Tester', icon: '🛡️', category: 'Web Security', description: 'Cross-site request forgery testing' },
   { id: 'directory-fuzzer', name: 'Directory Fuzzer', icon: '📁', category: 'Web Security', description: 'Discover hidden directories' },
+  { id: 'command-injection', name: 'Command Injection', icon: '💉', category: 'Web Security', description: 'Test OS command injection' },
+  { id: 'ssrf-tester', name: 'SSRF Tester', icon: '🌐', category: 'Web Security', description: 'Server-side request forgery testing' },
+  { id: 'xxe-tester', name: 'XXE Tester', icon: '📄', category: 'Web Security', description: 'XML external entity injection' },
+  { id: 'ssti-detector', name: 'SSTI Detector', icon: '🎭', category: 'Web Security', description: 'Template injection detection' },
+  { id: 'file-upload-tester', name: 'File Upload Tester', icon: '📁', category: 'Web Security', description: 'Analyze upload security' },
   
   // Payload & Exploit Tools
   { id: 'reverse-shell', name: 'Reverse Shell Generator', icon: '🐚', category: 'Payloads', description: 'Generate reverse shell payloads' },
@@ -39,6 +44,7 @@ const tools: Tool[] = [
   { id: 'encryption-tool', name: 'Encryption Tool', icon: '🔐', category: 'Crypto', description: 'AES/RSA encryption' },
   { id: 'jwt-cracker', name: 'JWT Cracker', icon: '🎫', category: 'Crypto', description: 'Crack weak JWT secrets' },
   { id: 'base64-tool', name: 'Base64/Hex Tool', icon: '📝', category: 'Crypto', description: 'Multi-format encoding' },
+  { id: 'certificate-analyzer', name: 'Certificate Analyzer', icon: '🔐', category: 'Crypto', description: 'X.509 SSL/TLS certificate analysis' },
   
   // API & Network Tools
   { id: 'api-tester', name: 'API Tester', icon: '🔌', category: 'API', description: 'REST/GraphQL/SOAP testing' },

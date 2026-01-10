@@ -142,12 +142,24 @@ const TerminalPanel: React.FC<TerminalPanelProps> = ({ isVisible, height, onHeig
   };
 
   useEffect(() => {
-    // Always create initial terminal, regardless of visibility
+    // Always create initial terminal with proper delay
     if (terminals.length === 0) {
-      createTerminal();
+      // Delay to ensure DOM is ready
+      const timer = setTimeout(() => {
+        createTerminal();
+      }, 100);
+      return () => clearTimeout(timer);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    // Force create terminal when becoming visible if none exist
+    if (isVisible && terminals.length === 0) {
+      createTerminal();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isVisible]);
 
   useEffect(() => {
     // Fit terminals when visible or when height/active terminal changes

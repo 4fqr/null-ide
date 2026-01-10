@@ -13,7 +13,10 @@ const RightSidebar: React.FC = () => {
 
   const handleResizeMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     setIsResizing(true);
+    document.body.style.cursor = 'ew-resize';
+    document.body.style.userSelect = 'none';
   };
 
   useEffect(() => {
@@ -31,6 +34,8 @@ const RightSidebar: React.FC = () => {
 
     const handleMouseUp = () => {
       setIsResizing(false);
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
     };
 
     document.addEventListener('mousemove', handleMouseMove);
@@ -87,7 +92,7 @@ const RightSidebar: React.FC = () => {
           <div className={styles.titleText}>
             <div className={styles.name}>DeepHat AI</div>
             <div className={styles.subtitle}>
-              {mode === 'deepzero' ? 'Code Assistant' : 'Security Expert'}
+              {mode === 'code' ? 'Code Assistant' : 'Security Expert'}
             </div>
           </div>
         </div>

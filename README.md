@@ -1,10 +1,10 @@
 ﻿# Null IDE
 
-![Version](https://img.shields.io/badge/version-3.1-brightgreen) ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-blue) ![License](https://img.shields.io/badge/license-MIT-orange) ![Electron](https://img.shields.io/badge/electron-28.3.3-9feaf9) ![Discord](https://img.shields.io/badge/Discord-Rich%20Presence-7289da)
+![Version](https://img.shields.io/badge/version-3.2-brightgreen) ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-blue) ![License](https://img.shields.io/badge/license-MIT-orange) ![Electron](https://img.shields.io/badge/electron-28.3.3-9feaf9) ![Discord](https://img.shields.io/badge/Discord-Rich%20Presence-7289da)
 
 **The Ultimate Code Editor & Security Toolkit for Professional Hackers and Developers**
 
-> A privacy-first, dual-mode development environment combining the power of VS Code's Monaco Editor with 38 professional security testing and developer utility tools.
+> A privacy-first, dual-mode development environment combining the power of VS Code's Monaco Editor with 44 professional security testing and developer utility tools.
 
 ---
 
@@ -14,10 +14,10 @@ Null IDE is an advanced, cross-platform development environment specifically des
 
 ### Key Highlights
 
-- **🚀 Dual-Mode Architecture**: Switch between Code Mode (Monaco Editor) and Utility Mode (38 tools) instantly
-- **🔐 38 Security & Developer Tools**: Network scanning, web security testing, payload generation, cryptography, and more
+- **🚀 Dual-Mode Architecture**: Switch between Code Mode (Monaco Editor) and Utility Mode (44 tools) instantly
+- **🔐 44 Security & Developer Tools**: Network scanning, web security testing, payload generation, cryptography, and more
 - **🎨 8 Built-in Themes + Custom Theme Support**: Professionally designed themes with CSS-only extension system
-- **🎮 Discord Rich Presence**: Show what you're working on with live Discord status integration
+- **🎮 Discord Rich Presence**: Show what you're working on with live Discord status integration (fixed & improved)
 - **🖥️ Cross-Platform**: Windows and Linux support with native installers
 - **🔒 100% Privacy-Focused**: All data stays local—zero telemetry, no tracking, no cloud connections
 - **⚡ Monaco Editor**: The same powerful engine that powers Visual Studio Code
@@ -37,12 +37,12 @@ Null IDE is an advanced, cross-platform development environment specifically des
 
 **AppImage (Universal - Recommended)**
 
-Download `Null-IDE-3.1.0.AppImage` from [Releases](https://github.com/4fqr/null-ide/releases)
+Download `Null-IDE-3.2.0.AppImage` from [Releases](https://github.com/4fqr/null-ide/releases)
 
 ```bash
 # Make executable and run
-chmod +x Null-IDE-3.1.0.AppImage
-./Null-IDE-3.1.0.AppImage
+chmod +x Null-IDE-3.2.0.AppImage
+./Null-IDE-3.2.0.AppImage
 ```
 
 That's it! No installation required. The AppImage includes everything needed to run.
@@ -50,14 +50,14 @@ That's it! No installation required. The AppImage includes everything needed to 
 **Debian/Ubuntu (.deb)**
 
 ```bash
-sudo dpkg -i null-ide_3.1.0_amd64.deb
+sudo dpkg -i null-ide_3.2.0_amd64.deb
 null-ide
 ```
 
 **Fedora/RHEL/CentOS (.rpm)**
 
 ```bash
-sudo rpm -i null-ide-3.1.0.x86_64.rpm
+sudo rpm -i null-ide-3.2.0.x86_64.rpm
 null-ide
 ```
 
@@ -130,13 +130,18 @@ npx electron-builder --linux
 - **Subdomain Finder** - Subdomain enumeration and discovery
 - **WHOIS Lookup** - Domain registration information retrieval
 
-#### 🌐 Web Security Tools (6)
+#### 🌐 Web Security Tools (11)
 - **Header Analyzer** - HTTP security header analysis
 - **SQL Injection Tester** - SQL injection vulnerability detection
 - **XSS Detector** - Cross-site scripting vulnerability scanner
 - **LFI/RFI Scanner** - Local/Remote file inclusion testing
 - **CSRF Tester** - Cross-site request forgery testing
 - **Directory Fuzzer** - Web directory and file discovery
+- **Command Injection Tester** - OS command injection vulnerability testing
+- **SSRF Tester** - Server-Side Request Forgery detection with cloud metadata testing
+- **XXE Tester** - XML External Entity injection detection and analysis
+- **SSTI Detector** - Server-Side Template Injection across multiple engines
+- **File Upload Tester** - File upload security bypass techniques analyzer
 
 #### 💣 Payload Tools (5)
 - **Reverse Shell Generator** - Multi-platform reverse shell payloads
@@ -145,12 +150,13 @@ npx electron-builder --linux
 - **Code Obfuscator** - JavaScript and PowerShell obfuscation
 - **Shellcode Generator** - Architecture-specific shellcode generation
 
-#### 🔐 Cryptography Tools (5)
+#### 🔐 Cryptography Tools (6)
 - **Hash Cracker** - Dictionary-based hash cracking (MD5, SHA1, SHA256)
 - **Hash Generator** - Generate cryptographic hashes
 - **Encryption Tool** - AES-256-GCM/CBC encryption/decryption with Web Crypto API
 - **JWT Cracker** - JWT token security testing
 - **Base64/Hex Tool** - Encode/decode Base64 and Hex
+- **Certificate Analyzer** - X.509 SSL/TLS certificate decoder and security analysis
 
 #### 🌍 API Security Tools (4)
 - **Packet Analyzer** - Network packet capture parser (tcpdump/hex)
@@ -321,11 +327,30 @@ We welcome contributions! Here's how you can help:
 
 ## 📊 Project Status
 
-### Version 3.1 (Current)
+### Version 3.2 (Current)
 
 **Release Date**: January 10, 2026
 
 **What's New**:
+- ✅ **6 New Advanced Security Tools**:
+  - Command Injection Tester - OS command injection vulnerability detection
+  - SSRF Tester - Server-Side Request Forgery with cloud metadata testing
+  - XXE Tester - XML External Entity injection analyzer
+  - SSTI Detector - Server-Side Template Injection across multiple engines (Jinja2, ERB, Smarty, etc.)
+  - File Upload Tester - Security bypass techniques analyzer
+  - Certificate Analyzer - X.509 SSL/TLS certificate analysis
+- ✅ **Total: 44 Fully Functional Tools** (up from 38)
+- ✅ **Discord RPC Enhanced** - Better error handling, retry logic, improved logging
+- ✅ **Terminal Reliability Fixed** - Proper visibility-based initialization
+- ✅ **Right Sidebar Resize Improved** - Better cursor feedback and user experience
+- ✅ **All Tools Error-Free** - Comprehensive error handling across all tools
+- ✅ **Zero Build Errors** - Clean compilation with no warnings
+
+### Version 3.1
+
+**Release Date**: January 10, 2026
+
+**Features**:
 - ✅ **Discord Rich Presence** - Show current file and activity on Discord
 - ✅ Fixed Extensions modal z-index (no longer overlaps with sidebar)
 - ✅ Improved terminal initialization reliability
@@ -345,7 +370,6 @@ We welcome contributions! Here's how you can help:
 - ✅ Terminal initialization fixes for improved stability
 - ✅ Linux support (AppImage, DEB, RPM)
 - ✅ Professional README and documentation
-- ✅ Total of 38 fully-functional tools
 
 **Known Issues**:
 - None currently reported

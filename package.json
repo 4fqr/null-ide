@@ -1,7 +1,7 @@
 {
   "name": "null-ide",
-  "version": "3.2.8",
-  "description": "The Ultimate Hacker's Code Editor & Security Toolkit - FINAL RELEASE: Terminal 50-800px resize + Complete README + Linux-ready",
+  "version": "3.2.9",
+  "description": "The Ultimate Hacker's Code Editor & Security Toolkit - Fixed terminal bidirectional resize + Linux installers (.deb, .rpm, AppImage)",
   "main": "dist/main/main.js",
   "author": "NullSec",
   "license": "MIT",
@@ -14,6 +14,9 @@
     "build:renderer": "vite build",
     "build:electron": "tsc -p tsconfig.main.json && tsc -p tsconfig.preload.json",
     "package": "npm run build && electron-builder",
+    "package:win": "npm run build && electron-builder --win",
+    "package:linux": "npm run build && electron-builder --linux",
+    "package:all": "npm run build && electron-builder --win --linux --mac",
     "lint": "eslint src --ext .ts,.tsx",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\""
   },

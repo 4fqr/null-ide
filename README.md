@@ -40,26 +40,38 @@ Null-IDE-Installer.exe
 
 ### Linux
 
-**AppImage (Universal)**
+Linux installers (.AppImage, .deb, .rpm) must be built on a Linux system or via CI/CD. To build:
+
+**On Linux:**
 ```bash
-wget https://github.com/4fqr/null-ide/releases/latest/download/Null-IDE-3.2.7.AppImage
-chmod +x Null-IDE-3.2.7.AppImage
-./Null-IDE-3.2.7.AppImage
+git clone https://github.com/4fqr/null-ide.git
+cd null-ide
+npm install
+npm run package:linux
 ```
 
-**Debian/Ubuntu**
+This generates:
+- `Null-IDE-3.2.9.AppImage` - Universal (works on all distros)
+- `null-ide_3.2.9_amd64.deb` - Debian/Ubuntu
+- `null-ide-3.2.9.x86_64.rpm` - Fedora/RHEL/CentOS
+
+**Install .deb:**
 ```bash
-wget https://github.com/4fqr/null-ide/releases/latest/download/null-ide_3.2.7_amd64.deb
-sudo dpkg -i null-ide_3.2.7_amd64.deb
-sudo apt-get install -f
+sudo dpkg -i null-ide_3.2.9_amd64.deb
+sudo apt-get install -f  # Fix dependencies if needed
 null-ide
 ```
 
-**Fedora/RHEL**
+**Install .rpm:**
 ```bash
-wget https://github.com/4fqr/null-ide/releases/latest/download/null-ide-3.2.7.x86_64.rpm
-sudo rpm -i null-ide-3.2.7.x86_64.rpm
+sudo rpm -i null-ide-3.2.9.x86_64.rpm
 null-ide
+```
+
+**Run AppImage:**
+```bash
+chmod +x Null-IDE-3.2.9.AppImage
+./Null-IDE-3.2.9.AppImage
 ```
 
 ---
@@ -107,16 +119,19 @@ npm install
 npm run dev
 ```
 
-### Build
+### Build Installers
 ```bash
-# Build for current platform
-npm run build
+# Windows only (on Windows)
+npm run package:win
+
+# Linux only (on Linux) - generates .deb, .rpm, .AppImage
+npm run package:linux
+
+# Current platform
 npm run package
 
-# Linux-specific
-npm run build:linux:appimage  # AppImage
-npm run build:linux:deb       # Debian
-npm run build:linux:rpm       # RPM
+# All platforms (requires respective OS or CI/CD)
+npm run package:all
 ```
 
 ---
@@ -165,18 +180,24 @@ RPC will show:
 
 ## 🐛 Troubleshooting
 
-### Terminal Won't Resize Down
-**Fixed in v3.2.8!** Now resizes down to 50px minimum.
+### Terminal Won't Resize
+**Fixed in v3.2.9!** Terminal now properly resizes both up and down (50px-800px range). Added `flex-shrink: 0` to prevent compression.
+
+### Linux Installers Missing from Releases
+Linux installers (.deb, .rpm, .AppImage) must be built on Linux. Use GitHub Actions or build manually:
+```bash
+npm run package:linux
+```
 
 ### Discord RPC Not Showing
 1. Make sure Discord is running
-2. Upload 3 assets (`nullide`, `code`, `idle`)
+2. Upload 3 assets to Discord Developer Portal (`nullide`, `code`, `idle`)
 3. Restart Null IDE
 
 ### Resize Handles Hard to Grab
 v3.2.7+ has invisible 25-30px wide handles:
-- **Terminal**: Top edge
-- **Right Sidebar**: Left edge (30px area)
+- **Terminal**: Top edge (25px tall)
+- **Right Sidebar**: Left edge (30px wide)
 
 ---
 

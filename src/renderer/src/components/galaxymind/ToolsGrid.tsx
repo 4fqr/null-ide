@@ -11,44 +11,54 @@ interface Tool {
 }
 
 const tools: Tool[] = [
-  // Network Tools
-  { id: 'api-tester', name: 'API Tester', icon: '🔌', category: 'Network', description: 'Test REST & GraphQL APIs' },
-  { id: 'port-scanner', name: 'Port Scanner', icon: '🔍', category: 'Network', description: 'Scan ports on target hosts' },
-  { id: 'dns-analyzer', name: 'DNS Analyzer', icon: '📡', category: 'Network', description: 'Analyze DNS records' },
+  // Network & Recon
+  { id: 'port-scanner', name: 'Port Scanner', icon: '🔍', category: 'Network', description: 'Advanced port scanning & service detection' },
+  { id: 'subdomain-finder', name: 'Subdomain Finder', icon: '🌐', category: 'Network', description: 'Discover subdomains & attack surface' },
+  { id: 'dns-analyzer', name: 'DNS Analyzer', icon: '📡', category: 'Network', description: 'DNS enumeration & zone transfers' },
+  { id: 'whois-lookup', name: 'WHOIS Lookup', icon: '📋', category: 'Network', description: 'Target reconnaissance data' },
+  { id: 'reverse-dns', name: 'Reverse DNS', icon: '🔄', category: 'Network', description: 'IP to domain resolution' },
   
-  // Reconnaissance
-  { id: 'subdomain-finder', name: 'Subdomain Finder', icon: '🌐', category: 'Reconnaissance', description: 'Discover subdomains' },
-  { id: 'whois-lookup', name: 'WHOIS Lookup', icon: '📋', category: 'Reconnaissance', description: 'Domain registration info' },
+  // Web Security
+  { id: 'sql-injection', name: 'SQL Injection Tester', icon: '💉', category: 'Web Security', description: 'Automated SQLi detection & exploitation' },
+  { id: 'xss-detector', name: 'XSS Detector', icon: '⚡', category: 'Web Security', description: 'Find XSS vulnerabilities' },
+  { id: 'header-analyzer', name: 'Security Headers', icon: '📑', category: 'Web Security', description: 'Analyze HTTP security headers' },
+  { id: 'lfi-scanner', name: 'LFI/RFI Scanner', icon: '📂', category: 'Web Security', description: 'File inclusion vulnerability scanner' },
+  { id: 'csrf-tester', name: 'CSRF Tester', icon: '🛡️', category: 'Web Security', description: 'Cross-site request forgery testing' },
+  { id: 'directory-fuzzer', name: 'Directory Fuzzer', icon: '📁', category: 'Web Security', description: 'Discover hidden directories' },
   
-  // Monitoring
-  { id: 'uptime-checker', name: 'Uptime Checker', icon: '⏱️', category: 'Monitoring', description: 'Monitor website availability' },
+  // Payload & Exploit Tools
+  { id: 'reverse-shell', name: 'Reverse Shell Generator', icon: '🐚', category: 'Payloads', description: 'Generate reverse shell payloads' },
+  { id: 'payload-encoder', name: 'Payload Encoder', icon: '🔀', category: 'Payloads', description: 'Encode payloads to bypass filters' },
+  { id: 'webshell-generator', name: 'Web Shell Generator', icon: '💀', category: 'Payloads', description: 'PHP/ASP/JSP web shells' },
+  { id: 'obfuscator', name: 'Code Obfuscator', icon: '🌀', category: 'Payloads', description: 'Obfuscate JavaScript/PowerShell' },
+  { id: 'shellcode-generator', name: 'Shellcode Generator', icon: '⚙️', category: 'Payloads', description: 'Generate shellcode for exploits' },
   
-  // Security Testing
-  { id: 'header-analyzer', name: 'Header Analyzer', icon: '📑', category: 'Security', description: 'Analyze HTTP headers' },
-  { id: 'sql-injection', name: 'SQL Injection', icon: '💉', category: 'Security', description: 'Test SQL injection vectors' },
-  { id: 'xss-detector', name: 'XSS Detector', icon: '⚡', category: 'Security', description: 'Detect XSS vulnerabilities' },
+  // Crypto & Hashing
+  { id: 'hash-cracker', name: 'Hash Cracker', icon: '🔨', category: 'Crypto', description: 'Crack MD5/SHA hashes' },
+  { id: 'hash-generator', name: 'Hash Generator', icon: '🔒', category: 'Crypto', description: 'Generate cryptographic hashes' },
+  { id: 'encryption-tool', name: 'Encryption Tool', icon: '🔐', category: 'Crypto', description: 'AES/RSA encryption' },
+  { id: 'jwt-cracker', name: 'JWT Cracker', icon: '🎫', category: 'Crypto', description: 'Crack weak JWT secrets' },
+  { id: 'base64-tool', name: 'Base64/Hex Tool', icon: '📝', category: 'Crypto', description: 'Multi-format encoding' },
   
-  // Encoding & Crypto
-  { id: 'base64-tool', name: 'Base64 Tool', icon: '🔐', category: 'Encoding', description: 'Encode/decode Base64' },
-  { id: 'url-tool', name: 'URL Tool', icon: '🔗', category: 'Encoding', description: 'Encode/decode URLs' },
-  { id: 'hash-generator', name: 'Hash Generator', icon: '🔒', category: 'Crypto', description: 'Generate SHA-256/512 hashes' },
+  // API & Network Tools
+  { id: 'api-tester', name: 'API Tester', icon: '🔌', category: 'API', description: 'REST/GraphQL/SOAP testing' },
+  { id: 'packet-analyzer', name: 'Packet Analyzer', icon: '📦', category: 'API', description: 'Analyze network packets' },
+  { id: 'request-smuggling', name: 'HTTP Smuggling', icon: '🚢', category: 'API', description: 'Test request smuggling' },
+  { id: 'cors-tester', name: 'CORS Tester', icon: '🌍', category: 'API', description: 'Test CORS misconfigurations' },
   
-  // Developer Tools
-  { id: 'jwt-decoder', name: 'JWT Decoder', icon: '🎫', category: 'Developer', description: 'Decode JWT tokens' },
-  { id: 'json-formatter', name: 'JSON Formatter', icon: '📋', category: 'Developer', description: 'Format & validate JSON' },
-  { id: 'regex-tester', name: 'Regex Tester', icon: '🔍', category: 'Developer', description: 'Test regular expressions' },
-  { id: 'uuid-generator', name: 'UUID Generator', icon: '🔑', category: 'Developer', description: 'Generate UUIDs' },
-  { id: 'timestamp-converter', name: 'Timestamp Converter', icon: '⏰', category: 'Developer', description: 'Convert timestamps' },
-  { id: 'password-generator', name: 'Password Generator', icon: '🔐', category: 'Developer', description: 'Generate secure passwords' },
-  { id: 'color-converter', name: 'Color Converter', icon: '🎨', category: 'Developer', description: 'Convert HEX/RGB/HSL colors' },
-  { id: 'html-encoder', name: 'HTML Entity Encoder', icon: '🔤', category: 'Developer', description: 'Encode/decode HTML entities' },
-  { id: 'markdown-preview', name: 'Markdown Preview', icon: '📝', category: 'Developer', description: 'Live markdown preview' },
-  { id: 'lorem-ipsum', name: 'Lorem Ipsum', icon: '📄', category: 'Developer', description: 'Generate placeholder text' },
-  { id: 'diff-viewer', name: 'Diff Viewer', icon: '🔄', category: 'Developer', description: 'Compare text differences' },
-  { id: 'css-minifier', name: 'CSS Minifier', icon: '🗜️', category: 'Developer', description: 'Minify & beautify CSS' },
-  { id: 'json-beautifier', name: 'JSON Beautifier', icon: '✨', category: 'Developer', description: 'Format & minify JSON' },
-  { id: 'slug-generator', name: 'Slug Generator', icon: '🔗', category: 'Developer', description: 'Generate URL slugs' },
-  { id: 'cron-generator', name: 'Cron Generator', icon: '⏰', category: 'Developer', description: 'Create cron expressions' },
+  // Password & Auth
+  { id: 'password-generator', name: 'Password Generator', icon: '🔑', category: 'Auth', description: 'Generate strong passwords' },
+  { id: 'jwt-decoder', name: 'JWT Decoder', icon: '🎟️', category: 'Auth', description: 'Decode & analyze JWT tokens' },
+  { id: 'oauth-tester', name: 'OAuth Tester', icon: '🔓', category: 'Auth', description: 'Test OAuth flows' },
+  
+  // Developer Utilities
+  { id: 'regex-tester', name: 'Regex Tester', icon: '🔍', category: 'Dev Tools', description: 'Test regex patterns' },
+  { id: 'json-formatter', name: 'JSON Formatter', icon: '📋', category: 'Dev Tools', description: 'Format & validate JSON' },
+  { id: 'uuid-generator', name: 'UUID Generator', icon: '🆔', category: 'Dev Tools', description: 'Generate unique IDs' },
+  { id: 'timestamp-converter', name: 'Timestamp Tool', icon: '⏰', category: 'Dev Tools', description: 'Unix/ISO timestamp conversion' },
+  { id: 'color-converter', name: 'Color Converter', icon: '🎨', category: 'Dev Tools', description: 'HEX/RGB/HSL conversion' },
+  { id: 'diff-viewer', name: 'Diff Viewer', icon: '🔄', category: 'Dev Tools', description: 'Compare code changes' },
+  { id: 'markdown-preview', name: 'Markdown Preview', icon: '📝', category: 'Dev Tools', description: 'Live markdown rendering' },
 ];
 
 const ToolsGrid: React.FC = () => {
@@ -60,15 +70,26 @@ const ToolsGrid: React.FC = () => {
     <div className={styles.toolsGrid}>
       <div className={styles.header}>
         <h1 className={styles.title}>
-          <span className={styles.titleIcon}>🌌</span>
-          GalaxyMind
+          <span className={styles.titleIcon}>⚡</span>
+          Utility Arsenal
         </h1>
-        <p className={styles.subtitle}>Professional Security & Penetration Testing Suite</p>
+        <p className={styles.subtitle}>Professional Penetration Testing & Security Research Tools</p>
+        <div className={styles.stats}>
+          <span className={styles.stat}>{tools.length} Tools</span>
+          <span className={styles.separator}>•</span>
+          <span className={styles.stat}>{categories.length} Categories</span>
+        </div>
       </div>
 
       {categories.map((category) => (
         <div key={category} className={styles.category}>
-          <h2 className={styles.categoryTitle}>{category}</h2>
+          <h2 className={styles.categoryTitle}>
+            <span className={styles.categoryDot}></span>
+            {category}
+            <span className={styles.categoryCount}>
+              {tools.filter(t => t.category === category).length}
+            </span>
+          </h2>
           <div className={styles.toolCards}>
             {tools
               .filter((tool) => tool.category === category)
@@ -81,6 +102,9 @@ const ToolsGrid: React.FC = () => {
                   <div className={styles.toolIcon}>{tool.icon}</div>
                   <h3 className={styles.toolName}>{tool.name}</h3>
                   <p className={styles.toolDescription}>{tool.description}</p>
+                  <div className={styles.toolHover}>
+                    <span>Launch Tool →</span>
+                  </div>
                 </div>
               ))}
           </div>

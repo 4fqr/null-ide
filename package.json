@@ -1,7 +1,7 @@
 {
   "name": "null-ide",
-  "version": "3.0.0",
-  "description": "The Ultimate Hacker's Code Editor & Security Toolkit - Cross-Platform IDE with 38 Tools",
+  "version": "3.1.0",
+  "description": "The Ultimate Hacker's Code Editor & Security Toolkit - Cross-Platform IDE with 38 Tools + Discord RPC",
   "main": "dist/main/main.js",
   "author": "NullSec",
   "license": "MIT",
@@ -21,6 +21,7 @@
     "@monaco-editor/react": "^4.6.0",
     "@xterm/addon-fit": "^0.10.0",
     "@xterm/xterm": "^5.3.0",
+    "discord-rpc": "^4.0.1",
     "monaco-editor": "^0.45.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -29,6 +30,7 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@types/discord-rpc": "^4.0.10",
     "@types/node": "^20.10.6",
     "@types/react": "^18.2.46",
     "@types/react-dom": "^18.2.18",
@@ -159,15 +161,21 @@
       "target": [
         {
           "target": "AppImage",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         },
         {
           "target": "deb",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         },
         {
           "target": "rpm",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "category": "Development",

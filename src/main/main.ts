@@ -6,6 +6,7 @@ import * as net from 'net';
 import * as dns from 'dns';
 import { promisify } from 'util';
 import { spawn } from 'child_process';
+import { initDiscordRPC, updateActivity, disconnectDiscordRPC } from './discordRPC';
 
 const dnsResolve = promisify(dns.resolve);
 const dnsReverse = promisify(dns.reverse);
@@ -409,6 +410,11 @@ app.whenReady().then(() => {
   createWindow();
   console.log('Window created successfully');
   
+  // Initialize Discord Rich Presence
+  setTimeout(() => {
+    initDiscordRPC();
+  }, 2000);
+  
   // Send initial file path to renderer after window loads
   if (fileToOpen && mainWindow) {
     mainWindow.webContents.on('did-finish-load', () => {
@@ -443,7 +449,17 @@ if (!gotTheLock) {
 }
 
 app.on('window-all-closed', () => {
+  disconnectDiscordRPC();
   if (process.platform !== 'darwin') {
     app.quit();
+  }
+});
+
+// Discord RPC IPC handlers
+ipcMain.on('discord:update-activity', (_event, fileName: string | null) => {
+  if (fileName) {
+    updateActivity('Editing', fileName);
+  } else {
+    updateActivity('Idling', null);
   }
 });

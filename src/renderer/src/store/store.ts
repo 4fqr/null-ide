@@ -297,7 +297,16 @@ Integrated PowerShell terminals with:
       return keepTab ? { tabs: [keepTab], activeTabId: tabId } : state;
     }),
     
-  setActiveTab: (tabId) => set({ activeTabId: tabId }),
+  setActiveTab: (tabId) => {
+    set({ activeTabId: tabId });
+    // Update Discord Rich Presence with current file
+    const state = useStore.getState();
+    const tab = state.tabs.find((t) => t.id === tabId);
+    const fileName = tab && tab.name !== 'Welcome' ? tab.name : null;
+    if (window.electronAPI?.discord) {
+      window.electronAPI.discord.updateActivity(fileName);
+    }
+  },
   
   updateTabContent: (tabId, content) =>
     set((state) => ({

@@ -80,6 +80,10 @@ interface TerminalAPI {
   onExit: (callback: (terminalId: string, code: number) => void) => void;
 }
 
+interface DiscordAPI {
+  updateActivity: (fileName: string | null) => void;
+}
+
 interface ElectronAPI {
   fs: FileSystemAPI;
   dialog: DialogAPI;
@@ -89,6 +93,7 @@ interface ElectronAPI {
   net: NetAPI;
   deephat: DeepHatAPI;
   terminal: TerminalAPI;
+  discord: DiscordAPI;
 }
 
 declare global {

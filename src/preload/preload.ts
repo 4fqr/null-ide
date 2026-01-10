@@ -74,6 +74,12 @@ const terminalAPI = {
     ipcRenderer.on('terminal:exit', (event, terminalId, code) => callback(terminalId, code)),
 };
 
+// Discord RPC API
+const discordAPI = {
+  updateActivity: (fileName: string | null) =>
+    ipcRenderer.send('discord:update-activity', fileName),
+};
+
 // Expose APIs to renderer
 contextBridge.exposeInMainWorld('electronAPI', {
   fs: fsAPI,
@@ -84,4 +90,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
   net: netAPI,
   deephat: deephatAPI,
   terminal: terminalAPI,
+  discord: discordAPI,
 });

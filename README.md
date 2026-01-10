@@ -1,6 +1,6 @@
 ﻿# Null IDE
 
-![Version](https://img.shields.io/badge/version-3.0-brightgreen) ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-blue) ![License](https://img.shields.io/badge/license-MIT-orange) ![Electron](https://img.shields.io/badge/electron-28.3.3-9feaf9)
+![Version](https://img.shields.io/badge/version-3.1-brightgreen) ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-blue) ![License](https://img.shields.io/badge/license-MIT-orange) ![Electron](https://img.shields.io/badge/electron-28.3.3-9feaf9) ![Discord](https://img.shields.io/badge/Discord-Rich%20Presence-7289da)
 
 **The Ultimate Code Editor & Security Toolkit for Professional Hackers and Developers**
 
@@ -17,6 +17,7 @@ Null IDE is an advanced, cross-platform development environment specifically des
 - **🚀 Dual-Mode Architecture**: Switch between Code Mode (Monaco Editor) and Utility Mode (38 tools) instantly
 - **🔐 38 Security & Developer Tools**: Network scanning, web security testing, payload generation, cryptography, and more
 - **🎨 8 Built-in Themes + Custom Theme Support**: Professionally designed themes with CSS-only extension system
+- **🎮 Discord Rich Presence**: Show what you're working on with live Discord status integration
 - **🖥️ Cross-Platform**: Windows and Linux support with native installers
 - **🔒 100% Privacy-Focused**: All data stays local—zero telemetry, no tracking, no cloud connections
 - **⚡ Monaco Editor**: The same powerful engine that powers Visual Studio Code
@@ -34,21 +35,51 @@ Null IDE is an advanced, cross-platform development environment specifically des
 
 ### Linux
 
-**AppImage (Universal)**
+**Requirements**: 
+- FUSE library (for AppImage)
+- Debian/Ubuntu: `sudo apt install libfuse2`
+- Fedora: `sudo dnf install fuse`
+
+**AppImage (Universal - Recommended)**
 ```bash
-chmod +x Null-IDE-*.AppImage
-./Null-IDE-*.AppImage
+# Download from Releases
+chmod +x Null-IDE-3.1.0.AppImage
+
+# Run directly
+./Null-IDE-3.1.0.AppImage
+
+# Optional: Integrate with system
+./Null-IDE-3.1.0.AppImage --appimage-extract
+sudo mv squashfs-root /opt/null-ide
+sudo ln -s /opt/null-ide/AppRun /usr/local/bin/null-ide
 ```
 
 **Debian/Ubuntu (.deb)**
 ```bash
-sudo dpkg -i null-ide_*.deb
-sudo apt-get install -f  # Install dependencies
+# Download from Releases
+sudo dpkg -i null-ide_3.1.0_amd64.deb
+
+# Install dependencies if needed
+sudo apt-get install -f
+
+# Run
+null-ide
 ```
 
-**Fedora/RHEL (.rpm)**
+**Fedora/RHEL/CentOS (.rpm)**
 ```bash
-sudo rpm -i null-ide-*.rpm
+# Download from Releases
+sudo rpm -i null-ide-3.1.0.x86_64.rpm
+
+# Run
+null-ide
+```
+
+**Note**: Linux builds must be created on a Linux machine. Clone the repo and run:
+```bash
+npm install
+npm run build
+npx electron-builder --linux
 ```
 
 ### Development Setup
@@ -87,6 +118,7 @@ npx electron-builder --linux
 - **Integrated Terminal**: Multi-terminal support with PowerShell (Windows) and Bash (Linux)
 - **Editor Customization**: Font size, word wrap, minimap, and theme settings
 - **Keyboard Shortcuts**: VS Code-compatible shortcuts for familiar workflows
+- **Discord Rich Presence**: Show your current file and activity status on Discord
 
 ### 🛠️ Utility Mode (38 Professional Tools)
 
@@ -288,11 +320,23 @@ We welcome contributions! Here's how you can help:
 
 ## 📊 Project Status
 
-### Version 3.0 (Current)
+### Version 3.1 (Current)
 
 **Release Date**: January 10, 2026
 
 **What's New**:
+- ✅ **Discord Rich Presence** - Show current file and activity on Discord
+- ✅ Fixed Extensions modal z-index (no longer overlaps with sidebar)
+- ✅ Improved terminal initialization reliability
+- ✅ Enhanced right sidebar AI chat resize functionality
+- ✅ Better Linux support documentation
+- ✅ Updated installers for Windows and Linux
+
+### Version 3.0
+
+**Release Date**: January 10, 2026
+
+**Features**:
 - ✅ 9 new advanced security tools (Encryption, Packet Analyzer, HTTP Smuggling, CORS, OAuth)
 - ✅ Complete theme extension system with 8 built-in themes
 - ✅ Modal-based Extensions UI (centered popup)
@@ -370,4 +414,4 @@ If you find Null IDE useful, please consider starring the repository! ⭐
 **Made with ❤️ by NullSec**  
 *Empowering security researchers and developers worldwide*
 
-**Version 3.0** | January 2026
+**Version 3.1** | January 2026

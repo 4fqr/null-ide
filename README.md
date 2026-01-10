@@ -152,6 +152,8 @@ RPC will show:
 - "Hacking & Programming" when idle
 - Auto-updates on file changes
 
+  RPC Should already be working, If not, download the source code and do the steps above.
+
 ---
 
 ## ⌨️ Keyboard Shortcuts

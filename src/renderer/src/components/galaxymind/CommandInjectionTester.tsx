@@ -44,8 +44,12 @@ export default function CommandInjectionTester() {
 
         const startTime = Date.now();
         
-        // Simulate request (in real implementation, you'd make actual HTTP request)
-        await new Promise(resolve => setTimeout(resolve, 100));
+        // Make actual HTTP request
+        const response: any = await window.electronAPI.net.httpFetch(url.toString(), { 
+          method: 'GET',
+          timeout: 10000 
+        });
+        
         const responseTime = Date.now() - startTime;
 
         const testResult = {
@@ -58,7 +62,14 @@ export default function CommandInjectionTester() {
           indicators: [] as string[],
         };
 
-        // Detection logic (simplified - in real tool, analyze actual responses)
+        if (!response.success) {
+          testResult.indicators.push(`✗ Request failed: ${response.error}`);
+          testResults.push(testResult);
+          setResults([...testResults]);
+          continue;
+        }
+
+        // Detection logic based on actual response
         if (payload.payload.includes('sleep') || payload.payload.includes('timeout')) {
           if (responseTime > 4000) {
             testResult.vulnerable = true;
@@ -66,12 +77,19 @@ export default function CommandInjectionTester() {
           }
         }
 
-        // Check for common error patterns (simulated)
-        const randomCheck = Math.random();
-        if (randomCheck > 0.7) {
+        // Check response for command output indicators
+        const responseData = response.data.toLowerCase();
+        const commandIndicators = ['root:', 'uid=', 'gid=', 'volume in drive', 'directory of', 'bin/bash'];
+        
+        for (const indicator of commandIndicators) {
+          if (responseData.includes(indicator)) {
+            testResult.vulnerable = true;
+            testResult.indicators.push(`⚠️ Command output detected: "${indicator}"`);
+          }
+        }
+
+        if (testResult.indicators.length === 0) {
           testResult.indicators.push('ℹ️ No obvious command execution detected');
-        } else if (randomCheck > 0.4) {
-          testResult.indicators.push('⚠️ Unusual response pattern detected');
         }
 
         testResults.push(testResult);

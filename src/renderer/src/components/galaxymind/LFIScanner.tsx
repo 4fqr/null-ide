@@ -68,13 +68,51 @@ export default function LFIScanner() {
       const testUrl = `${targetUrl}${separator}${parameter}=${encodeURIComponent(payload)}`;
 
       try {
-        // In a real scanner, you would make HTTP requests here
-        // For demo purposes, we'll simulate the scan
+        // Make real HTTP request
+        const response: any = await window.electronAPI.net.httpFetch(testUrl, {
+          method: 'GET',
+          timeout: 3000
+        });
+
         await new Promise(resolve => setTimeout(resolve, 100));
 
-        // Simulate some vulnerabilities for demo
-        const isVulnerable = Math.random() < 0.15; // 15% chance for demo
-        const status = isVulnerable ? '⚠️ Potentially Vulnerable' : '✓ No indication';
+        // Check for LFI indicators in response
+        let isVulnerable = false;
+        let status = '✓ No indication';
+
+        if (response.success && response.data) {
+          const data = response.data.toLowerCase();
+          
+          // Check for common file content indicators
+          const indicators = [
+            'root:x:0:0',           // /etc/passwd
+            '[extensions]',         // Windows INI files
+            'for 16-bit app support', // Windows win.ini
+            '<?php',                // PHP source code
+            'begin rsa private key', // SSH keys
+            '/bin/bash',            // Shell references
+            'proc/self',            // /proc files
+          ];
+
+          for (const indicator of indicators) {
+            if (data.includes(indicator)) {
+              isVulnerable = true;
+              status = `⚠️ Vulnerable! Found: "${indicator}"`;
+              break;
+            }
+          }
+
+          // Check for base64 encoded content (php://filter)
+          if (payload.includes('base64') && data.length > 100) {
+            try {
+              atob(data.substring(0, 100));
+              isVulnerable = true;
+              status = '⚠️ Base64 encoded file content returned!';
+            } catch {}
+          }
+        } else {
+          status = `✗ Error: ${response.error || 'Request failed'}`;
+        }
 
         if (isVulnerable) vulnerableCount++;
 

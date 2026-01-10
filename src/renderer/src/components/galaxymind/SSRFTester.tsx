@@ -48,8 +48,12 @@ export default function SSRFTester() {
 
         const startTime = Date.now();
         
-        // Simulate request analysis
-        await new Promise(resolve => setTimeout(resolve, 50));
+        // Make actual HTTP request
+        const response: any = await window.electronAPI.net.httpFetch(url.toString(), {
+          method: 'GET',
+          timeout: 5000
+        });
+        
         const responseTime = Date.now() - startTime;
 
         const testResult = {
@@ -62,23 +66,46 @@ export default function SSRFTester() {
           indicators: [] as string[],
         };
 
-        // Simulated detection logic
-        const randomFactor = Math.random();
+        if (!response.success) {
+          testResult.indicators.push(`✗ Request failed: ${response.error}`);
+          testResults.push(testResult);
+          setResults([...testResults]);
+          continue;
+        }
+
+        // Analyze response for SSRF indicators
+        const responseData = response.data;
+        const statusCode = response.status;
         
-        if (payload.risk === 'Critical' && randomFactor > 0.8) {
+        // Check for successful internal access
+        if (statusCode === 200 && (payload.payload.includes('localhost') || payload.payload.includes('127.0.0.1') || payload.payload.includes('169.254'))) {
           testResult.vulnerable = true;
           testResult.indicators.push('🚨 Possible SSRF vulnerability detected');
-          testResult.indicators.push(`⚠️ Server may be accessing: ${payload.payload}`);
-        } else if (payload.risk === 'High' && randomFactor > 0.85) {
+          testResult.indicators.push(`⚠️ Server accessed: ${payload.payload} (Status: ${statusCode})`);
+        }
+
+        // Check for metadata endpoints
+        if (responseData.includes('ami-id') || responseData.includes('instance-id') || responseData.includes('meta-data')) {
           testResult.vulnerable = true;
-          testResult.indicators.push('⚠️ Internal network access may be possible');
-        } else {
+          testResult.indicators.push('🚨 CRITICAL: Cloud metadata accessible!');
+        }
+
+        // Check response time for port scanning
+        if (payload.payload.includes(':')) {
+          if (responseTime < 1000) {
+            testResult.indicators.push(`⚠️ Port appears OPEN (fast response: ${responseTime}ms)`);
+          } else {
+            testResult.indicators.push(`ℹ️ Port appears closed/filtered (slow: ${responseTime}ms)`);
+          }
+        }
+
+        if (testResult.indicators.length === 0) {
           testResult.indicators.push('✅ No obvious SSRF detected');
         }
 
         // Check for callback if provided
-        if (callback && randomFactor > 0.7) {
-          testResult.indicators.push(`ℹ️ Callback URL: ${callback} (check for connections)`);
+        if (callback) {
+          testResult.indicators.push(`ℹ️ Callback URL: ${callback} (check your server for connections)`);
         }
 
         testResults.push(testResult);

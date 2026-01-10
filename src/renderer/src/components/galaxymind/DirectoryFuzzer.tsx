@@ -74,16 +74,19 @@ export default function DirectoryFuzzer() {
       const fullUrl = `${cleanUrl}/${path}`;
       
       try {
-        // In a real fuzzer, you would make HTTP requests here
-        // For demo purposes, we'll simulate the fuzzing
+        // Make real HTTP request
+        const response: any = await window.electronAPI.net.httpFetch(fullUrl, {
+          method: 'GET',
+          timeout: 3000
+        });
+
         await new Promise(resolve => setTimeout(resolve, 50));
 
-        // Simulate findings for demo
-        const exists = Math.random() < 0.1; // 10% chance for demo
-        const statusCodes = ['200 OK', '403 Forbidden', '301 Redirect', '404 Not Found'];
-        const status = exists 
-          ? statusCodes[Math.floor(Math.random() * 3)] 
-          : '404 Not Found';
+        // Check if path exists based on status code
+        const exists = response.success && response.status && response.status < 400;
+        const status = response.success 
+          ? `${response.status} ${response.statusText}`
+          : 'Error';
 
         if (exists) {
           foundCount++;

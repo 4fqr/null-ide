@@ -1,7 +1,7 @@
 {
   "name": "null-ide",
-  "version": "3.2.1",
-  "description": "The Ultimate Hacker's Code Editor & Security Toolkit - Cross-Platform IDE with 49 Working Tools + Discord RPC",
+  "version": "3.2.2",
+  "description": "The Ultimate Hacker's Code Editor & Security Toolkit - Cross-Platform IDE with 49 Tools (10 Fixed) + Discord RPC",
   "main": "dist/main/main.js",
   "author": "NullSec",
   "license": "MIT",

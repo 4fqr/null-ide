@@ -97,3 +97,7 @@ export function disconnectDiscordRPC() {
     connected = false;
   }
 }
+
+export function isDiscordConnected(): boolean {
+  return connected;
+}

@@ -6,7 +6,7 @@ import * as net from 'net';
 import * as dns from 'dns';
 import { promisify } from 'util';
 import { spawn } from 'child_process';
-import { initDiscordRPC, updateActivity, disconnectDiscordRPC } from './discordRPC';
+import { initDiscordRPC, updateActivity, disconnectDiscordRPC, isDiscordConnected } from './discordRPC';
 
 const dnsResolve = promisify(dns.resolve);
 const dnsReverse = promisify(dns.reverse);
@@ -45,14 +45,27 @@ function createWindow() {
       webSecurity: true,
     },
     autoHideMenuBar: true,
+    show: false,
   });
 
   console.log('Window created, loading URL...');
+  
+  mainWindow.once('ready-to-show', () => {
+    console.log('Window ready, showing...');
+    mainWindow?.show();
+  });
+
   // Load the app
   if (isDev) {
     console.log('Dev mode: loading http://localhost:5173');
     mainWindow.loadURL('http://localhost:5173').catch((err) => {
       console.error('Failed to load URL:', err);
+      // Retry after a short delay
+      setTimeout(() => {
+        mainWindow?.loadURL('http://localhost:5173').catch(e => {
+          console.error('Retry failed:', e);
+        });
+      }, 1000);
     });
     // DevTools can be opened with F12 or Ctrl+Shift+I
   } else {
@@ -469,10 +482,17 @@ app.whenReady().then(() => {
   createWindow();
   console.log('Window created successfully');
   
-  // Initialize Discord Rich Presence
+  // Initialize Discord Rich Presence immediately
+  console.log('Initializing Discord RPC...');
+  initDiscordRPC();
+  
+  // Retry if first attempt fails
   setTimeout(() => {
-    initDiscordRPC();
-  }, 2000);
+    if (!isDiscordConnected()) {
+      console.log('Discord RPC not connected, retrying...');
+      initDiscordRPC();
+    }
+  }, 3000);
   
   // Send initial file path to renderer after window loads
   if (fileToOpen && mainWindow) {

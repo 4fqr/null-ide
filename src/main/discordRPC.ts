@@ -63,13 +63,13 @@ export function updateActivity(state: string, fileName: string | null) {
 
   try {
     const activity: any = {
-      details: fileName ? `Editing ${fileName}` : '🔥 Hacking & Coding',
-      state: fileName ? 'Working on a file' : '💻 NullSec IDE Active',
+      details: fileName ? `Editing ${fileName}` : 'Hacking & Programming',
+      state: fileName ? 'Working on code' : 'Null IDE - Security Toolkit',
       startTimestamp: Date.now(),
-      largeImageKey: 'logo',
-      largeImageText: 'Null IDE - Hacker Toolkit',
-      smallImageKey: fileName ? 'coding' : 'hacking',
-      smallImageText: fileName ? 'Coding' : 'Hacking',
+      largeImageKey: 'nullide',
+      largeImageText: 'Null IDE',
+      smallImageKey: fileName ? 'code' : 'idle',
+      smallImageText: fileName ? 'Coding' : 'Idle',
       instance: false,
     };
 

@@ -63,6 +63,10 @@ interface NetAPI {
   reverseDns: (
     ip: string
   ) => Promise<{ success: boolean; hostnames?: string[]; error?: string }>;
+  httpFetch: (
+    url: string,
+    options?: any
+  ) => Promise<{ success: boolean; status?: number; statusText?: string; headers?: Record<string, string>; data?: string; error?: string }>;
 }
 
 interface DeepHatAPI {

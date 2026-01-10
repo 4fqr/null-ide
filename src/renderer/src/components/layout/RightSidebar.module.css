@@ -80,15 +80,16 @@
 .resizeHandle {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 4px;
+  left: -2px;
+  width: 8px;
   height: 100%;
   cursor: ew-resize;
   background: transparent;
   transition: background-color 0.2s ease;
-  z-index: 10;
+  z-index: 999;
 }
 
 .resizeHandle:hover {
   background: var(--color-accent);
+  opacity: 0.5;
 }

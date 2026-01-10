@@ -292,6 +292,65 @@ ipcMain.handle('net:reverseDns', async (event, ip: string) => {
   }
 });
 
+ipcMain.handle('net:httpFetch', async (event, url: string, options: any = {}) => {
+  try {
+    const https = require('https');
+    const http = require('http');
+    const urlModule = require('url');
+    
+    const parsedUrl = urlModule.parse(url);
+    const isHttps = parsedUrl.protocol === 'https:';
+    const lib = isHttps ? https : http;
+    
+    return new Promise((resolve, reject) => {
+      const requestOptions = {
+        hostname: parsedUrl.hostname,
+        port: parsedUrl.port || (isHttps ? 443 : 80),
+        path: parsedUrl.path,
+        method: options.method || 'GET',
+        headers: options.headers || {},
+        timeout: options.timeout || 10000,
+      };
+      
+      const req = lib.request(requestOptions, (res: any) => {
+        let data = '';
+        res.on('data', (chunk: any) => { data += chunk; });
+        res.on('end', () => {
+          const headers: Record<string, string> = {};
+          Object.keys(res.headers).forEach(key => {
+            headers[key] = res.headers[key];
+          });
+          
+          resolve({
+            success: true,
+            status: res.statusCode,
+            statusText: res.statusMessage,
+            headers,
+            data,
+          });
+        });
+      });
+      
+      req.on('error', (error: any) => {
+        resolve({ success: false, error: error.message });
+      });
+      
+      req.on('timeout', () => {
+        req.destroy();
+        resolve({ success: false, error: 'Request timeout' });
+      });
+      
+      if (options.body) {
+        req.write(options.body);
+      }
+      
+      req.end();
+    });
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+});
+
 /**
  * Dialog operations
  */

@@ -44,28 +44,20 @@ const PortScanner: React.FC = () => {
         setProgress(Math.round(((i + 1) / portList.length) * 100));
 
         try {
-          // Use fetch with timeout to check if port is open
-          const controller = new AbortController();
-          const timeout = setTimeout(() => controller.abort(), 2000);
-
-          await fetch(`http://${host}:${port}`, {
-            mode: 'no-cors',
-            signal: controller.signal,
-          });
-
-          clearTimeout(timeout);
+          // Use Electron IPC for actual port scanning
+          const result = await window.electronAPI.net.scanPort(host, port, 2000);
           
-          scanResults.push({
-            port,
-            state: 'open',
-            service: getServiceName(port),
-          });
-        } catch (err: any) {
-          if (err.name === 'AbortError') {
-            scanResults.push({ port, state: 'filtered' });
+          if (result.success && result.isOpen) {
+            scanResults.push({
+              port,
+              state: 'open',
+              service: getServiceName(port),
+            });
           } else {
             scanResults.push({ port, state: 'closed' });
           }
+        } catch (err: any) {
+          scanResults.push({ port, state: 'filtered' });
         }
 
         // Small delay to prevent overwhelming

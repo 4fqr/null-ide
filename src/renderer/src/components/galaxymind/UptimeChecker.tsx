@@ -30,8 +30,12 @@ const UptimeChecker: React.FC = () => {
     const startTime = Date.now();
 
     try {
-      const response = await fetch(url, { method: 'HEAD' });
+      const response: any = await window.electronAPI.net.httpFetch(url, { method: 'HEAD', timeout: 5000 });
       const endTime = Date.now();
+
+      if (!response.success) {
+        throw new Error(response.error || 'Request failed');
+      }
 
       const uptimeResult: UptimeResult = {
         url,
@@ -49,7 +53,7 @@ const UptimeChecker: React.FC = () => {
         timestamp: Date.now(),
         input: { url },
         output: uptimeResult,
-        success: response.ok,
+        success: response.status >= 200 && response.status < 400,
       });
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Check failed';

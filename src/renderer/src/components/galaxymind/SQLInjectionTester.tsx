@@ -40,8 +40,11 @@ const SQLInjectionTester: React.FC = () => {
         const testUrl = `${url}?${parameter}=${encodeURIComponent(payload)}`;
 
         try {
-          const response = await fetch(testUrl, { method: 'GET' });
-          const text = await response.text();
+          const response: any = await window.electronAPI.net.httpFetch(testUrl, { method: 'GET', timeout: 3000 });
+          
+          if (!response.success) continue;
+
+          const text = response.data;
 
           // Check for common SQL error patterns
           const errorPatterns = [

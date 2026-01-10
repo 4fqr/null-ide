@@ -26,14 +26,20 @@ const HeaderAnalyzer: React.FC = () => {
     setHeaders([]);
 
     try {
-      const response = await fetch(url);
+      const response: any = await window.electronAPI.net.httpFetch(url, { method: 'GET' });
+      
+      if (!response.success) {
+        throw new Error(response.error || 'Failed to fetch headers');
+      }
+
       const headersList: HeaderInfo[] = [];
 
-      response.headers.forEach((value, key) => {
+      // Add all headers from response
+      Object.keys(response.headers).forEach((key) => {
         headersList.push({
           name: key,
-          value: value,
-          security: analyzeSecurityHeader(key, value),
+          value: response.headers[key],
+          security: analyzeSecurityHeader(key, response.headers[key]),
         });
       });
 

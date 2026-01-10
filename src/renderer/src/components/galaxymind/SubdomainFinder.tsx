@@ -32,18 +32,13 @@ const SubdomainFinder: React.FC = () => {
         const fullDomain = `${sub}.${domain}`;
         
         try {
-          const controller = new AbortController();
-          const timeout = setTimeout(() => controller.abort(), 3000);
-
-          await fetch(`https://${fullDomain}`, {
-            mode: 'no-cors',
-            signal: controller.signal,
-          });
-
-          clearTimeout(timeout);
-          found.push(fullDomain);
+          const result: any = await window.electronAPI.net.dnsLookup(fullDomain);
+          
+          if (result.success && result.addresses && result.addresses.length > 0) {
+            found.push(`${fullDomain} (${result.addresses[0]})`);
+          }
         } catch (err) {
-          // Subdomain likely doesn't exist or is not accessible
+          // Subdomain likely doesn't exist
         }
 
         await new Promise((resolve) => setTimeout(resolve, 100));

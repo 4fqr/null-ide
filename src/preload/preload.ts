@@ -49,6 +49,7 @@ const netAPI = {
     ipcRenderer.invoke('net:scanPort', host, port, timeout),
   dnsLookup: (hostname: string) => ipcRenderer.invoke('net:dnsLookup', hostname),
   reverseDns: (ip: string) => ipcRenderer.invoke('net:reverseDns', ip),
+  httpFetch: (url: string, options?: any) => ipcRenderer.invoke('net:httpFetch', url, options),
 };
 
 // DeepHat browser view control

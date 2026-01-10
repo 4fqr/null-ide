@@ -61,9 +61,9 @@ export function updateActivity(state: string, fileName: string | null) {
       details: fileName ? `Editing ${fileName}` : 'Idling',
       state: fileName ? 'Working on a file' : 'No files open',
       startTimestamp: Date.now(),
-      largeImageKey: 'clearnull',
-      largeImageText: 'Null IDE',
-      smallImageKey: fileName ? 'editing' : 'idle',
+      largeImageKey: 'null-ide',
+      largeImageText: 'Null IDE v3.2',
+      smallImageKey: fileName ? 'code' : 'idle',
       smallImageText: fileName ? 'Coding' : 'Idle',
       instance: false,
     };

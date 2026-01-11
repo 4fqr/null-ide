@@ -51,27 +51,29 @@ npm run package:linux
 ```
 
 This generates:
-- `Null-IDE-3.2.9.AppImage` - Universal (works on all distros)
-- `null-ide_3.2.9_amd64.deb` - Debian/Ubuntu
-- `null-ide-3.2.9.x86_64.rpm` - Fedora/RHEL/CentOS
+- `Null-IDE-3.3.3.AppImage` - Universal (works on all distros)
+- `null-ide_3.3.3_amd64.deb` - Debian/Ubuntu
+- `null-ide-3.3.3.x86_64.rpm` - Fedora/RHEL/CentOS
+
+**Note for NixOS Users**: NixOS requires special handling for dynamically linked executables. Use the AppImage format or build within a NixOS development shell. See [NixOS documentation](https://nix.dev/permalink/stub-ld) for details.
 
 **Install .deb:**
 ```bash
-sudo dpkg -i null-ide_3.2.9_amd64.deb
+sudo dpkg -i null-ide_3.3.3_amd64.deb
 sudo apt-get install -f  # Fix dependencies if needed
 null-ide
 ```
 
 **Install .rpm:**
 ```bash
-sudo rpm -i null-ide-3.2.9.x86_64.rpm
+sudo rpm -i null-ide-3.3.3.x86_64.rpm
 null-ide
 ```
 
 **Run AppImage:**
 ```bash
-chmod +x Null-IDE-3.2.9.AppImage
-./Null-IDE-3.2.9.AppImage
+chmod +x Null-IDE-3.3.3.AppImage
+./Null-IDE-3.3.3.AppImage
 ```
 
 ---

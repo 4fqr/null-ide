@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useStore } from '../../store/store';
 import styles from './Tool.module.css';
 
 type Platform = 'linux-x86' | 'linux-x64' | 'windows-x86' | 'windows-x64';
 type ShellcodeType = 'execve' | 'reverse-shell' | 'bind-shell' | 'meterpreter';
 
 export default function ShellcodeGenerator() {
+  const { setActiveGalaxyTool } = useStore();
   const [platform, setPlatform] = useState<Platform>('linux-x64');
   const [shellcodeType, setShellcodeType] = useState<ShellcodeType>('execve');
   const [ip, setIp] = useState('');
@@ -98,6 +100,9 @@ export default function ShellcodeGenerator() {
   return (
     <div className={styles.tool}>
       <div className={styles.toolHeader}>
+        <button className={styles.backButton} onClick={() => setActiveGalaxyTool(null)}>
+          ← Back
+        </button>
         <div className={styles.toolTitle}>
           <span className={styles.toolIcon}>⚡</span>
           Shellcode Generator

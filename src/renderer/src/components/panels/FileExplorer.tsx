@@ -100,6 +100,25 @@ const FileExplorer: React.FC = () => {
       setShowNewFileDialog(false);
       setNewItemName('');
       await loadDirectory(rootPath, null);
+      
+      // Auto-open the newly created file
+      const ext = newItemName.split('.').pop()?.toLowerCase() || 'txt';
+      const languageMap: Record<string, string> = {
+        js: 'javascript', jsx: 'javascript', ts: 'typescript', tsx: 'typescript',
+        py: 'python', html: 'html', css: 'css', scss: 'scss', json: 'json',
+        md: 'markdown', txt: 'plaintext', xml: 'xml', yaml: 'yaml', yml: 'yaml',
+        sh: 'shell', bash: 'shell', sql: 'sql', cpp: 'cpp', c: 'c', java: 'java',
+        php: 'php', rb: 'ruby', go: 'go', rs: 'rust',
+      };
+      
+      openTab({
+        id: `file-${Date.now()}`,
+        path: filePath,
+        name: newItemName,
+        language: languageMap[ext] || 'plaintext',
+        content: '',
+        modified: false,
+      });
     } else {
       alert(`Failed to create file: ${result.error}`);
     }

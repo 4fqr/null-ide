@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useStore } from '../../store/store';
 import styles from './Tool.module.css';
 
 type ShellType = 'php-simple' | 'php-mini' | 'asp-classic' | 'jsp-basic' | 'python-flask';
 
 export default function WebShellGenerator() {
+  const { setActiveGalaxyTool } = useStore();
   const [shellType, setShellType] = useState<ShellType>('php-simple');
   const [password, setPassword] = useState('');
   const [shellCode, setShellCode] = useState('');
@@ -143,6 +145,9 @@ if __name__ == '__main__':
   return (
     <div className={styles.tool}>
       <div className={styles.toolHeader}>
+        <button className={styles.backButton} onClick={() => setActiveGalaxyTool(null)}>
+          ← Back
+        </button>
         <div className={styles.toolTitle}>
           <span className={styles.toolIcon}>🕸️</span>
           Web Shell Generator

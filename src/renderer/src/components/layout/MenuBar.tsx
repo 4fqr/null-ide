@@ -28,6 +28,7 @@ const MenuBar: React.FC = () => {
       { label: 'Open Folder...', shortcut: 'Ctrl+O', action: 'openFolder' },
       { separator: true },
       { label: 'Save', shortcut: 'Ctrl+S', action: 'save' },
+      { label: 'Save All', shortcut: 'Ctrl+Shift+S', action: 'saveAll' },
       { separator: true },
       { label: 'Close Tab', shortcut: 'Ctrl+W', action: 'closeTab' },
       { label: 'Close All Tabs', shortcut: 'Ctrl+Shift+W', action: 'closeAllTabs' },
@@ -76,6 +77,15 @@ const MenuBar: React.FC = () => {
         if (tab?.path) {
           await window.electronAPI?.fs.writeFile(tab.path, tab.content);
         }
+      }
+    } else if (action === 'saveAll') {
+      // Save all modified tabs
+      const modifiedTabs = tabs.filter(t => t.modified && t.path);
+      for (const tab of modifiedTabs) {
+        await window.electronAPI?.fs.writeFile(tab.path, tab.content);
+      }
+      if (modifiedTabs.length > 0) {
+        console.log(`Saved ${modifiedTabs.length} file(s)`);
       }
     } else if (action === 'closeTab') {
       if (activeTabId) closeTab(activeTabId);

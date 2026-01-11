@@ -1,7 +1,7 @@
 {
   "name": "null-ide",
-  "version": "3.3.2",
-  "description": "The Ultimate Hacker's Code Editor & Security Toolkit - Added file/folder creation in FileExplorer + Fixed terminal display",
+  "version": "3.3.3",
+  "description": "The Ultimate Hacker's Code Editor & Security Toolkit - Fixed all 3 missing back buttons, auto-open created files, Save All feature, improved terminal",
   "main": "dist/main/main.js",
   "author": "NullSec",
   "license": "MIT",

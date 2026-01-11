@@ -1,0 +1,80 @@
+/* BRAND NEW Tool Wrapper - Built from Scratch */
+.toolWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg-primary);
+  overflow: hidden;
+}
+
+.backButtonContainer {
+  padding: 16px 24px;
+  background: var(--color-bg-secondary);
+  border-bottom: 2px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  background: var(--color-accent);
+  border: none;
+  border-radius: 8px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 255, 170, 0.3);
+}
+
+.backButton:hover {
+  background: var(--color-accent);
+  transform: translateX(-4px);
+  box-shadow: 0 4px 16px rgba(0, 255, 170, 0.5);
+}
+
+.backIcon {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.scrollableContent {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 24px;
+}
+
+.toolHeader {
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.toolTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.toolIcon {
+  font-size: 2rem;
+}
+
+.toolSubtitle {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  margin-left: 50px;
+}
+
+.toolContent {
+  max-width: 1000px;
+}

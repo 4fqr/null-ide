@@ -24,12 +24,14 @@ const TerminalPanel: React.FC<TerminalPanelProps> = ({ isVisible, height, onHeig
       cursorBlink: true,
       cursorStyle: 'block',
       fontFamily: 'JetBrains Mono, Consolas, monospace',
-      fontSize: 13,
+      fontSize: 14,
+      lineHeight: 1.2,
       theme: {
         background: '#0a0a0a',
         foreground: '#e0e0e0',
         cursor: '#00ffaa',
         cursorAccent: '#0a0a0a',
+        selectionBackground: '#264f78',
         black: '#1a1a1a',
         red: '#ff5f87',
         green: '#00ffaa',
@@ -49,11 +51,20 @@ const TerminalPanel: React.FC<TerminalPanelProps> = ({ isVisible, height, onHeig
       },
       scrollback: 10000,
       allowTransparency: false,
+      convertEol: true,
     });
 
     xterm.loadAddon(fitAddon.current);
     xterm.open(terminalRef.current);
-    fitAddon.current.fit();
+    
+    // Initial fit with slight delay
+    requestAnimationFrame(() => {
+      try {
+        fitAddon.current.fit();
+      } catch (e) {
+        console.error('Initial fit failed:', e);
+      }
+    });
 
     // Spawn terminal process (auto-detects shell based on OS)
     window.electronAPI.terminal.spawn(terminalId).then((res) => {

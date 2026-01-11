@@ -4,7 +4,7 @@
 
 **🔥 Cross-Platform IDE with 49+ Security Tools + Discord RPC 🔥**
 
-[![Version](https://img.shields.io/badge/version-3.3.8-00ffaa.svg)](https://github.com/4fqr/null-ide/releases)
+[![Version](https://img.shields.io/badge/version-3.3.9-00ffaa.svg)](https://github.com/4fqr/null-ide/releases)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey.svg)]()
 [![Electron](https://img.shields.io/badge/electron-28.3.3-47848f.svg)](https://www.electronjs.org/)

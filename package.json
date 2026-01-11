@@ -1,7 +1,7 @@
 {
   "name": "null-ide",
-  "version": "3.3.8",
-  "description": "The Ultimate Hacker's Code Editor & Security Toolkit - BACK BUTTON VISIBLE: Removed sticky (doesn't work with overflow), added flex-shrink:0, proper padding",
+  "version": "3.3.9",
+  "description": "The Ultimate Hacker's Code Editor & Security Toolkit - REBUILT FROM SCRATCH: New ToolWrapper with visible back button, Terminal with absolute positioning",
   "main": "dist/main/main.js",
   "author": "NullSec",
   "license": "MIT",

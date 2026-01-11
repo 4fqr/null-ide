@@ -2,7 +2,7 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: var(--spacing-lg) var(--spacing-xxl);
+  padding: 0;
   animation: fadeIn 200ms cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
@@ -13,7 +13,7 @@
   align-items: center;
   gap: 8px;
   padding: 10px 18px;
-  margin-bottom: var(--spacing-lg);
+  margin: var(--spacing-lg) var(--spacing-xxl) var(--spacing-md) var(--spacing-xxl);
   background: var(--color-accent);
   border: 2px solid var(--color-accent);
   border-radius: 8px;
@@ -22,9 +22,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 150ms ease;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  flex-shrink: 0;
   width: fit-content;
 }
 
@@ -43,7 +41,7 @@
 
 .toolHeader {
   margin-bottom: var(--spacing-xxl);
-  padding-bottom: var(--spacing-lg);
+  padding: 0 var(--spacing-xxl) var(--spacing-lg) var(--spacing-xxl);
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -70,6 +68,8 @@
 
 .toolContent {
   max-width: 900px;
+  padding: 0 var(--spacing-xxl) var(--spacing-xxl) var(--spacing-xxl);
+  flex: 1;
 }
 
 .inputGroup {

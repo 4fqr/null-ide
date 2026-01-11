@@ -1,7 +1,7 @@
 {
   "name": "null-ide",
-  "version": "3.3.7",
-  "description": "The Ultimate Hacker's Code Editor & Security Toolkit - FINAL FIX: Back button sticky+visible, terminal ResizeObserver, cross-platform ready",
+  "version": "3.3.8",
+  "description": "The Ultimate Hacker's Code Editor & Security Toolkit - BACK BUTTON VISIBLE: Removed sticky (doesn't work with overflow), added flex-shrink:0, proper padding",
   "main": "dist/main/main.js",
   "author": "NullSec",
   "license": "MIT",

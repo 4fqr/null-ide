@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.nullsec.NullIDE</id>
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT</project_license>
+  <name>Null IDE</name>
+  <summary>The Ultimate Hacker's Code Editor &amp; Security Toolkit</summary>
+  <description>
+    <p>
+      Null IDE is a professional development environment that combines the power of Monaco code editor 
+      with 60+ integrated security testing and developer tools. Designed for security researchers, 
+      penetration testers, and developers who demand complete privacy and powerful functionality.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Monaco Code Editor with full language support and syntax highlighting</li>
+      <li>60+ Security Tools: Port Scanner, SQLi Tester, XSS Detector, LDAP/XPath/NoSQL Injection, JWT Analysis, and more</li>
+      <li>Real PTY Terminal with node-pty (Bash, Zsh, PowerShell support)</li>
+      <li>Privacy-Focused: All data stored locally, no telemetry or tracking</li>
+      <li>API Security Testing: GraphQL Scanner, Rate Limit Tester, CORS Tester</li>
+      <li>Web Security: Cache Poisoning, DNS Rebinding, DOM XSS Scanner</li>
+      <li>Payload Generators: Reverse Shell, Web Shell, Code Obfuscator</li>
+      <li>Crypto Tools: Hash Cracker, JWT Decoder, Encryption Tools</li>
+      <li>Network Tools: DNS Analyzer, WHOIS Lookup, Subdomain Finder</li>
+      <li>Developer Utilities: Base64, JSON Formatter, Regex Tester, UUID Generator</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">com.nullsec.NullIDE.desktop</launchable>
+  <url type="homepage">https://github.com/nullsec/null-ide</url>
+  <url type="bugtracker">https://github.com/nullsec/null-ide/issues</url>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main IDE interface with Monaco Editor</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1" />
+  <releases>
+    <release version="3.4.0" date="2026-02-15">
+      <description>
+        <p>Major Update: 20+ New Security Tools</p>
+        <ul>
+          <li>Added LDAP Injection Tester</li>
+          <li>Added XPath Injection Tester</li>
+          <li>Added JWT Algorithm Confusion Tester</li>
+          <li>Added Race Condition Tester</li>
+          <li>Added Cache Poisoning Scanner</li>
+          <li>Added DOM XSS Scanner</li>
+          <li>Added DNS Rebinding Tester</li>
+          <li>Added API Rate Limit Tester</li>
+          <li>Added NoSQL Injection Tester</li>
+          <li>Added Path Traversal Scanner</li>
+          <li>Added IDOR Tester</li>
+          <li>Added Host Header Injection Tester</li>
+          <li>Added GraphQL Scanner</li>
+          <li>Fixed terminal mousewheel scrolling</li>
+          <li>Enhanced file explorer with SVG icons</li>
+          <li>Improved terminal with node-pty implementation</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+</component>

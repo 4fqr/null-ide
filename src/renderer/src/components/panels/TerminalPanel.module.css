@@ -1,0 +1,275 @@
+.terminalPanel {
+  position: relative;
+  background: var(--color-bg-primary);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  width: 100%;
+  flex-shrink: 0;
+  min-height: 50px;
+}
+
+.resizeHandle {
+  position: absolute;
+  top: -12px;
+  left: 0;
+  right: 0;
+  height: 25px;
+  cursor: ns-resize;
+  background: transparent;
+  transition: background 0.15s ease;
+  z-index: 10000;
+}
+
+.resizeHandle:hover {
+  background: rgba(0, 255, 170, 0.05);
+}
+
+.resizeHandle:active {
+  background: rgba(0, 255, 170, 0.1);
+  cursor: ns-resize !important;
+}
+
+.resizeLine {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 3px;
+  background: var(--color-border);
+  border-radius: 2px;
+}
+
+.resizeHandle:hover .resizeLine {
+  background: var(--color-accent);
+}
+
+.resizing .resizeLine {
+  background: var(--color-accent);
+}
+
+.terminalHeader {
+  background: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border);
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.terminalTabs {
+  display: flex;
+  gap: 0;
+  align-items: center;
+}
+
+.terminalTab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 14px;
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--color-border);
+  cursor: pointer;
+  font-size: var(--font-size-xs);
+  font-family: var(--font-mono);
+  color: var(--color-text-tertiary);
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.terminalTab:hover {
+  background: var(--color-bg-hover);
+  color: var(--color-text-secondary);
+}
+
+.terminalTab.active {
+  background: var(--color-bg-tertiary);
+  color: var(--color-accent);
+}
+
+.terminalTab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--color-accent);
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-sm);
+  opacity: 0.5;
+  transition: all var(--transition-fast);
+}
+
+.closeButton:hover {
+  opacity: 1;
+  background: var(--color-bg-elevated);
+}
+
+.newTerminalButton {
+  padding: 4px 12px;
+  background: var(--color-bg-elevated);
+  color: var(--color-accent);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  font-family: var(--font-mono);
+  transition: all var(--transition-fast);
+}
+
+.newTerminalButton:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-accent);
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.icon {
+  font-size: 14px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 12px;
+  transition: all 0.15s ease;
+}
+
+.btn:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.terminalContainer {
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+  background: #0a0a0a;
+}
+
+.terminalContainer :global(.xterm) {
+  height: auto !important;
+}
+
+.terminalContainer :global(.xterm-viewport) {
+  overflow-y: hidden !important;
+}
+
+.terminalContainer :global(.xterm-screen) {
+  height: auto !important;
+}
+
+.shellSelector {
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  padding: 4px 8px;
+  font-size: var(--font-size-xs);
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  outline: none;
+}
+
+.shellSelector:hover {
+  border-color: var(--color-accent);
+  background: var(--color-bg-hover);
+}
+
+.shellSelector:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px rgba(0, 255, 170, 0.1);
+}
+
+.shellOption {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  padding: 4px 8px;
+  font-family: var(--font-mono);
+}
+
+.shellOption:hover {
+  background: var(--color-accent);
+  color: var(--color-bg-primary);
+}
+
+.terminalContent {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+  background: #050505;
+}
+
+.terminalInstance {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+}
+
+.terminalInstance :global(.xterm) {
+  padding: 4px;
+}
+
+.terminalInstance :global(.xterm-viewport::-webkit-scrollbar) {
+  width: 6px;
+}
+
+.terminalInstance :global(.xterm-viewport::-webkit-scrollbar-thumb) {
+  background: var(--color-border);
+  border-radius: 3px;
+}

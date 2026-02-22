@@ -1,0 +1,108 @@
+app-id: com.nullsec.NullIDE
+runtime: org.freedesktop.Platform
+runtime-version: '23.08'
+sdk: org.freedesktop.Sdk
+base: org.electronjs.Electron2.BaseApp
+base-version: '23.08'
+command: null-ide
+separate-locales: false
+
+finish-args:
+  # Display access
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  - --device=dri
+
+  # Network access for security tools
+  - --share=network
+
+  # File system access for IDE functionality
+  - --filesystem=host
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  - --filesystem=xdg-config/git:ro
+
+  # Session bus for Discord RPC
+  - --socket=session-bus
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.kde.StatusNotifierWatcher
+
+  # Sound access (for notifications)
+  - --socket=pulseaudio
+
+  # Environment variables
+  - --env=ELECTRON_ENABLE_LOGGING=1
+  - --env=ELECTRON_ENABLE_STACK_DUMPING=1
+  - --env=TMPDIR=/var/tmp
+
+  # Terminal emulator access
+  - --own-name=com.nullsec.NullIDE
+
+  # Allow executing subprocesses (required for terminal and security tools)
+  - --allow=devel
+
+modules:
+  # Node.js dependencies
+  - name: nodejs
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/lib/node_modules
+    sources:
+      - type: archive
+        url: https://nodejs.org/dist/v20.11.0/node-v20.11.0-linux-x64.tar.xz
+        sha256: 5c5fc3f9162b6fd8e1c03b1f9de384e72542736ef8ccb854eb1dcb78c04b5c9e
+        strip-components: 1
+
+  # Null IDE application
+  - name: null-ide
+    buildsystem: simple
+    build-commands:
+      # Install dependencies
+      - npm install --offline --cache=npm-cache
+
+      # Build the application
+      - npm run build
+
+      # Package with electron-builder for Linux
+      - npx electron-builder --linux dir
+
+      # Install to /app
+      - cp -r dist/linux-unpacked/* /app/
+      - install -Dm644 build/icon.png /app/share/icons/hicolor/256x256/apps/com.nullsec.NullIDE.png
+      - install -Dm644 com.nullsec.NullIDE.desktop /app/share/applications/com.nullsec.NullIDE.desktop
+      - install -Dm644 com.nullsec.NullIDE.metainfo.xml /app/share/metainfo/com.nullsec.NullIDE.metainfo.xml
+
+      # Create launcher script
+      - |
+        cat > /app/bin/null-ide << 'EOF'
+        #!/bin/bash
+        exec /app/null-ide "$@"
+        EOF
+      - chmod +x /app/bin/null-ide
+
+    sources:
+      # Local source directory
+      - type: dir
+        path: .
+
+      # Generated sources for npm dependencies (use flatpak-node-generator)
+      - generated-sources.json
+
+  # Desktop file
+  - name: desktop-file
+    buildsystem: simple
+    build-commands:
+      - install -Dm644 com.nullsec.NullIDE.desktop /app/share/applications/com.nullsec.NullIDE.desktop
+    sources:
+      - type: file
+        path: com.nullsec.NullIDE.desktop
+
+  # AppStream metadata
+  - name: appstream-metadata
+    buildsystem: simple
+    build-commands:
+      - install -Dm644 com.nullsec.NullIDE.metainfo.xml /app/share/metainfo/com.nullsec.NullIDE.metainfo.xml
+    sources:
+      - type: file
+        path: com.nullsec.NullIDE.metainfo.xml

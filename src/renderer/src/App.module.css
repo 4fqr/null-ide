@@ -1,0 +1,31 @@
+.app {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg-primary);
+  overflow: hidden;
+  transition: background var(--transition-slow);
+}
+
+.app.utilityMode {
+  background: linear-gradient(135deg, #050508 0%, #0a0a12 50%, #050508 100%);
+}
+
+.app.codeMode {
+  background: var(--color-bg-primary);
+}
+
+.mainContainer {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+.editorAndTerminal {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}

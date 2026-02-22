@@ -1,0 +1,51 @@
+{
+  "app-id": "com.nullsec.NullIDE",
+  "runtime": "org.freedesktop.Platform",
+  "runtime-version": "23.08",
+  "sdk": "org.freedesktop.Sdk",
+  "base": "org.electronjs.Electron2.BaseApp",
+  "base-version": "23.08",
+  "command": "null-ide",
+  "separate-locales": false,
+  "finish-args": [
+    "--share=ipc",
+    "--socket=x11",
+    "--socket=wayland",
+    "--socket=pulseaudio",
+    "--share=network",
+    "--device=dri",
+    "--filesystem=host",
+    "--filesystem=xdg-run/dconf",
+    "--filesystem=~/.config/dconf:ro",
+    "--talk-name=ca.desrt.dconf",
+    "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
+    "--talk-name=org.freedesktop.Notifications",
+    "--talk-name=org.kde.StatusNotifierWatcher",
+    "--own-name=org.kde.StatusNotifierItem-*",
+    "--talk-name=com.canonical.indicator.application",
+    "--filesystem=xdg-documents",
+    "--filesystem=xdg-download"
+  ],
+  "modules": [
+    {
+      "name": "null-ide",
+      "buildsystem": "simple",
+      "build-commands": [
+        "install -Dm755 null-ide.sh /app/bin/null-ide",
+        "install -Dm644 dist/renderer/* /app/lib/null-ide/dist/renderer/",
+        "install -Dm644 dist/main/* /app/lib/null-ide/dist/main/",
+        "install -Dm644 dist/preload/* /app/lib/null-ide/dist/preload/",
+        "install -Dm644 package.json /app/lib/null-ide/",
+        "install -Dm644 null-ide.desktop /app/share/applications/com.nullsec.NullIDE.desktop",
+        "install -Dm644 build/icon.png /app/share/icons/hicolor/512x512/apps/com.nullsec.NullIDE.png",
+        "install -Dm644 com.nullsec.NullIDE.metainfo.xml /app/share/metainfo/com.nullsec.NullIDE.metainfo.xml"
+      ],
+      "sources": [
+        {
+          "type": "dir",
+          "path": "."
+        }
+      ]
+    }
+  ]
+}

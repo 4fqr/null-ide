@@ -1,0 +1,78 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.modal {
+  background: #1e1e1e;
+  border: 1px solid #00ffaa;
+  border-radius: 8px;
+  padding: 24px;
+  min-width: 400px;
+  max-width: 600px;
+}
+
+.modal h3 {
+  margin: 0 0 16px 0;
+  color: #00ffaa;
+  font-size: 16px;
+}
+
+.input {
+  width: 100%;
+  padding: 8px 12px;
+  background: #0a0a0a;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 16px;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #00ffaa;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.cancelBtn,
+.confirmBtn {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+}
+
+.cancelBtn {
+  background: #333;
+  color: #fff;
+}
+
+.cancelBtn:hover {
+  background: #444;
+}
+
+.confirmBtn {
+  background: #00ffaa;
+  color: #000;
+  font-weight: 600;
+}
+
+.confirmBtn:hover {
+  background: #00dd88;
+}

@@ -1,0 +1,155 @@
+name: null-ide
+version: '3.4.0'
+summary: The Ultimate Hacker's Code Editor & Security Toolkit
+description: |
+  Professional IDE combining Monaco code editor with 49+ security testing 
+  and developer tools. Privacy-focused with local-only data storage.
+
+  Features:
+  - Monaco Editor with syntax highlighting for 15+ languages
+  - Integrated terminal with multiple shell support
+  - 49+ security tools: subdomain enumeration, port scanning, payload generation
+  - Cryptographic hashing and encoding/decoding utilities
+  - Network analysis and packet parsing
+  - Digital forensics (hex viewer, file signature analysis)
+  - Code deobfuscation and beautification
+  - JWT decoding and analysis
+  - Discord Rich Presence integration
+  - Complete privacy: no telemetry or external connections
+
+grade: stable
+confinement: classic
+base: core22
+license: MIT
+website: https://github.com/nullsec/null-ide
+source-code: https://github.com/nullsec/null-ide
+issues: https://github.com/nullsec/null-ide/issues
+
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+
+apps:
+  null-ide:
+    command: null-ide
+    desktop: usr/share/applications/null-ide.desktop
+    environment:
+      TMPDIR: $XDG_RUNTIME_DIR
+      DISABLE_WAYLAND: 1
+      # Electron environment variables
+      ELECTRON_ENABLE_LOGGING: 1
+      ELECTRON_ENABLE_STACK_DUMPING: 1
+      # Discord RPC
+      XDG_RUNTIME_DIR: /run/user/$UID
+    plugs:
+      - home
+      - network
+      - network-bind
+      - desktop
+      - desktop-legacy
+      - x11
+      - wayland
+      - unity7
+      - browser-support
+      - pulseaudio
+      - opengl
+      - gsettings
+      - removable-media
+      - process-control
+      - system-observe
+      - network-observe
+      - mount-observe
+      - hardware-observe
+
+parts:
+  null-ide:
+    plugin: nil
+    source: .
+    override-build: |
+      # Install Node.js
+      curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+      apt-get install -y nodejs
+
+      # Install dependencies
+      npm ci --legacy-peer-deps
+
+      # Build the application
+      npm run build
+
+      # Package with electron-builder
+      npx electron-builder --linux dir
+
+      # Install to snap directory
+      mkdir -p $SNAPCRAFT_PART_INSTALL/opt/null-ide
+      cp -r dist/linux-unpacked/* $SNAPCRAFT_PART_INSTALL/opt/null-ide/
+
+      # Create launcher script
+      mkdir -p $SNAPCRAFT_PART_INSTALL/usr/bin
+      cat > $SNAPCRAFT_PART_INSTALL/usr/bin/null-ide << 'EOF'
+      #!/bin/bash
+      exec "$SNAP/opt/null-ide/null-ide" "$@"
+      EOF
+      chmod +x $SNAPCRAFT_PART_INSTALL/usr/bin/null-ide
+
+      # Install desktop file
+      mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share/applications
+      cp com.nullsec.NullIDE.desktop $SNAPCRAFT_PART_INSTALL/usr/share/applications/null-ide.desktop
+      sed -i 's|Icon=com.nullsec.NullIDE|Icon=${SNAP}/meta/gui/icon.png|g' $SNAPCRAFT_PART_INSTALL/usr/share/applications/null-ide.desktop
+
+      # Install icon
+      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui
+      cp build/icon.png $SNAPCRAFT_PART_INSTALL/meta/gui/icon.png
+
+      # Install to standard icon directory
+      mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share/icons/hicolor/256x256/apps
+      cp build/icon.png $SNAPCRAFT_PART_INSTALL/usr/share/icons/hicolor/256x256/apps/null-ide.png
+
+    build-packages:
+      - curl
+      - git
+      - python3
+      - make
+      - g++
+      - libx11-dev
+      - libxkbfile-dev
+      - libsecret-1-dev
+      - libgtk-3-dev
+      - libnotify-dev
+      - libnss3-dev
+      - libxtst-dev
+      - libgconf-2-4
+      - libasound2-dev
+
+    stage-packages:
+      - libnss3
+      - libnspr4
+      - libatk1.0-0
+      - libatk-bridge2.0-0
+      - libcups2
+      - libdrm2
+      - libgtk-3-0
+      - libgbm1
+      - libasound2
+      - libxss1
+      - libxtst6
+      - libnotify4
+      - libsecret-1-0
+      - libgconf-2-4
+      - libxkbfile1
+      - libx11-xcb1
+      - libxcomposite1
+      - libxcursor1
+      - libxdamage1
+      - libxfixes3
+      - libxi6
+      - libxrandr2
+      - libxrender1
+
+  # Desktop integration
+  desktop-integration:
+    plugin: nil
+    stage-packages:
+      - desktop-file-utils
+    override-build: |
+      craftctl default
+      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui

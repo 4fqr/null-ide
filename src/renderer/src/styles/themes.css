@@ -1,0 +1,143 @@
+:root[data-theme='null-dark'] {
+  --color-bg-primary: #050505;
+  --color-bg-secondary: #0a0a0a;
+  --color-bg-tertiary: #0f0f0f;
+  --color-bg-elevated: #141414;
+  --color-bg-hover: #1a1a1a;
+  --color-accent: #00d9ff;
+  --color-accent-dim: #00b0d9;
+  --color-text-primary: #f0f0f0;
+  --color-text-secondary: #a0a0a0;
+  --color-text-tertiary: #707070;
+  --color-border: #252525;
+  --color-border-subtle: #1a1a1a;
+  --color-success: #00ff88;
+  --color-warning: #ffaa00;
+  --color-error: #ff3366;
+}
+
+:root[data-theme='cyber-purple'] {
+  --color-bg-primary: #0a0012;
+  --color-bg-secondary: #130020;
+  --color-bg-tertiary: #1a0030;
+  --color-bg-elevated: #220040;
+  --color-bg-hover: #2a0050;
+  --color-accent: #b366ff;
+  --color-accent-dim: #9944dd;
+  --color-text-primary: #f0e6ff;
+  --color-text-secondary: #b399cc;
+  --color-text-tertiary: #806699;
+  --color-border: #330055;
+  --color-border-subtle: #220033;
+  --color-success: #66ff99;
+  --color-warning: #ffaa66;
+  --color-error: #ff6699;
+}
+
+:root[data-theme='matrix-green'] {
+  --color-bg-primary: #000000;
+  --color-bg-secondary: #001100;
+  --color-bg-tertiary: #002200;
+  --color-bg-elevated: #003300;
+  --color-bg-hover: #004400;
+  --color-accent: #00ff41;
+  --color-accent-dim: #00cc33;
+  --color-text-primary: #00ff41;
+  --color-text-secondary: #00aa2b;
+  --color-text-tertiary: #007722;
+  --color-border: #003300;
+  --color-border-subtle: #002200;
+  --color-success: #00ff88;
+  --color-warning: #ffff00;
+  --color-error: #ff0000;
+}
+
+:root[data-theme='nord'] {
+  --color-bg-primary: #2e3440;
+  --color-bg-secondary: #3b4252;
+  --color-bg-tertiary: #434c5e;
+  --color-bg-elevated: #4c566a;
+  --color-bg-hover: #4c566a;
+  --color-accent: #88c0d0;
+  --color-accent-dim: #81a1c1;
+  --color-text-primary: #eceff4;
+  --color-text-secondary: #d8dee9;
+  --color-text-tertiary: #a3adb9;
+  --color-border: #4c566a;
+  --color-border-subtle: #3b4252;
+  --color-success: #a3be8c;
+  --color-warning: #ebcb8b;
+  --color-error: #bf616a;
+}
+
+:root[data-theme='dracula'] {
+  --color-bg-primary: #282a36;
+  --color-bg-secondary: #21222c;
+  --color-bg-tertiary: #1a1b26;
+  --color-bg-elevated: #343746;
+  --color-bg-hover: #44475a;
+  --color-accent: #bd93f9;
+  --color-accent-dim: #9d73d9;
+  --color-text-primary: #f8f8f2;
+  --color-text-secondary: #b8b8b2;
+  --color-text-tertiary: #888882;
+  --color-border: #44475a;
+  --color-border-subtle: #343746;
+  --color-success: #50fa7b;
+  --color-warning: #ffb86c;
+  --color-error: #ff5555;
+}
+
+:root[data-theme='tokyo-night'] {
+  --color-bg-primary: #1a1b26;
+  --color-bg-secondary: #16161e;
+  --color-bg-tertiary: #24283b;
+  --color-bg-elevated: #2f3549;
+  --color-bg-hover: #3b4261;
+  --color-accent: #7aa2f7;
+  --color-accent-dim: #5a82d7;
+  --color-text-primary: #c0caf5;
+  --color-text-secondary: #a9b1d6;
+  --color-text-tertiary: #7982a9;
+  --color-border: #3b4261;
+  --color-border-subtle: #24283b;
+  --color-success: #9ece6a;
+  --color-warning: #e0af68;
+  --color-error: #f7768e;
+}
+
+:root[data-theme='gruvbox-dark'] {
+  --color-bg-primary: #282828;
+  --color-bg-secondary: #1d2021;
+  --color-bg-tertiary: #3c3836;
+  --color-bg-elevated: #504945;
+  --color-bg-hover: #665c54;
+  --color-accent: #83a598;
+  --color-accent-dim: #6385a8;
+  --color-text-primary: #ebdbb2;
+  --color-text-secondary: #d5c4a1;
+  --color-text-tertiary: #a89984;
+  --color-border: #504945;
+  --color-border-subtle: #3c3836;
+  --color-success: #b8bb26;
+  --color-warning: #fabd2f;
+  --color-error: #fb4934;
+}
+
+:root[data-theme='one-dark-pro'] {
+  --color-bg-primary: #282c34;
+  --color-bg-secondary: #21252b;
+  --color-bg-tertiary: #2c313a;
+  --color-bg-elevated: #3e4451;
+  --color-bg-hover: #4b5362;
+  --color-accent: #61afef;
+  --color-accent-dim: #4190cf;
+  --color-text-primary: #abb2bf;
+  --color-text-secondary: #8b929f;
+  --color-text-tertiary: #5c6370;
+  --color-border: #3e4451;
+  --color-border-subtle: #2c313a;
+  --color-success: #98c379;
+  --color-warning: #e5c07b;
+  --color-error: #e06c75;
+}

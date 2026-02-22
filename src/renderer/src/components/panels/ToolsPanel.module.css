@@ -1,0 +1,264 @@
+.toolsPanel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-bg-secondary);
+}
+
+.header {
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-tertiary);
+}
+
+.header h3 {
+  margin: 0 0 var(--spacing-xs) 0;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-base);
+}
+
+.categories {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-sm);
+}
+
+.category {
+  margin-bottom: var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg-tertiary);
+  overflow: hidden;
+}
+
+.categoryHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: var(--color-bg-elevated);
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+}
+
+.categoryHeader:hover {
+  background: var(--color-bg-hover);
+}
+
+.categoryIcon {
+  font-size: var(--font-size-lg);
+}
+
+.categoryName {
+  flex: 1;
+}
+
+.expandIcon {
+  font-size: var(--font-size-xs);
+  opacity: 0.6;
+}
+
+.tools {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--spacing-sm);
+  animation: slideDown var(--transition-fast);
+}
+
+.tool {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.tool:hover:not(:disabled) {
+  background: var(--color-bg-hover);
+  border-color: var(--color-border-light);
+  box-shadow: var(--shadow-glow);
+  transform: translateX(2px);
+}
+
+.tool:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.toolName {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  margin-bottom: var(--spacing-xs);
+  font-family: var(--font-mono);
+}
+
+.toolDesc {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+.output {
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-tertiary);
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  animation: slideDown var(--transition-fast);
+}
+
+.outputHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.clearBtn {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--color-bg-hover);
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  font-size: var(--font-size-xs);
+  transition: all var(--transition-fast);
+}
+
+.clearBtn:hover {
+  background: var(--color-bg-active);
+}
+
+.outputContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-md);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background: var(--color-bg-primary);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* New Panel Styles */
+.panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-bg-secondary);
+  overflow-y: auto;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-tertiary);
+}
+
+.panelIcon {
+  font-size: var(--font-size-xl);
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+}
+
+.panelContent {
+  padding: var(--spacing-md);
+}
+
+.panelDescription {
+  margin: 0 0 var(--spacing-lg) 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.toolsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.toolButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.toolButton:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-accent);
+  transform: translateX(4px);
+}
+
+.toolButton .toolIcon {
+  font-size: var(--font-size-xl);
+  flex-shrink: 0;
+}
+
+.toolInfo {
+  flex: 1;
+}
+
+.toolButton .toolName {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.toolButton .toolCategory {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+.launchArrow {
+  font-size: var(--font-size-lg);
+  color: var(--color-accent);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.toolButton:hover .launchArrow {
+  opacity: 1;
+}
+
+.disclaimer {
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-md);
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.disclaimer strong {
+  color: var(--color-warning);
+}

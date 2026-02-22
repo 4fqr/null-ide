@@ -1,0 +1,107 @@
+{
+  "app-id": "com.nullide.app",
+  "runtime": "org.freedesktop.Platform",
+  "runtime-version": "23.08",
+  "sdk": "org.freedesktop.Sdk",
+  "base": "org.electronjs.Electron2.BaseApp",
+  "base-version": "23.08",
+  "command": "null-ide",
+  "separate-locales": false,
+  "finish-args": [
+    "--share=ipc",
+    "--socket=x11",
+    "--socket=wayland",
+    "--socket=pulseaudio",
+    "--share=network",
+    "--device=dri",
+    "--device=all",
+    "--filesystem=host",
+    "--filesystem=xdg-run/dconf",
+    "--filesystem=~/.config/dconf:ro",
+    "--filesystem=~/.ssh:ro",
+    "--filesystem=~/.gnupg:ro",
+    "--filesystem=xdg-documents",
+    "--filesystem=xdg-download",
+    "--filesystem=xdg-config/git:ro",
+    "--filesystem=/run/udev:ro",
+    "--filesystem=/sys/class/usb:ro",
+    "--talk-name=ca.desrt.dconf",
+    "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
+    "--talk-name=org.freedesktop.Notifications",
+    "--talk-name=org.kde.StatusNotifierWatcher",
+    "--own-name=org.kde.StatusNotifierItem-*",
+    "--talk-name=com.canonical.indicator.application",
+    "--talk-name=org.freedesktop.Flatpak",
+    "--talk-name=org.freedesktop.portal.*",
+    "--system-talk-name=org.freedesktop.UDisks2",
+    "--system-talk-name=org.freedesktop.NetworkManager",
+    "--socket=session-bus",
+    "--socket=system-bus",
+    "--allow=devel",
+    "--allow=multiarch",
+    "--env=ELECTRON_ENABLE_LOGGING=1",
+    "--env=ELECTRON_ENABLE_STACK_DUMPING=1",
+    "--env=TMPDIR=/var/tmp",
+    "--env=NODE_ENV=production",
+    "--require-version=1.0.0"
+  ],
+  "modules": [
+    {
+      "name": "zypak",
+      "buildsystem": "meson",
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/niclasr/zypak",
+          "tag": "v2024.01.17",
+          "commit": "79930b1628b1b59a649a3a05b163d85b2eb6077b"
+        }
+      ]
+    },
+    {
+      "name": "nodejs",
+      "buildsystem": "simple",
+      "build-commands": [
+        "install -Dm755 bin/node /app/bin/node",
+        "install -Dm755 bin/npm /app/bin/npm",
+        "install -Dm755 bin/npx /app/bin/npx",
+        "cp -r lib /app/lib",
+        "cp -r include /app/include"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://nodejs.org/dist/v20.11.0/node-v20.11.0-linux-x64.tar.xz",
+          "sha256": "5c5fc3f9162b6fd8e1c03b1f9de384e72542736ef8ccb854eb1dcb78c04b5c9e",
+          "strip-components": 1
+        }
+      ]
+    },
+    {
+      "name": "null-ide",
+      "buildsystem": "simple",
+      "build-commands": [
+        "install -Dm755 null-ide-flatpak.sh /app/bin/null-ide",
+        "mkdir -p /app/lib/null-ide",
+        "cp -r dist /app/lib/null-ide/",
+        "cp -r node_modules /app/lib/null-ide/",
+        "install -Dm644 package.json /app/lib/null-ide/package.json",
+        "install -Dm644 com.nullide.app.desktop /app/share/applications/com.nullide.app.desktop",
+        "install -Dm644 build/icon.png /app/share/icons/hicolor/512x512/apps/com.nullide.app.png",
+        "install -Dm644 build/icon.png /app/share/icons/hicolor/256x256/apps/com.nullide.app.png",
+        "install -Dm644 build/icon.png /app/share/icons/hicolor/128x128/apps/com.nullide.app.png",
+        "install -Dm644 build/icon.png /app/share/icons/hicolor/64x64/apps/com.nullide.app.png",
+        "install -Dm644 build/icon.png /app/share/icons/hicolor/48x48/apps/com.nullide.app.png",
+        "install -Dm644 build/icon.png /app/share/icons/hicolor/32x32/apps/com.nullide.app.png",
+        "install -Dm644 build/icon.png /app/share/icons/hicolor/16x16/apps/com.nullide.app.png",
+        "install -Dm644 com.nullide.app.metainfo.xml /app/share/metainfo/com.nullide.app.metainfo.xml"
+      ],
+      "sources": [
+        {
+          "type": "dir",
+          "path": "."
+        }
+      ]
+    }
+  ]
+}

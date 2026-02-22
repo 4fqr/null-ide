@@ -1,0 +1,233 @@
+{
+  "name": "null-ide",
+  "version": "3.4.0",
+  "description": "The Ultimate Hacker's Code Editor & Security Toolkit - 60+ Tools: Terminal with node-pty, SQLi/XSS/LDAP/XPath/NoSQL Injection, JWT Analysis, GraphQL Scanner, Race Conditions, Cache Poisoning, DOM XSS, DNS Rebinding, API Rate Limiting, and more",
+  "main": "dist/main/main.js",
+  "author": "NullSec",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:renderer\" \"npm run dev:electron\"",
+    "dev:renderer": "vite",
+    "dev:electron": "wait-on http://localhost:5173 && cross-env NODE_ENV=development electron .",
+    "build": "npm run build:renderer && npm run build:electron",
+    "build:renderer": "vite build",
+    "build:electron": "tsc -p tsconfig.main.json && tsc -p tsconfig.preload.json",
+    "package": "npm run build && electron-builder",
+    "package:win": "npm run build && electron-builder --win",
+    "package:linux": "npm run build && electron-builder --linux",
+    "package:all": "npm run build && electron-builder --win --linux --mac",
+    "package:flatpak": "bash scripts/build-flatpak.sh build",
+    "package:flatpak:install": "bash scripts/build-flatpak.sh install",
+    "package:flatpak:bundle": "bash scripts/build-flatpak.sh bundle",
+    "package:flatpak:all": "bash scripts/build-flatpak.sh all",
+    "flatpak:run": "flatpak run com.nullide.app",
+    "flatpak:clean": "bash scripts/build-flatpak.sh clean",
+    "lint": "eslint src --ext .ts,.tsx",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\""
+  },
+  "dependencies": {
+    "@monaco-editor/react": "^4.6.0",
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/xterm": "^5.5.0",
+    "discord-rpc": "^4.0.1",
+    "monaco-editor": "^0.52.0",
+    "node-pty": "^1.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zustand": "^5.0.2"
+  },
+  "devDependencies": {
+    "@types/discord-rpc": "^4.0.10",
+    "@types/node": "^22.10.5",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@typescript-eslint/eslint-plugin": "^8.19.1",
+    "@typescript-eslint/parser": "^8.19.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
+    "electron": "^35.7.5",
+    "electron-builder": "^26.7.0",
+    "eslint": "^9.18.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7",
+    "vite-plugin-electron": "^0.28.0",
+    "wait-on": "^8.0.1"
+  },
+  "build": {
+    "appId": "com.nullsec.null-ide",
+    "productName": "Null IDE",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "null-ide.ico",
+      "null-ide.png",
+      "build/icon.png"
+    ],
+    "win": {
+      "icon": "build/icon.png",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Null IDE",
+      "deleteAppDataOnUninstall": true,
+      "perMachine": true,
+      "menuCategory": true,
+      "artifactName": "Null-IDE-Setup-${version}.exe",
+      "installerIcon": "build/icon.png",
+      "uninstallerIcon": "build/icon.png",
+      "installerHeaderIcon": "build/icon.png",
+      "license": "LICENSE",
+      "language": "1033"
+    },
+    "fileAssociations": [
+      {
+        "ext": "js",
+        "name": "JavaScript",
+        "role": "Editor"
+      },
+      {
+        "ext": "ts",
+        "name": "TypeScript",
+        "role": "Editor"
+      },
+      {
+        "ext": "tsx",
+        "name": "TypeScript React",
+        "role": "Editor"
+      },
+      {
+        "ext": "jsx",
+        "name": "JavaScript React",
+        "role": "Editor"
+      },
+      {
+        "ext": "py",
+        "name": "Python",
+        "role": "Editor"
+      },
+      {
+        "ext": "java",
+        "name": "Java",
+        "role": "Editor"
+      },
+      {
+        "ext": "cpp",
+        "name": "C++",
+        "role": "Editor"
+      },
+      {
+        "ext": "c",
+        "name": "C",
+        "role": "Editor"
+      },
+      {
+        "ext": "html",
+        "name": "HTML",
+        "role": "Editor"
+      },
+      {
+        "ext": "css",
+        "name": "CSS",
+        "role": "Editor"
+      },
+      {
+        "ext": "json",
+        "name": "JSON",
+        "role": "Editor"
+      },
+      {
+        "ext": "md",
+        "name": "Markdown",
+        "role": "Editor"
+      },
+      {
+        "ext": "txt",
+        "name": "Text",
+        "role": "Editor"
+      }
+    ],
+    "mac": {
+      "icon": "null-ide.ico",
+      "category": "public.app-category.developer-tools"
+    },
+    "linux": {
+      "icon": "build/icon.png",
+      "target": [
+        "AppImage",
+        "deb",
+        "rpm",
+        "snap",
+        "flatpak"
+      ],
+      "category": "Development",
+      "maintainer": "NullSec <nullsec@example.com>",
+      "vendor": "NullSec",
+      "synopsis": "The Ultimate Hacker's Code Editor & Security Toolkit",
+      "description": "Professional IDE combining Monaco code editor with 60+ security testing and developer tools. Privacy-focused with local-only data storage.",
+      "desktop": {
+        "Name": "Null IDE",
+        "Comment": "The Ultimate Hacker's Code Editor & Security Toolkit",
+        "Icon": "null-ide",
+        "Type": "Application",
+        "Categories": "Development;IDE;TextEditor;Security;",
+        "Terminal": false,
+        "StartupWMClass": "Null IDE",
+        "MimeType": "text/plain;text/x-python;text/x-java;text/x-c;text/x-c++;application/javascript;application/json;"
+      }
+    },
+    "snap": {
+      "confinement": "classic",
+      "grade": "stable",
+      "summary": "The Ultimate Hacker's Code Editor & Security Toolkit",
+      "description": "Professional IDE combining Monaco code editor with 60+ security testing and developer tools. Privacy-focused with local-only data storage.",
+      "plugs": [
+        "home",
+        "network",
+        "network-bind",
+        "desktop",
+        "desktop-legacy",
+        "x11",
+        "wayland",
+        "unity7",
+        "browser-support",
+        "pulseaudio",
+        "opengl",
+        "gsettings",
+        "removable-media",
+        "process-control",
+        "system-observe",
+        "network-observe"
+      ],
+      "environment": {
+        "TMPDIR": "$XDG_RUNTIME_DIR",
+        "PATH": "$SNAP/usr/sbin:$SNAP/usr/bin:$SNAP/sbin:$SNAP/bin:$PATH",
+        "SNAP_DESKTOP_RUNTIME": "$SNAP/gnome-platform",
+        "DISABLE_WAYLAND": "1"
+      },
+      "layout": {
+        "/usr/share/X11": {
+          "bind": "$SNAP/usr/share/X11"
+        }
+      }
+    }
+  }
+}

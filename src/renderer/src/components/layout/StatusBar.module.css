@@ -1,0 +1,64 @@
+.statusBar {
+  height: var(--statusbar-height);
+  background: var(--color-bg-secondary);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-lg);
+  font-size: var(--font-size-xs);
+  font-family: var(--font-mono);
+  user-select: none;
+}
+
+.left,
+.center,
+.right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.center {
+  flex: 1;
+  justify-content: center;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 0 var(--spacing-sm);
+  cursor: default;
+  color: var(--color-text-tertiary);
+  transition: color var(--transition-fast);
+}
+
+.item:hover {
+  color: var(--color-text-secondary);
+}
+
+.language {
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+.modified {
+  color: var(--color-warning);
+}
+
+.mode {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+}
+
+.version {
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-xs);
+}
+
+.separator {
+  width: 1px;
+  height: 10px;
+  background: var(--color-border-subtle);
+}

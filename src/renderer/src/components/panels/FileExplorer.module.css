@@ -1,0 +1,297 @@
+.explorer,
+.fileExplorer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-size: 13px;
+  background: var(--color-bg-primary);
+  font-family: var(--font-sans);
+}
+
+.header {
+  padding: 12px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-primary);
+}
+
+.tree {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4px 0;
+}
+
+.toolbar {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  gap: 6px;
+  background: var(--color-bg-primary);
+}
+
+.childrenContainer {
+  display: block;
+}
+
+.btnPrimary,
+.btnSecondary {
+  flex: 1;
+  padding: 6px 12px;
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  text-align: center;
+  transition: all var(--transition-fast);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+}
+
+.btnPrimary:hover,
+.btnSecondary:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.btnSecondary {
+  flex: 0 0 auto;
+  min-width: 70px;
+}
+
+.currentPath {
+  padding: 6px 12px;
+  background: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fileList {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4px 0;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  gap: 10px;
+  color: var(--color-text-tertiary);
+  text-align: center;
+  font-size: 13px;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.empty p {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.empty small {
+  color: var(--color-text-tertiary);
+}
+
+.fileItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 13px;
+  border-left: 2px solid transparent;
+  user-select: none;
+  animation: slideIn 0.15s ease;
+}
+
+.fileItem:hover {
+  background: var(--color-bg-hover);
+  border-left-color: var(--color-accent);
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  color: var(--color-text-tertiary);
+  transition: transform var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.arrowPlaceholder {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.childrenContainer {
+  display: block;
+}
+
+.fileIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--color-accent);
+}
+
+.fileName {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-text-primary);
+  font-size: 13px;
+  transition: color var(--transition-fast);
+}
+
+.fileItem:hover .fileName {
+  color: var(--color-accent);
+}
+
+.fileList::-webkit-scrollbar,
+.tree::-webkit-scrollbar {
+  width: 6px;
+}
+
+.fileList::-webkit-scrollbar-track,
+.tree::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.fileList::-webkit-scrollbar-thumb,
+.tree::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+.fileList::-webkit-scrollbar-thumb:hover,
+.tree::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-tertiary);
+}
+
+.dialogOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 0.2s ease;
+}
+
+.dialog {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  padding: 24px;
+  min-width: 400px;
+  max-width: 500px;
+  box-shadow: var(--shadow-xl);
+  animation: slideUp 0.2s ease;
+}
+
+.dialog h3 {
+  margin: 0 0 16px 0;
+  color: var(--color-text-primary);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.dialog input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-family: var(--font-mono);
+  margin-bottom: 16px;
+  transition: border-color var(--transition-fast);
+  outline: none;
+}
+
+.dialog input:focus {
+  border-color: var(--color-accent);
+}
+
+.dialogButtons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.dialogButtons button {
+  padding: 8px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+.dialogButtons button:first-child {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-bg-primary);
+  font-weight: 600;
+}
+
+.dialogButtons button:hover {
+  transform: translateY(-1px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

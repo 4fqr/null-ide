@@ -1,0 +1,317 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn var(--transition-fast);
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  width: 90%;
+  max-width: 700px;
+  max-height: 90vh;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  animation: slideDown var(--transition-base);
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-tertiary);
+}
+
+.modalHeader h2 {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-family: var(--font-mono);
+}
+
+.closeBtn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: 24px;
+  line-height: 1;
+  transition: all var(--transition-fast);
+  opacity: 0.7;
+}
+
+.closeBtn:hover {
+  opacity: 1;
+  background: var(--color-bg-hover);
+}
+
+.modalBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-lg);
+}
+
+.modalFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-tertiary);
+}
+
+.btnPrimary,
+.btnSecondary {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: 4px;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.btnPrimary {
+  background: var(--color-accent);
+  color: var(--color-bg-primary);
+  border: none;
+}
+
+.btnPrimary:hover {
+  background: var(--color-accent-dim);
+  box-shadow: var(--shadow-glow);
+}
+
+.btnSecondary {
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}
+
+.btnSecondary:hover {
+  background: var(--color-bg-hover);
+}
+
+/* Settings Modal */
+.tabs {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: var(--color-text-secondary);
+}
+
+.tab:hover {
+  color: var(--color-text-primary);
+  background: var(--color-bg-hover);
+}
+
+.tab.activeTab {
+  color: var(--color-text-primary);
+  border-bottom-color: var(--color-accent);
+}
+
+.tabIcon {
+  font-size: var(--font-size-lg);
+}
+
+.tabContent {
+  animation: fadeIn var(--transition-fast);
+}
+
+.section {
+  margin-bottom: var(--spacing-xl);
+}
+
+.section h3 {
+  margin: 0 0 var(--spacing-lg) 0;
+  font-size: var(--font-size-lg);
+  font-family: var(--font-mono);
+}
+
+.setting {
+  margin-bottom: var(--spacing-lg);
+}
+
+.setting label {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  font-weight: 600;
+}
+
+.setting input[type='number'] {
+  width: 100px;
+  margin-bottom: var(--spacing-xs);
+}
+
+.checkbox {
+  display: flex !important;
+  align-items: center;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+}
+
+.checkbox input {
+  cursor: pointer;
+}
+
+.privacyNotice {
+  padding: var(--spacing-md);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  margin-bottom: var(--spacing-lg);
+}
+
+.privacyNotice ul {
+  margin: var(--spacing-md) 0 0 0;
+  padding-left: var(--spacing-lg);
+}
+
+.privacyNotice li {
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-text-secondary);
+}
+
+.infoBox {
+  padding: var(--spacing-md);
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  margin-top: var(--spacing-lg);
+}
+
+/* About Modal */
+.aboutContent {
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.logoIcon {
+  font-size: 64px;
+  display: block;
+  margin-bottom: var(--spacing-md);
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+  animation: glow 3s infinite;
+}
+
+.logo h1 {
+  margin: 0 0 var(--spacing-sm) 0;
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  letter-spacing: 2px;
+}
+
+.version {
+  color: var(--color-text-tertiary);
+  font-family: var(--font-mono);
+}
+
+.branding {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-xl);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tagline {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+}
+
+.subtitle {
+  color: var(--color-text-secondary);
+}
+
+.description,
+.features,
+.tech,
+.privacy {
+  margin-bottom: var(--spacing-xl);
+}
+
+.featuresList {
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--color-bg-tertiary);
+  border-left: 3px solid var(--color-accent);
+  border-radius: 4px;
+}
+
+.featuresList h4 {
+  margin: var(--spacing-sm) 0;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.features h3,
+.tech h3,
+.privacy h3 {
+  margin: 0 0 var(--spacing-md) 0;
+  font-size: var(--font-size-base);
+}
+
+.features ul,
+.tech ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.features li,
+.tech li {
+  padding: var(--spacing-xs) 0;
+  color: var(--color-text-secondary);
+}
+
+.disclaimer {
+  padding: var(--spacing-md);
+  background: var(--color-bg-elevated);
+  border-left: 3px solid var(--color-warning);
+  border-radius: 4px;
+  margin-bottom: var(--spacing-lg);
+  font-size: var(--font-size-xs);
+}
+
+.copyright {
+  text-align: center;
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--font-size-xs);
+}
+
+.copyright p {
+  margin: var(--spacing-xs) 0;
+}

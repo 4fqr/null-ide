@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Null IDE
+GenericName=Code Editor & Security Toolkit
+Comment=The Ultimate Hacker's Code Editor with 49+ integrated security tools
+Icon=com.nullsec.NullIDE
+Exec=null-ide %F
+Terminal=false
+Categories=Development;IDE;TextEditor;Security;
+MimeType=text/plain;text/x-python;text/x-java;text/x-c;text/x-c++;application/javascript;application/json;text/html;text/css;
+Keywords=editor;code;hacking;security;pentest;development;
+StartupWMClass=Null IDE
+StartupNotify=true

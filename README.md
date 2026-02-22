@@ -5,7 +5,7 @@
 [![Version](https://img.shields.io/badge/version-3.4.0-00ffaa.svg)](https://github.com/4fqr/null-ide/releases)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)]()
-[![Electron](https://img.shields.io/badge/electron-28.3.3-47848f.svg)](https://www.electronjs.org/)
+[![Electron](https://img.shields.io/badge/electron-35.7.5-47848f.svg)](https://www.electronjs.org/)
 
 ---
 
@@ -16,11 +16,12 @@ Null IDE is a code editor designed for security researchers, penetration testers
 ### Key Features
 
 - **120+ Security Tools** - Network scanning, web security testing, cryptography utilities
-- **Monaco Editor** - VS Code editing engine with 111 language support
+- **Monaco Editor** - VS Code editing engine with 112 language support
 - **Dual Mode Interface** - Code mode for development, Utility mode for security tools
 - **Integrated Terminal** - Multi-tab terminal with bash/zsh/powershell support
 - **Discord Rich Presence** - Activity display integration
 - **Cross-Platform** - Windows, Linux, macOS support
+- **VS Code-like File Explorer** - Create files/folders, rename, delete, context menu
 
 ---
 
@@ -36,49 +37,101 @@ Null-IDE-Installer.exe
 
 ### Linux
 
-#### Flatpak (Recommended - All Distributions)
+#### Option 1: AppImage (Easiest)
 
-```bash
-flatpak install null-ide.flatpak
-flatpak run com.nullide.app
-```
-
-#### AppImage (Universal)
+Download from [Releases](https://github.com/4fqr/null-ide/releases):
 
 ```bash
 chmod +x Null-IDE-3.4.0.AppImage
 ./Null-IDE-3.4.0.AppImage
 ```
 
-#### Debian/Ubuntu
+#### Option 2: DEB Package (Debian/Ubuntu/Mint)
 
 ```bash
+# Download from Releases, then:
 sudo dpkg -i null-ide_3.4.0_amd64.deb
-sudo apt-get install -f
+sudo apt-get install -f  # Fix dependencies if needed
 null-ide
 ```
 
-#### Fedora/RHEL/CentOS
+#### Option 3: RPM Package (Fedora/RHEL/CentOS)
 
 ```bash
+# Download from Releases, then:
 sudo dnf install null-ide-3.4.0.x86_64.rpm
 null-ide
 ```
 
-#### Snap
+#### Option 4: Snap Package
 
 ```bash
-sudo snap install --dangerous null-ide_*.snap --classic
+# Download from Releases, then:
+sudo snap install --dangerous null-ide_3.4.0_amd64.snap --classic
 null-ide
 ```
 
-#### Arch Linux
+#### Option 5: Flatpak (Build from Source)
+
+**Prerequisites:**
 
 ```bash
+# Ubuntu/Debian
+sudo apt install flatpak flatpak-builder
+
+# Fedora
+sudo dnf install flatpak flatpak-builder
+
+# Arch
+sudo pacman -S flatpak flatpak-builder
+```
+
+**Build and Install:**
+
+```bash
+# Clone the repository
 git clone https://github.com/4fqr/null-ide.git
 cd null-ide
-makepkg -si
+
+# Install dependencies
+npm install
+
+# Build the application
+npm run build
+
+# Build and install Flatpak (one command)
+bash scripts/build-flatpak.sh install
+
+# Run the installed Flatpak
+flatpak run com.nullide.app
 ```
+
+**Create Distributable Bundle:**
+
+```bash
+# Build and create a .flatpak bundle file
+bash scripts/build-flatpak.sh bundle
+
+# This creates: Null-IDE-3.4.0.flatpak
+# Share this file, others can install with:
+flatpak install --user Null-IDE-3.4.0.flatpak
+```
+
+**Full Build (all steps):**
+
+```bash
+bash scripts/build-flatpak.sh all
+```
+
+**Available Flatpak Build Commands:**
+| Command | Description |
+|---------|-------------|
+| `bash scripts/build-flatpak.sh build` | Build Flatpak only |
+| `bash scripts/build-flatpak.sh install` | Build and install locally |
+| `bash scripts/build-flatpak.sh bundle` | Create distributable .flatpak file |
+| `bash scripts/build-flatpak.sh run` | Run installed Flatpak |
+| `bash scripts/build-flatpak.sh all` | Complete build process |
+| `bash scripts/build-flatpak.sh deps` | Install dependencies only |
 
 ### macOS
 
@@ -224,7 +277,7 @@ Open `Null IDE-3.4.0.dmg` and drag to Applications.
 
 ## Supported Languages
 
-Null IDE supports syntax highlighting for 111 programming languages including:
+Null IDE supports syntax highlighting for 112 programming languages including:
 
 **Mainstream**: JavaScript, TypeScript, Python, Java, C, C++, C#, Go, Rust, PHP, Ruby, Swift, Kotlin, Scala, Perl, Lua, R, SQL
 
@@ -234,7 +287,7 @@ Null IDE supports syntax highlighting for 111 programming languages including:
 
 **Functional**: Haskell, OCaml, F#, Elm, PureScript, Idris, Clojure, Scheme, Racket, Erlang, Elixir
 
-**Niche**: Fortran, COBOL, Pascal, Ada, Julia, Dart, Groovy, Prolog, Forth, APL, Solidity, Move, Cairo, Carbon, Mojo, and 50+ more.
+**Niche**: Fortran, COBOL, Pascal, Ada, Julia, Dart, Groovy, Prolog, Forth, APL, Solidity, Move, Cairo, Carbon, Mojo, and 60+ more.
 
 ---
 
@@ -246,35 +299,27 @@ Null IDE supports syntax highlighting for 111 programming languages including:
 - npm
 - Git
 
-### Build Steps
+### Quick Start
 
 ```bash
 git clone https://github.com/4fqr/null-ide.git
 cd null-ide
 npm install
 npm run build
-```
-
-### Development
-
-```bash
 npm run dev
 ```
 
-### Package for Distribution
+### Build Commands
 
-```bash
-npm run package:win      # Windows
-npm run package:linux    # Linux (deb, rpm, AppImage, Flatpak, Snap)
-npm run package:mac      # macOS
-npm run package:all      # All platforms
-```
-
-### Flatpak Build
-
-```bash
-npm run package:flatpak
-```
+| Command                 | Description                               |
+| ----------------------- | ----------------------------------------- |
+| `npm run dev`           | Start development server                  |
+| `npm run build`         | Build for production                      |
+| `npm run package`       | Package for current platform              |
+| `npm run package:win`   | Package Windows installer                 |
+| `npm run package:linux` | Package AppImage, DEB, RPM, Snap, Flatpak |
+| `npm run package:mac`   | Package macOS DMG                         |
+| `npm run package:all`   | Package for all platforms                 |
 
 ---
 
@@ -297,8 +342,8 @@ npm run package:flatpak
 ## Tech Stack
 
 - **Frontend**: React 18, TypeScript 5, Monaco Editor, Zustand, XTerm.js
-- **Backend**: Electron 28.3.3, Node.js
-- **Build**: Vite 5, electron-builder 24
+- **Backend**: Electron 35.7.5, Node.js
+- **Build**: Vite 6, electron-builder 26
 
 ---
 
@@ -320,9 +365,9 @@ MIT License - Copyright (c) 2026 NullSec
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch
+2. Create feature branch
 3. Make changes and test
-4. Submit a Pull Request
+4. Submit Pull Request
 
 ---
 

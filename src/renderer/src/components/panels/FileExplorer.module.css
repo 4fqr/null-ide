@@ -46,6 +46,29 @@
   font-weight: 500;
   cursor: pointer;
   color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.btnIcon {
+  padding: 6px 8px;
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.btnIcon:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
 }
 
 .btnPrimary:hover,
@@ -294,4 +317,98 @@
     opacity: 1;
     transform: translateX(0);
   }
+}
+
+.fileItem.selected {
+  background: var(--color-bg-hover);
+  border-left-color: var(--color-accent);
+}
+
+.fileItem.selected .fileName {
+  color: var(--color-accent);
+}
+
+.contextMenu {
+  position: fixed;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-xl);
+  min-width: 160px;
+  z-index: 10001;
+  padding: 4px 0;
+  animation: fadeIn 0.15s ease;
+}
+
+.contextMenu button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--transition-fast);
+}
+
+.contextMenu button:hover {
+  background: var(--color-bg-hover);
+  color: var(--color-accent);
+}
+
+.contextMenu button.danger {
+  color: #ff6b8a;
+}
+
+.contextMenu button.danger:hover {
+  background: rgba(255, 107, 138, 0.1);
+}
+
+.contextMenu .separator {
+  height: 1px;
+  background: var(--color-border);
+  margin: 4px 0;
+}
+
+.dialogPath {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  font-family: var(--font-mono);
+  margin-bottom: 12px;
+  word-break: break-all;
+}
+
+.dialogButtons button.primary {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-bg-primary);
+  font-weight: 600;
+}
+
+.dialogButtons button.primary:hover {
+  filter: brightness(1.1);
+}
+
+.currentPath {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.currentPath span {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useStore } from '../../store/store';
 import styles from './FileExplorer.module.css';
 
@@ -8,127 +8,140 @@ interface FileItem {
   isDirectory: boolean;
   children?: FileItem[];
   expanded?: boolean;
+  selected?: boolean;
 }
 
-const getFileIcon = (fileName: string, isDirectory: boolean): string => {
-  if (isDirectory) return '📁';
+const FileIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <polyline points="14 2 14 8 20 8" />
+  </svg>
+);
 
-  const ext = fileName.split('.').pop()?.toLowerCase() || '';
-  const iconMap: Record<string, string> = {
-    
-    js: '📜',
-    jsx: '⚛️',
-    ts: '📘',
-    tsx: '⚛️',
-    mjs: '📜',
-    cjs: '📜',
-    
-    py: '🐍',
-    pyw: '🐍',
-    pyc: '🐍',
-    pyd: '🐍',
-    
-    java: '☕',
-    jar: '☕',
-    class: '☕',
-    kt: '🟣',
-    scala: '🔴',
-    
-    c: '⚙️',
-    cpp: '⚙️',
-    cxx: '⚙️',
-    cc: '⚙️',
-    h: '⚙️',
-    hpp: '⚙️',
-    hxx: '⚙️',
-    
-    cs: '#️⃣',
-    csx: '#️⃣',
-    vb: '#️⃣',
-    fs: '#️⃣',
-    
-    go: '🐹',
-    rs: '🦀',
-    php: '🐘',
-    rb: '💎',
-    swift: '🦅',
-    lua: '🌙',
-    r: '📊',
-    dart: '🎯',
-    elixir: '💧',
-    ex: '💧',
-    exs: '💧',
-    
-    html: '🌐',
-    htm: '🌐',
-    css: '🎨',
-    scss: '🎨',
-    sass: '🎨',
-    less: '🎨',
-    vue: '💚',
-    svelte: '🧡',
-    
-    json: '📋',
-    xml: '📋',
-    yaml: '📋',
-    yml: '📋',
-    toml: '📋',
-    ini: '📋',
-    csv: '📊',
-    tsv: '📊',
-    
-    md: '📝',
-    markdown: '📝',
-    txt: '📄',
-    pdf: '📕',
-    doc: '📄',
-    docx: '📄',
-    
-    png: '🖼️',
-    jpg: '🖼️',
-    jpeg: '🖼️',
-    gif: '🖼️',
-    svg: '🎨',
-    ico: '🖼️',
-    bmp: '🖼️',
-    webp: '🖼️',
-    
-    sh: '🔧',
-    bash: '🔧',
-    zsh: '🔧',
-    fish: '🔧',
-    ps1: '🔧',
-    env: '⚙️',
-    config: '⚙️',
-    conf: '⚙️',
-    
-    dockerfile: '🐳',
-    makefile: '🔨',
-    cmake: '🔨',
-    'package.json': '📦',
-    'package-lock.json': '🔒',
-    
-    sql: '🗄️',
-    db: '🗄️',
-    sqlite: '🗄️',
+const FolderIcon = ({ open = false }) => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill={open ? 'currentColor' : 'none'}
+    stroke="currentColor"
+    strokeWidth="2"
+  >
+    {open ? (
+      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+    ) : (
+      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+    )}
+  </svg>
+);
+
+const NewFileIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <polyline points="14 2 14 8 20 8" />
+    <line x1="12" y1="18" x2="12" y2="12" />
+    <line x1="9" y1="15" x2="15" y2="15" />
+  </svg>
+);
+
+const NewFolderIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+    <line x1="12" y1="11" x2="12" y2="17" />
+    <line x1="9" y1="14" x2="15" y2="14" />
+  </svg>
+);
+
+const OpenFolderIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v1" />
+    <path d="M2 10h20" />
+  </svg>
+);
+
+const RefreshIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <polyline points="23 4 23 10 17 10" />
+    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+  </svg>
+);
+
+const pathJoin = (...parts: string[]): string => {
+  return parts
+    .map((part, i) => {
+      if (i === 0) return part.replace(/[/\\]+$/, '');
+      return part.replace(/^[/\\]+|[/\\]+$/g, '');
+    })
+    .join('/');
+};
+
+const getFileExtension = (fileName: string): string => {
+  return fileName.split('.').pop()?.toLowerCase() || '';
+};
+
+const getFileIconComponent = (fileName: string, isDirectory: boolean): React.ReactNode => {
+  if (isDirectory) return <FolderIcon />;
+
+  const ext = getFileExtension(fileName);
+  const iconColors: Record<string, string> = {
+    js: '#f7df1e',
+    jsx: '#61dafb',
+    ts: '#3178c6',
+    tsx: '#3178c6',
+    py: '#3776ab',
+    html: '#e34f26',
+    css: '#1572b6',
+    scss: '#cc6699',
+    json: '#292929',
+    md: '#083fa1',
+    txt: '#6b7280',
+    go: '#00add8',
+    rs: '#dea584',
+    java: '#b07219',
+    php: '#777bb4',
+    rb: '#cc342d',
+    swift: '#f05138',
+    cpp: '#00599c',
+    c: '#a8b9cc',
+    sh: '#4eaa25',
+    bash: '#4eaa25',
+    sql: '#e38c00',
+    yaml: '#cb171e',
+    yml: '#cb171e',
+    xml: '#e37933',
+    vue: '#42b883',
+    svelte: '#ff3e00',
   };
 
-  
-  const lowerName = fileName.toLowerCase();
-  if (iconMap[lowerName]) return iconMap[lowerName];
-
-  return iconMap[ext] || '📄';
+  const color = iconColors[ext] || 'var(--color-accent)';
+  return <FileIcon />;
 };
 
 const FileExplorer: React.FC = () => {
   const [rootPath, setRootPath] = useState('');
   const [fileTree, setFileTree] = useState<FileItem[]>([]);
-  
   const [showNewFileDialog, setShowNewFileDialog] = useState(false);
   const [showNewFolderDialog, setShowNewFolderDialog] = useState(false);
   const [newItemName, setNewItemName] = useState('');
   const [selectedPath, setSelectedPath] = useState<string>('');
+  const [contextMenu, setContextMenu] = useState<{
+    x: number;
+    y: number;
+    path: string;
+    isDirectory: boolean;
+  } | null>(null);
+  const contextMenuRef = useRef<HTMLDivElement>(null);
   const openTab = useStore((state) => state.openTab);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (contextMenuRef.current && !contextMenuRef.current.contains(e.target as Node)) {
+        setContextMenu(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleOpenDirectory = async () => {
     const result = await window.electronAPI.dialog.openDirectory();
@@ -140,28 +153,37 @@ const FileExplorer: React.FC = () => {
     }
   };
 
-  const handleNewFile = () => {
-    if (!rootPath) return;
-    setShowNewFileDialog(true);
-    setNewItemName('');
+  const handleRefresh = async () => {
+    if (rootPath) {
+      await loadDirectory(rootPath, null);
+    }
   };
 
-  const handleNewFolder = () => {
+  const handleNewFile = (targetPath?: string) => {
     if (!rootPath) return;
+    setSelectedPath(targetPath || selectedPath || rootPath);
+    setShowNewFileDialog(true);
+    setNewItemName('');
+    setContextMenu(null);
+  };
+
+  const handleNewFolder = (targetPath?: string) => {
+    if (!rootPath) return;
+    setSelectedPath(targetPath || selectedPath || rootPath);
     setShowNewFolderDialog(true);
     setNewItemName('');
+    setContextMenu(null);
   };
 
   const createNewFile = async () => {
     if (!newItemName.trim()) return;
 
     const targetPath = selectedPath || rootPath;
-    const filePath = `${targetPath}\\${newItemName}`;
+    const filePath = pathJoin(targetPath, newItemName);
 
     const result = await window.electronAPI.fs.createFile(filePath);
     if (result.success) {
-      
-      const ext = newItemName.split('.').pop()?.toLowerCase() || 'txt';
+      const ext = getFileExtension(newItemName);
       const languageMap: Record<string, string> = {
         js: 'javascript',
         jsx: 'javascript',
@@ -198,7 +220,6 @@ const FileExplorer: React.FC = () => {
         modified: false,
       });
 
-      
       setShowNewFileDialog(false);
       setNewItemName('');
       await loadDirectory(rootPath, null);
@@ -211,7 +232,7 @@ const FileExplorer: React.FC = () => {
     if (!newItemName.trim()) return;
 
     const targetPath = selectedPath || rootPath;
-    const folderPath = `${targetPath}\\${newItemName}`;
+    const folderPath = pathJoin(targetPath, newItemName);
 
     const result = await window.electronAPI.fs.createFolder(folderPath);
     if (result.success) {
@@ -221,6 +242,41 @@ const FileExplorer: React.FC = () => {
     } else {
       alert(`Failed to create folder: ${result.error}`);
     }
+  };
+
+  const handleDelete = async (path: string, isDirectory: boolean) => {
+    const confirmDelete = confirm(
+      `Are you sure you want to delete this ${isDirectory ? 'folder' : 'file'}?`
+    );
+    if (!confirmDelete) return;
+
+    try {
+      if (isDirectory) {
+        await window.electronAPI.fs.deleteFolder(path);
+      } else {
+        await window.electronAPI.fs.deleteFile(path);
+      }
+      await loadDirectory(rootPath, null);
+    } catch (error) {
+      alert(`Failed to delete: ${error}`);
+    }
+    setContextMenu(null);
+  };
+
+  const handleRename = async (path: string, oldName: string) => {
+    const newName = prompt('Enter new name:', oldName);
+    if (!newName || newName === oldName) return;
+
+    const parentPath = path.substring(0, path.lastIndexOf('/'));
+    const newPath = pathJoin(parentPath, newName);
+
+    try {
+      await window.electronAPI.fs.rename(path, newPath);
+      await loadDirectory(rootPath, null);
+    } catch (error) {
+      alert(`Failed to rename: ${error}`);
+    }
+    setContextMenu(null);
   };
 
   const loadDirectory = async (path: string, parentIndex: number[] | null) => {
@@ -242,10 +298,8 @@ const FileExplorer: React.FC = () => {
         }));
 
         if (parentIndex === null) {
-          
           setFileTree(items);
         } else {
-          
           setFileTree((prev) => updateTreeAtPath(prev, parentIndex, items));
         }
       }
@@ -281,10 +335,8 @@ const FileExplorer: React.FC = () => {
     if (!item || !item.isDirectory) return;
 
     if (!item.expanded && (!item.children || item.children.length === 0)) {
-      
       await loadDirectory(item.path, indices);
     } else {
-      
       setFileTree((prev) => toggleExpandedAtPath(prev, indices));
     }
   };
@@ -319,12 +371,15 @@ const FileExplorer: React.FC = () => {
   };
 
   const handleFileClick = async (item: FileItem) => {
-    if (item.isDirectory) return;
+    if (item.isDirectory) {
+      setSelectedPath(item.path);
+      return;
+    }
 
     try {
       const result = await window.electronAPI.fs.readFile(item.path);
       if (result.success && result.content) {
-        const ext = item.name.split('.').pop()?.toLowerCase() || 'txt';
+        const ext = getFileExtension(item.name);
         const languageMap: Record<string, string> = {
           js: 'javascript',
           jsx: 'javascript',
@@ -366,6 +421,29 @@ const FileExplorer: React.FC = () => {
     }
   };
 
+  const handleContextMenu = (e: React.MouseEvent, item: FileItem) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setContextMenu({
+      x: e.clientX,
+      y: e.clientY,
+      path: item.path,
+      isDirectory: item.isDirectory,
+    });
+    setSelectedPath(item.path);
+  };
+
+  const handleBackgroundContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setContextMenu({
+      x: e.clientX,
+      y: e.clientY,
+      path: rootPath,
+      isDirectory: true,
+    });
+    setSelectedPath(rootPath);
+  };
+
   const renderTree = (
     items: FileItem[],
     depth: number = 0,
@@ -374,19 +452,45 @@ const FileExplorer: React.FC = () => {
     return items.map((item, index) => {
       const currentIndices = [...parentIndices, index];
       const isExpanded = item.expanded;
+      const isSelected = item.path === selectedPath;
 
       return (
         <div key={item.path}>
           <div
-            className={styles.fileItem}
+            className={`${styles.fileItem} ${isSelected ? styles.selected : ''}`}
             style={{ paddingLeft: `${depth * 12 + 10}px` }}
             onClick={() =>
               item.isDirectory ? toggleFolder(currentIndices) : handleFileClick(item)
             }
+            onContextMenu={(e) => handleContextMenu(e, item)}
             title={item.path}
           >
-            {item.isDirectory && <span className={styles.arrow}>{isExpanded ? '▾' : '▸'}</span>}
-            <span className={styles.fileIcon}>{getFileIcon(item.name, item.isDirectory)}</span>
+            {item.isDirectory && (
+              <span className={styles.arrow}>
+                <svg
+                  width="10"
+                  height="10"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  style={{
+                    transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)',
+                    transition: 'transform 0.15s ease',
+                  }}
+                >
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </span>
+            )}
+            {!item.isDirectory && <span className={styles.arrowPlaceholder} />}
+            <span className={styles.fileIcon}>
+              {item.isDirectory ? (
+                <FolderIcon open={isExpanded} />
+              ) : (
+                getFileIconComponent(item.name, false)
+              )}
+            </span>
             <span className={styles.fileName}>{item.name}</span>
           </div>
           {item.isDirectory && isExpanded && item.children && item.children.length > 0 && (
@@ -403,15 +507,29 @@ const FileExplorer: React.FC = () => {
     <div className={styles.explorer}>
       <div className={styles.toolbar}>
         <button className={styles.btnPrimary} onClick={handleOpenDirectory} title="Open Folder">
-          📂 Open
+          <OpenFolderIcon />
+          <span>Open</span>
         </button>
         {rootPath && (
           <>
-            <button className={styles.btnSecondary} onClick={handleNewFile} title="New File">
-              📄 File
+            <button className={styles.btnIcon} onClick={handleRefresh} title="Refresh">
+              <RefreshIcon />
             </button>
-            <button className={styles.btnSecondary} onClick={handleNewFolder} title="New Folder">
-              📁 Folder
+            <button
+              className={styles.btnSecondary}
+              onClick={() => handleNewFile()}
+              title="New File"
+            >
+              <NewFileIcon />
+              <span>File</span>
+            </button>
+            <button
+              className={styles.btnSecondary}
+              onClick={() => handleNewFolder()}
+              title="New Folder"
+            >
+              <NewFolderIcon />
+              <span>Folder</span>
             </button>
           </>
         )}
@@ -419,29 +537,63 @@ const FileExplorer: React.FC = () => {
 
       {rootPath && (
         <div className={styles.currentPath} title={rootPath}>
-          📁 {rootPath.split(/[/\\]/).pop() || rootPath}
+          <FolderIcon open />
+          <span>{rootPath.split(/[/\\]/).pop() || rootPath}</span>
         </div>
       )}
 
-      <div className={styles.fileList}>
+      <div className={styles.fileList} onContextMenu={handleBackgroundContextMenu}>
         {fileTree.length === 0 && !rootPath ? (
           <div className={styles.empty}>
             <p>No folder opened</p>
-            <small>Click &quot;Open&quot; to start</small>
+            <small>Click "Open" to browse a directory</small>
           </div>
         ) : fileTree.length === 0 ? (
           <div className={styles.empty}>
             <p>Empty folder</p>
+            <small>Right-click to create files or folders</small>
           </div>
         ) : (
           renderTree(fileTree)
         )}
       </div>
 
+      {contextMenu && (
+        <div
+          ref={contextMenuRef}
+          className={styles.contextMenu}
+          style={{ left: contextMenu.x, top: contextMenu.y }}
+        >
+          {contextMenu.isDirectory && (
+            <>
+              <button onClick={() => handleNewFile(contextMenu.path)}>
+                <NewFileIcon /> New File
+              </button>
+              <button onClick={() => handleNewFolder(contextMenu.path)}>
+                <NewFolderIcon /> New Folder
+              </button>
+              <div className={styles.separator} />
+            </>
+          )}
+          <button
+            onClick={() => handleRename(contextMenu.path, contextMenu.path.split('/').pop() || '')}
+          >
+            Rename
+          </button>
+          <button
+            onClick={() => handleDelete(contextMenu.path, contextMenu.isDirectory)}
+            className={styles.danger}
+          >
+            Delete
+          </button>
+        </div>
+      )}
+
       {showNewFileDialog && (
         <div className={styles.dialogOverlay} onClick={() => setShowNewFileDialog(false)}>
           <div className={styles.dialog} onClick={(e) => e.stopPropagation()}>
             <h3>Create New File</h3>
+            <p className={styles.dialogPath}>in: {selectedPath || rootPath}</p>
             <input
               type="text"
               value={newItemName}
@@ -454,8 +606,10 @@ const FileExplorer: React.FC = () => {
               }}
             />
             <div className={styles.dialogButtons}>
-              <button onClick={createNewFile}>Create</button>
               <button onClick={() => setShowNewFileDialog(false)}>Cancel</button>
+              <button onClick={createNewFile} className={styles.primary}>
+                Create
+              </button>
             </div>
           </div>
         </div>
@@ -465,6 +619,7 @@ const FileExplorer: React.FC = () => {
         <div className={styles.dialogOverlay} onClick={() => setShowNewFolderDialog(false)}>
           <div className={styles.dialog} onClick={(e) => e.stopPropagation()}>
             <h3>Create New Folder</h3>
+            <p className={styles.dialogPath}>in: {selectedPath || rootPath}</p>
             <input
               type="text"
               value={newItemName}
@@ -477,8 +632,10 @@ const FileExplorer: React.FC = () => {
               }}
             />
             <div className={styles.dialogButtons}>
-              <button onClick={createNewFolder}>Create</button>
               <button onClick={() => setShowNewFolderDialog(false)}>Cancel</button>
+              <button onClick={createNewFolder} className={styles.primary}>
+                Create
+              </button>
             </div>
           </div>
         </div>

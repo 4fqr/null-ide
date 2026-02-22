@@ -16,6 +16,9 @@ interface FileSystemAPI {
   }>;
   createFile: (filePath: string) => Promise<{ success: boolean; error?: string }>;
   createFolder: (folderPath: string) => Promise<{ success: boolean; error?: string }>;
+  deleteFile: (filePath: string) => Promise<{ success: boolean; error?: string }>;
+  deleteFolder: (folderPath: string) => Promise<{ success: boolean; error?: string }>;
+  rename: (oldPath: string, newPath: string) => Promise<{ success: boolean; error?: string }>;
 }
 
 interface DialogAPI {

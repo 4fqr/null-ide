@@ -12,7 +12,8 @@ const fsAPI = {
   stat: (filePath: string) => ipcRenderer.invoke('fs:stat', filePath),
   createFile: (filePath: string) => ipcRenderer.invoke('fs:createFile', filePath),
   createFolder: (folderPath: string) => ipcRenderer.invoke('fs:createFolder', folderPath),
-  delete: (itemPath: string) => ipcRenderer.invoke('fs:delete', itemPath),
+  deleteFile: (filePath: string) => ipcRenderer.invoke('fs:delete', filePath),
+  deleteFolder: (folderPath: string) => ipcRenderer.invoke('fs:delete', folderPath),
   rename: (oldPath: string, newPath: string) => ipcRenderer.invoke('fs:rename', oldPath, newPath),
 };
 

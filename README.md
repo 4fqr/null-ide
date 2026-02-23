@@ -23,11 +23,17 @@ Null IDE is a code editor designed for security researchers, penetration testers
 - **Cross-Platform** - Windows, Linux, macOS support
 - **VS Code-like File Explorer** - Create files/folders, rename, delete, context menu
 
+
+---
+---
 ---
 
 # INSTALLATION
 Go to the latest release and follow the instruction
 ### ( Other installation ways are temporarily disabled. )
+---
+---
+---
 
 
 #### Option 5: Flatpak (Build from Source)

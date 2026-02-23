@@ -73,9 +73,8 @@ setup_flatpak_remote() {
 install_runtime() {
     log_info "Installing required runtimes..."
     
-    flatpak install --user -y flathub org.freedesktop.Platform//23.08
-    flatpak install --user -y flathub org.freedesktop.Sdk//23.08
-    flatpak install --user -y flathub org.electronjs.Electron2.BaseApp//23.08
+    flatpak install --user -y flathub org.freedesktop.Platform//24.08
+    flatpak install --user -y flathub org.freedesktop.Sdk//24.08
     
     log_success "Runtimes installed"
 }

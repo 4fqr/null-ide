@@ -77,6 +77,13 @@ const discordAPI = {
     ipcRenderer.send('discord:update-activity', fileName),
 };
 
+const liveAPI = {
+  start: (content: string) => ipcRenderer.invoke('live:start', content),
+  stop: () => ipcRenderer.invoke('live:stop'),
+  onStatus: (callback: (isRunning: boolean, message: string) => void) =>
+    ipcRenderer.on('live:status', (_event, isRunning, message) => callback(isRunning, message)),
+};
+
 contextBridge.exposeInMainWorld('electronAPI', {
   fs: fsAPI,
   dialog: dialogAPI,
@@ -87,4 +94,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
   deephat: deephatAPI,
   terminal: terminalAPI,
   discord: discordAPI,
+  live: liveAPI,
 });

@@ -6,7 +6,16 @@ export interface EditorTab {
   name: string;
   language: string;
   content: string;
+  originalContent: string;
   modified: boolean;
+}
+
+export interface EditorSettingsState {
+  fontSize: number;
+  tabSize: number;
+  wordWrap: boolean;
+  minimap: boolean;
+  lineNumbers: 'on' | 'off' | 'relative';
 }
 
 export interface APIRequest {
@@ -49,212 +58,112 @@ interface UIState {
   leftSidebarWidth: number;
   rightSidebarWidth: number;
 
-  activeLeftPanel: string;
-  activeGalaxyTool: string | null;
-
-  tabs: EditorTab[];
-  activeTabId: string | null;
-
-  apiRequests: APIRequest[];
-  apiHistory: Array<{ request: APIRequest; response: APIResponse }>;
-  toolResults: ToolResult[];
-
-  editorSettings: {
-    fontSize: number;
-    tabSize: number;
-    wordWrap: boolean;
-    minimap: boolean;
-  };
-
-  settingsOpen: boolean;
-  aboutOpen: boolean;
-  themesOpen: boolean;
-
-  theme: 'dark';
-
-  selectedText: string;
-  setSelectedText: (text: string) => void;
-
   toggleLeftSidebar: () => void;
   toggleRightSidebar: () => void;
   toggleTerminal: () => void;
   setTerminalHeight: (height: number) => void;
-  setActiveLeftPanel: (panel: string) => void;
-  setActiveGalaxyTool: (tool: string | null) => void;
+  setLeftSidebarWidth: (width: number) => void;
+  setRightSidebarWidth: (width: number) => void;
 
+  tabs: EditorTab[];
+  activeTabId: string | null;
   openTab: (tab: EditorTab) => void;
   closeTab: (tabId: string) => void;
   closeAllTabs: () => void;
   closeOtherTabs: (tabId: string) => void;
   setActiveTab: (tabId: string) => void;
   updateTabContent: (tabId: string, content: string) => void;
-  setLeftSidebarWidth: (width: number) => void;
-  setRightSidebarWidth: (width: number) => void;
-  updateEditorSettings: (settings: Partial<UIState['editorSettings']>) => void;
+  markTabSaved: (tabId: string) => void;
+  revertTabContent: (tabId: string) => void;
 
+  apiRequests: APIRequest[];
   addAPIRequest: (request: APIRequest) => void;
-  addToAPIHistory: (request: APIRequest, response: APIResponse) => void;
+
+  toolResults: ToolResult[];
   addToolResult: (result: ToolResult) => void;
   clearToolResults: () => void;
 
+  settingsOpen: boolean;
+  aboutOpen: boolean;
+  themesOpen: boolean;
   openSettings: () => void;
   closeSettings: () => void;
   openAbout: () => void;
   closeAbout: () => void;
   openThemes: () => void;
   closeThemes: () => void;
+
+  workspacePath: string;
+  setWorkspacePath: (path: string) => void;
+
+  activeLeftPanel: string;
+  setActiveLeftPanel: (panelId: string) => void;
+
+  editorSettings: EditorSettingsState;
+  updateEditorSettings: (settings: Partial<EditorSettingsState>) => void;
+
+  activeGalaxyTool: string | null;
+  setActiveGalaxyTool: (toolId: string | null) => void;
 }
 
 export const useStore = create<UIState>((set) => ({
   mode: 'code',
+  setMode: (mode) => set({ mode }),
+
   leftSidebarVisible: true,
-  rightSidebarVisible: true,
-  terminalVisible: true,
-  terminalHeight: 300,
-  leftSidebarWidth: 250,
-  rightSidebarWidth: 250,
-  activeLeftPanel: 'explorer',
-  activeGalaxyTool: null,
-  selectedText: '',
-  apiRequests: [],
-  apiHistory: [],
-  toolResults: [],
-  editorSettings: {
-    fontSize: 15,
-    tabSize: 2,
-    wordWrap: false,
-    minimap: true,
-  },
+  rightSidebarVisible: false,
+  terminalVisible: false,
+  terminalHeight: 200,
+  leftSidebarWidth: 260,
+  rightSidebarWidth: 300,
+
+  toggleLeftSidebar: () => set((state) => ({ leftSidebarVisible: !state.leftSidebarVisible })),
+  toggleRightSidebar: () => set((state) => ({ rightSidebarVisible: !state.rightSidebarVisible })),
+  toggleTerminal: () => set((state) => ({ terminalVisible: !state.terminalVisible })),
+  setTerminalHeight: (height) => set({ terminalHeight: height }),
+  setLeftSidebarWidth: (width) => set({ leftSidebarWidth: width }),
+  setRightSidebarWidth: (width) => set({ rightSidebarWidth: width }),
+
   tabs: [
     {
       id: 'welcome',
       path: '',
       name: 'Welcome',
       language: 'markdown',
-      content: `# Welcome to Null IDE v3.0
+      content: `# Welcome to Null IDE
 
-**The Ultimate Hacker's Code Editor & Security Toolkit**
+**Security-Focused Code Editor for Linux**
 
-## 🚀 Quick Start
+## Features
 
-### Keyboard Shortcuts
-- **Ctrl+N**: New file
-- **Ctrl+O**: Open file
-- **Ctrl+S**: Save file
-- **Ctrl+W**: Close tab
-- **Ctrl+Shift+W**: Close all tabs
-- **Ctrl+Tab**: Next tab
-- **Ctrl+Shift+Tab**: Previous tab
-- **Ctrl+B**: Toggle left sidebar
-- **Ctrl+\`**: Toggle terminal
-- **Ctrl+,**: Settings
+- 120+ Security Tools
+- Monaco Editor with 112 language support
+- Integrated Terminal
+- VS Code-like File Explorer
+- DeepChat AI Integration (app.deephat.ai)
+- Live Preview Server (localhost:8080)
 
-## ⚡ Features
+**v3.5.0 Updates**: DeepChat AI sidebar with OAuth login, Go Live button for live preview, enhanced webview support, improved status bar
+`,
+      originalContent: `# Welcome to Null IDE
 
-✓ **Monaco Editor** - VS Code engine with IntelliSense
-✓ **38 Security Tools** - Advanced penetration testing arsenal
-✓ **Multi-Terminal** - Integrated PowerShell terminals
-✓ **Theme Extensions** - 8 built-in themes + custom CSS themes
-✓ **Privacy-Focused** - All data stays local, no telemetry
-✓ **Zero Errors** - Production-ready, fully tested build
+**Security-Focused Code Editor for Linux**
 
-## 🎨 Two Modes
+## Features
 
-**📝 Code Mode**: Full-featured Monaco Editor
-- Syntax highlighting for 100+ languages
-- IntelliSense & autocomplete
-- Multiple tabs & split view
-- Git integration ready
+- 120+ Security Tools
+- Monaco Editor with 112 language support
+- Integrated Terminal
+- VS Code-like File Explorer
+- DeepChat AI Integration (app.deephat.ai)
+- Live Preview Server (localhost:8080)
 
-**🛠️ Utility Mode**: 38 Professional Security Tools
-- Network scanning & reconnaissance
-- Web security testing (XSS, SQLi, CSRF, LFI)
-- Payload generation (reverse shells, web shells, shellcode)
-- Cryptographic tools (hash cracking, JWT, encryption)
-- API testing (packet analysis, CORS, OAuth, HTTP smuggling)
-
-## 🔐 Security Tools (38 Total)
-
-### Network (5 tools)
-Port Scanner • Subdomain Finder • DNS Analyzer • WHOIS • Reverse DNS
-
-### Web Security (6 tools)
-SQL Injection Tester • XSS Detector • Security Headers • LFI/RFI Scanner • CSRF Tester • Directory Fuzzer
-
-### Payloads (5 tools)
-Reverse Shell Generator • Payload Encoder • Web Shell Generator • Code Obfuscator • Shellcode Generator
-
-### Crypto (5 tools)
-Hash Cracker • Hash Generator • AES/RSA Encryption • JWT Cracker • Base64/Hex Tool
-
-### API (4 tools)
-API Tester • Packet Analyzer • HTTP Smuggling • CORS Tester
-
-### Auth (3 tools)
-Password Generator • JWT Decoder • OAuth 2.0 Tester
-
-### Developer Tools (10 tools)
-JSON Formatter • Regex Tester • UUID Generator • Timestamp Converter • Color Converter • Diff Viewer • Markdown Preview
-
-## 🎨 Theme Extensions
-
-Access **Extensions** in the left sidebar to:
-- Choose from 8 built-in professional themes
-- Install custom CSS themes
-- Create your own themes
-- Export/import theme configs
-
-Available themes: Null Dark (default), Cyber Purple, Matrix Green, Nord, Dracula, Tokyo Night, Gruvbox Dark, One Dark Pro
-
-## 🖥️ Terminal
-
-Integrated PowerShell terminals with:
-- Multiple terminal instances
-- Proper initialization (fixed blank screen bug)
-- Automatic terminal spawn
-- Full terminal output support
-
-## 🔒 Privacy Notice
-
-**100% Local** - All code, data, and settings stay on your machine.
-**No Telemetry** - Zero tracking, analytics, or external connections.
-**No Cloud** - Everything runs locally for maximum security.
-
----
-
-**v3.0 Updates**: 9 new advanced tools, terminal fixes, theme extension system, 100% working tools, zero errors
+**v3.5.0 Updates**: DeepChat AI sidebar with OAuth login, Go Live button for live preview, enhanced webview support, improved status bar
 `,
       modified: false,
     },
   ],
   activeTabId: 'welcome',
-  settingsOpen: false,
-  aboutOpen: false,
-  themesOpen: false,
-  theme: 'dark',
-
-  setMode: (mode) => set({ mode }),
-  setSelectedText: (text) => set({ selectedText: text }),
-  toggleLeftSidebar: () => set((state) => ({ leftSidebarVisible: !state.leftSidebarVisible })),
-  toggleRightSidebar: () => set((state) => ({ rightSidebarVisible: !state.rightSidebarVisible })),
-  toggleTerminal: () => set((state) => ({ terminalVisible: !state.terminalVisible })),
-  setTerminalHeight: (height) => set({ terminalHeight: height }),
-  setActiveLeftPanel: (panel) => set({ activeLeftPanel: panel }),
-  setActiveGalaxyTool: (tool) => set({ activeGalaxyTool: tool }),
-
-  addAPIRequest: (request) =>
-    set((state) => ({
-      apiRequests: [...state.apiRequests, request],
-    })),
-  addToAPIHistory: (request, response) =>
-    set((state) => ({
-      apiHistory: [...state.apiHistory, { request, response }],
-    })),
-  addToolResult: (result) =>
-    set((state) => ({
-      toolResults: [result, ...state.toolResults].slice(0, 100),
-    })),
-  clearToolResults: () => set({ toolResults: [] }),
 
   openTab: (tab) =>
     set((state) => {
@@ -282,38 +191,75 @@ Integrated PowerShell terminals with:
   closeAllTabs: () => set({ tabs: [], activeTabId: null }),
 
   closeOtherTabs: (tabId) =>
-    set((state) => {
-      const keepTab = state.tabs.find((t) => t.id === tabId);
-      return keepTab ? { tabs: [keepTab], activeTabId: tabId } : state;
-    }),
+    set((state) => ({
+      tabs: state.tabs.filter((t) => t.id === tabId),
+      activeTabId: tabId,
+    })),
 
-  setActiveTab: (tabId) => {
-    set({ activeTabId: tabId });
-
-    const state = useStore.getState();
-    const tab = state.tabs.find((t) => t.id === tabId);
-    const fileName = tab && tab.name !== 'Welcome' ? tab.name : null;
-    if (window.electronAPI?.discord) {
-      window.electronAPI.discord.updateActivity(fileName);
-    }
-  },
+  setActiveTab: (tabId) => set({ activeTabId: tabId }),
 
   updateTabContent: (tabId, content) =>
     set((state) => ({
-      tabs: state.tabs.map((tab) => (tab.id === tabId ? { ...tab, content, modified: true } : tab)),
+      tabs: state.tabs.map((tab) =>
+        tab.id === tabId ? { ...tab, content, modified: content !== tab.originalContent } : tab
+      ),
     })),
 
-  setLeftSidebarWidth: (width) => set({ leftSidebarWidth: width }),
-  setRightSidebarWidth: (width) => set({ rightSidebarWidth: width }),
-  updateEditorSettings: (newSettings) =>
+  markTabSaved: (tabId) =>
     set((state) => ({
-      editorSettings: { ...state.editorSettings, ...newSettings },
+      tabs: state.tabs.map((tab) =>
+        tab.id === tabId ? { ...tab, modified: false, originalContent: tab.content } : tab
+      ),
     })),
 
+  revertTabContent: (tabId) =>
+    set((state) => ({
+      tabs: state.tabs.map((tab) =>
+        tab.id === tabId ? { ...tab, content: tab.originalContent, modified: false } : tab
+      ),
+    })),
+
+  apiRequests: [],
+  addAPIRequest: (request) =>
+    set((state) => ({
+      apiRequests: [request, ...state.apiRequests].slice(0, 50),
+    })),
+
+  toolResults: [],
+  addToolResult: (result) =>
+    set((state) => ({
+      toolResults: [result, ...state.toolResults].slice(0, 100),
+    })),
+  clearToolResults: () => set({ toolResults: [] }),
+
+  settingsOpen: false,
+  aboutOpen: false,
+  themesOpen: false,
   openSettings: () => set({ settingsOpen: true }),
   closeSettings: () => set({ settingsOpen: false }),
   openAbout: () => set({ aboutOpen: true }),
   closeAbout: () => set({ aboutOpen: false }),
   openThemes: () => set({ themesOpen: true }),
   closeThemes: () => set({ themesOpen: false }),
+
+  workspacePath: '',
+  setWorkspacePath: (path) => set({ workspacePath: path }),
+
+  activeLeftPanel: 'explorer',
+  setActiveLeftPanel: (panelId) => set({ activeLeftPanel: panelId }),
+
+  editorSettings: {
+    fontSize: 14,
+    tabSize: 2,
+    wordWrap: true,
+    minimap: true,
+    lineNumbers: 'on',
+  },
+  updateEditorSettings: (settings) =>
+    set((state) => ({
+      editorSettings: { ...state.editorSettings, ...settings },
+    })),
+
+  activeGalaxyTool: null,
+  setActiveGalaxyTool: (toolId) => set({ activeGalaxyTool: toolId }),
 }));

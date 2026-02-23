@@ -114,8 +114,12 @@ export function clearActivity() {
 export function disconnectDiscordRPC() {
   if (rpc) {
     try {
-      rpc.destroy().catch(() => {});
-    } catch {}
+      rpc.destroy().catch(() => {
+        // ignore destroy errors
+      });
+    } catch {
+      // ignore errors
+    }
     rpc = null;
     connected = false;
     retryCount = 0;

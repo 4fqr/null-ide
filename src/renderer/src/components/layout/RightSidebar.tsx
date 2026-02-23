@@ -1,15 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useStore } from '../../store/store';
-import { RobotIcon, RefreshIcon } from '../icons/Icons';
+import { RobotIcon, RefreshIcon, ExternalLinkIcon } from '../icons/Icons';
 import styles from './RightSidebar.module.css';
+
+const DEEPCHAT_URL = 'https://app.deephat.ai/';
 
 const RightSidebar: React.FC = () => {
   const mode = useStore((state) => state.mode);
   const rightSidebarWidth = useStore((state) => state.rightSidebarWidth);
   const setRightSidebarWidth = useStore((state) => state.setRightSidebarWidth);
   const [isResizing, setIsResizing] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [iframeKey, setIframeKey] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const webviewRef = useRef<HTMLWebViewElement>(null);
 
   const handleResizeMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -48,41 +52,36 @@ const RightSidebar: React.FC = () => {
   }, [isResizing, setRightSidebarWidth]);
 
   useEffect(() => {
-    const updatePosition = () => {
-      if (containerRef.current && sidebarRef.current && window.electronAPI?.deephat) {
-        const rect = containerRef.current.getBoundingClientRect();
+    const webview = webviewRef.current;
+    if (!webview) return;
 
-        window.electronAPI.deephat.position({
-          x: Math.floor(rect.left) + 30,
-          y: Math.floor(rect.top),
-          width: Math.floor(rect.width) - 30,
-          height: Math.floor(rect.height),
-        });
+    const handleDidStartLoading = () => setIsLoading(true);
+    const handleDidStopLoading = () => setIsLoading(false);
+    const handleNewWindow = (e: Event) => {
+      const customEvent = e as CustomEvent<{ url: string }>;
+      if (customEvent.detail?.url) {
+        window.open(customEvent.detail.url, '_blank');
       }
     };
 
-    updatePosition();
-    if (window.electronAPI?.deephat) {
-      window.electronAPI.deephat.toggle(true);
-    }
-
-    const resizeObserver = new ResizeObserver(updatePosition);
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
-    }
+    webview.addEventListener('did-start-loading', handleDidStartLoading);
+    webview.addEventListener('did-stop-loading', handleDidStopLoading);
+    webview.addEventListener('new-window', handleNewWindow);
 
     return () => {
-      resizeObserver.disconnect();
-      if (window.electronAPI?.deephat) {
-        window.electronAPI.deephat.toggle(false);
-      }
+      webview.removeEventListener('did-start-loading', handleDidStartLoading);
+      webview.removeEventListener('did-stop-loading', handleDidStopLoading);
+      webview.removeEventListener('new-window', handleNewWindow);
     };
-  }, []);
+  }, [iframeKey]);
 
   const handleReload = () => {
-    if (window.electronAPI?.deephat) {
-      window.electronAPI.deephat.reload();
-    }
+    setIsLoading(true);
+    setIframeKey((prev) => prev + 1);
+  };
+
+  const handleOpenExternal = () => {
+    window.open(DEEPCHAT_URL, '_blank');
   };
 
   return (
@@ -92,24 +91,45 @@ const RightSidebar: React.FC = () => {
       <div className={styles.header}>
         <div className={styles.title}>
           <span className={styles.icon}>
-            <RobotIcon size={24} />
+            <RobotIcon size={20} />
           </span>
           <div className={styles.titleText}>
-            <div className={styles.name}>DeepHat AI</div>
+            <div className={styles.name}>DeepChat AI</div>
             <div className={styles.subtitle}>
               {mode === 'code' ? 'Code Assistant' : 'Security Expert'}
             </div>
           </div>
         </div>
-        <button className={styles.reloadBtn} onClick={handleReload} title="Reload">
-          <RefreshIcon size={18} />
-        </button>
+        <div className={styles.headerActions}>
+          <button className={styles.actionBtn} onClick={handleReload} title="Reload">
+            <RefreshIcon size={16} />
+          </button>
+          <button className={styles.actionBtn} onClick={handleOpenExternal} title="Open in Browser">
+            <ExternalLinkIcon size={16} />
+          </button>
+        </div>
       </div>
 
-      <div ref={containerRef} className={styles.browserContainer}></div>
+      <div className={styles.browserContainer}>
+        {isLoading && (
+          <div className={styles.loadingOverlay}>
+            <div className={styles.spinner} />
+            <span>Loading DeepChat AI...</span>
+          </div>
+        )}
+        <webview
+          key={iframeKey}
+          ref={webviewRef}
+          src={DEEPCHAT_URL}
+          className={styles.iframe}
+          allowpopups={true}
+          style={{ width: '100%', height: '100%', border: 'none', background: '#fff' }}
+        />
+      </div>
 
-      <div className={styles.disclaimer}>
-        <small>External content from app.deephat.ai</small>
+      <div className={styles.footer}>
+        <div className={styles.statusDot} />
+        <span>Connected to app.deephat.ai</span>
       </div>
     </div>
   );

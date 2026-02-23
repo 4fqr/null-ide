@@ -37,7 +37,7 @@ export default function CommandInjectionTester() {
     const testResults: { payload: string; status: string }[] = [];
 
     for (let i = 0; i < payloads.length; i++) {
-      const { payload, desc } = payloads[i];
+      const { payload } = payloads[i];
       const separator = url.includes('?') ? '&' : '?';
       const testUrl = `${url}${separator}${parameter}=${encodeURIComponent(payload)}`;
       setProgress(Math.round(((i + 1) / payloads.length) * 100));

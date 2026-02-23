@@ -1409,7 +1409,7 @@ export const monarchLanguageDefinitions: Record<string, languages.IMonarchLangua
       whitespace: [
         [/[ \t\r\n]+/, 'white'],
         [/\/\/.*$/, 'comment'],
-        [/\/\*[\s\S]*?\*\
+        [/\/\*[\s\S]*?\*\//, 'comment'],
         [/\/\/\/.*$/, 'comment.doc'],
       ],
 
@@ -3063,7 +3063,7 @@ export const monarchLanguageDefinitions: Record<string, languages.IMonarchLangua
       whitespace: [
         [/[ \t\r\n]+/, 'white'],
         [/#.*$/, 'comment'],
-        [/\/\*[\s\S]*?\*\
+        [/\/\*[\s\S]*?\*\//, 'comment'],
         [/=begin[\s\S]*?=end/, 'comment.block'],
       ],
 

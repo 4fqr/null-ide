@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useStore } from '../../store/store';
 import ToolWrapper from './ToolWrapper';
 import styles from './SharedTool.module.css';
 import { ClockIcon, CopyIcon } from '../common/Icons';
 
 export default function TimestampConverter() {
-  const addToolResult = useStore((state) => state.addToolResult);
   const [timestamp, setTimestamp] = useState('');
   const [currentTime, setCurrentTime] = useState(Date.now());
   const [converted, setConverted] = useState<{

@@ -95,6 +95,12 @@ interface DiscordAPI {
   updateActivity: (fileName: string | null) => void;
 }
 
+interface LiveAPI {
+  start: (content: string) => Promise<{ success: boolean; error?: string }>;
+  stop: () => Promise<{ success: boolean }>;
+  onStatus: (callback: (isRunning: boolean, message: string) => void) => void;
+}
+
 interface ElectronAPI {
   fs: FileSystemAPI;
   dialog: DialogAPI;
@@ -105,6 +111,7 @@ interface ElectronAPI {
   deephat: DeepHatAPI;
   terminal: TerminalAPI;
   discord: DiscordAPI;
+  live: LiveAPI;
 }
 
 declare global {

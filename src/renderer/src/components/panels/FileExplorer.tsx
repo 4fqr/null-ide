@@ -113,7 +113,7 @@ const getFileIconComponent = (fileName: string, isDirectory: boolean): React.Rea
     svelte: '#ff3e00',
   };
 
-  const color = iconColors[ext] || 'var(--color-accent)';
+  const _color = iconColors[ext] || 'var(--color-accent)';
   return <FileIcon />;
 };
 
@@ -217,6 +217,7 @@ const FileExplorer: React.FC = () => {
         name: newItemName,
         language: languageMap[ext] || 'plaintext',
         content: '',
+        originalContent: '',
         modified: false,
       });
 
@@ -413,6 +414,7 @@ const FileExplorer: React.FC = () => {
           name: item.name,
           language: languageMap[ext] || 'plaintext',
           content: result.content,
+          originalContent: result.content,
           modified: false,
         });
       }

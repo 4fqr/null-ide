@@ -1,5 +1,4 @@
 .sidebar {
-  width: 400px;
   height: 100%;
   background: var(--color-bg-secondary);
   border-left: 1px solid var(--color-border);
@@ -7,15 +6,18 @@
   flex-direction: column;
   animation: slideInRight var(--transition-base);
   position: relative;
+  min-width: 300px;
+  max-width: 800px;
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
   border-bottom: 1px solid var(--color-border);
   background: var(--color-bg-tertiary);
+  flex-shrink: 0;
 }
 
 .title {
@@ -25,7 +27,27 @@
 }
 
 .icon {
-  font-size: var(--font-size-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--color-accent) 0%, #00ffaa 100%);
+  color: var(--color-bg-primary);
+  animation: iconGlow 3s ease-in-out infinite;
+}
+
+@keyframes iconGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(0, 217, 255, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 15px rgba(0, 217, 255, 0.5),
+      0 0 25px rgba(0, 255, 170, 0.2);
+  }
 }
 
 .titleText {
@@ -35,8 +57,9 @@
 
 .name {
   font-weight: 600;
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
   font-family: var(--font-mono);
+  color: var(--color-text-primary);
 }
 
 .subtitle {
@@ -44,21 +67,32 @@
   color: var(--color-text-tertiary);
 }
 
-.reloadBtn {
-  width: 32px;
-  height: 32px;
+.headerActions {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.actionBtn {
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
-  font-size: var(--font-size-lg);
+  border-radius: 6px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
   transition: all var(--transition-fast);
-  opacity: 0.7;
+  cursor: pointer;
 }
 
-.reloadBtn:hover {
-  opacity: 1;
+.actionBtn:hover {
   background: var(--color-bg-hover);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.actionBtn:first-child:hover {
   transform: rotate(90deg);
 }
 
@@ -66,34 +100,99 @@
   flex: 1;
   background: var(--color-bg-primary);
   position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-.disclaimer {
-  padding: var(--spacing-xs) var(--spacing-sm);
-  text-align: center;
+.iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #fff;
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-bg-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  z-index: 10;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-md);
   background: var(--color-bg-tertiary);
   border-top: 1px solid var(--color-border);
   color: var(--color-text-tertiary);
-  font-size: var(--font-size-xs);
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00ff88;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 0 4px rgba(0, 255, 136, 0);
+  }
 }
 
 .resizeHandle {
   position: absolute;
   top: 0;
-  left: -15px;
-  width: 30px;
+  left: -4px;
+  width: 8px;
   height: 100%;
   cursor: ew-resize;
   background: transparent;
-  transition: background 0.15s ease;
   z-index: 99999;
+  transition: background 0.15s ease;
 }
 
 .resizeHandle:hover {
-  background: rgba(0, 255, 170, 0.03);
+  background: rgba(0, 255, 170, 0.15);
 }
 
 .resizeHandle:active {
-  background: rgba(0, 255, 170, 0.08);
-  cursor: ew-resize !important;
+  background: rgba(0, 255, 170, 0.25);
 }

@@ -115,6 +115,22 @@
     <content_attribute id="social-chat">mild</content_attribute>
   </content_rating>
   <releases>
+    <release version="3.5.0" date="2025-02-23">
+      <description>
+        <p>Major feature update with DeepChat AI integration and Live Preview Server.</p>
+        <ul>
+          <li>Added DeepChat AI sidebar with OAuth login support (GitHub/Google)</li>
+          <li>Added Go Live button for live preview server on localhost:8080</li>
+          <li>Live preview now supports HTML, Markdown, and syntax-highlighted code files</li>
+          <li>Enhanced right sidebar with resizable DeepChat AI panel</li>
+          <li>Improved webview support for OAuth popup authentication</li>
+          <li>Added status bar indicators for live server and AI connection</li>
+          <li>Better error handling and user feedback</li>
+          <li>Performance improvements and bug fixes</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/nullsec/null-ide/releases/tag/v3.5.0</url>
+    </release>
     <release version="3.4.0" date="2025-02-22">
       <description>
         <p>Major update with expanded Flatpak support and improved security tools.</p>

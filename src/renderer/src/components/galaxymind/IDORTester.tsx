@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ToolWrapper from './ToolWrapper';
 import styles from './SharedTool.module.css';
-import { DatabaseIcon, CopyIcon } from '../common/Icons';
+import { DatabaseIcon } from '../common/Icons';
 
 interface IDORResult {
   id: string;

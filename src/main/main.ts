@@ -56,19 +56,25 @@ if (process.argv.length > 1) {
 
 function createWindow() {
   console.log('Creating main window...');
+  const iconPath =
+    process.platform === 'linux' && process.env.FLATPAK_ID
+      ? '/app/lib/null-ide/null-ide.png'
+      : path.join(__dirname, '../../null-ide.png');
+
   mainWindow = new BrowserWindow({
     width: 1600,
     height: 1000,
     minWidth: 1200,
     minHeight: 700,
     title: 'Null IDE – NullSec',
-    icon: path.join(__dirname, '../../null-ide.png'),
+    icon: iconPath,
     backgroundColor: '#0a0a0a',
     webPreferences: {
       preload: path.join(__dirname, '../preload/preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
       webSecurity: true,
+      webviewTag: true,
     },
     autoHideMenuBar: true,
     show: false,
@@ -650,4 +656,55 @@ ipcMain.on('discord:update-activity', (_event, fileName: string | null) => {
   } else {
     updateActivity('Idling', null);
   }
+});
+
+let liveServer: ReturnType<typeof import('http').createServer> | null = null;
+let liveContent: string = '';
+
+ipcMain.handle('live:start', async (_event, content: string) => {
+  if (liveServer) {
+    liveServer.close();
+    liveServer = null;
+  }
+
+  liveContent = content;
+
+  return new Promise((resolve) => {
+    const http = require('http');
+
+    const server = http.createServer((req: any, res: any) => {
+      res.writeHead(200, {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Access-Control-Allow-Origin': '*',
+      });
+      res.end(liveContent);
+    });
+
+    server.on('error', (err: Error) => {
+      console.error('Live server error:', err);
+      liveServer = null;
+      resolve({ success: false, error: err.message });
+    });
+
+    server.listen(8080, '127.0.0.1', () => {
+      liveServer = server;
+      console.log('Live preview started at http://localhost:8080');
+      if (mainWindow && !mainWindow.isDestroyed()) {
+        mainWindow.webContents.send('live:status', true, 'Live at localhost:8080');
+      }
+      resolve({ success: true });
+    });
+  });
+});
+
+ipcMain.handle('live:stop', async () => {
+  if (liveServer) {
+    liveServer.close();
+    liveServer = null;
+    console.log('Live preview stopped');
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('live:status', false, '');
+    }
+  }
+  return { success: true };
 });

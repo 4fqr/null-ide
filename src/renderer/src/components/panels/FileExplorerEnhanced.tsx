@@ -286,6 +286,7 @@ const FileExplorer = () => {
           name: item.name,
           path: item.path,
           content: result.content,
+          originalContent: result.content,
           language: languageMap[ext] || 'plaintext',
           modified: false,
         };

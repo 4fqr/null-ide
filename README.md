@@ -25,6 +25,11 @@ Null IDE is a code editor designed for security researchers, penetration testers
 
 ---
 
+# INSTALLATION
+Go to the latest release and follow the instruction
+### ( Other installation ways are temporarily disabled. )
+
+
 #### Option 5: Flatpak (Build from Source)
 
 **Prerequisites:**

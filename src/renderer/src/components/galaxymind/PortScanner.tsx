@@ -53,13 +53,11 @@ export default function PortScanner() {
     for (let port = startPort; port <= endPort; port++) {
       try {
         const res = await window.electronAPI.net.scanPort(host, port, 300);
-        if (res.success && res.open) {
+        if (res.success && res.isOpen) {
           openPorts.push({ port, open: true, service: commonServices[port] });
           setResults([...openPorts]);
         }
-      } catch {
-        
-      }
+      } catch {}
       scanned++;
       setProgress(Math.round((scanned / totalPorts) * 100));
     }

@@ -28,7 +28,7 @@ const MongoScanner: React.FC = () => {
 
       try {
         const result = await window.electronAPI.net.scanPort(host, portNum);
-        found.push({ test: 'Port Status', result: result.open ? 'OPEN' : 'Closed' });
+        found.push({ test: 'Port Status', result: result.isOpen ? 'OPEN' : 'Closed' });
       } catch {
         found.push({ test: 'Port Status', result: 'Error' });
       }

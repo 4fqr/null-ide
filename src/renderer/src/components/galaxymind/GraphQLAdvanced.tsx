@@ -24,7 +24,6 @@ const GraphQLAdvanced: React.FC = () => {
     try {
       const found: Array<{ test: string; result: string }> = [];
 
-      
       const introspectionQuery = { query: '{ __schema { types { name } } }' };
       try {
         const result = await window.electronAPI.net.httpFetch(targetUrl, {
@@ -34,13 +33,13 @@ const GraphQLAdvanced: React.FC = () => {
           timeout: 5000,
         });
 
-        const enabled = String(result).includes('__schema') || String(result).includes('types');
+        const enabled =
+          result.success && (result.data?.includes('__schema') || result.data?.includes('types'));
         found.push({ test: 'Introspection', result: enabled ? 'ENABLED (Vuln)' : 'Disabled' });
       } catch {
         found.push({ test: 'Introspection', result: 'Error' });
       }
 
-      
       const fieldSuggestion = { query: '{ __type(name: "Query") { fields { name } } }' };
       try {
         const result = await window.electronAPI.net.httpFetch(targetUrl, {
@@ -50,13 +49,12 @@ const GraphQLAdvanced: React.FC = () => {
           timeout: 5000,
         });
 
-        const enabled = String(result).includes('fields');
+        const enabled = result.success && result.data?.includes('fields');
         found.push({ test: 'Field Suggestions', result: enabled ? 'Available' : 'Blocked' });
       } catch {
         found.push({ test: 'Field Suggestions', result: 'Error' });
       }
 
-      
       const batchQuery = [{ query: '{ __typename }' }, { query: '{ __typename }' }];
       try {
         const result = await window.electronAPI.net.httpFetch(targetUrl, {
@@ -72,7 +70,6 @@ const GraphQLAdvanced: React.FC = () => {
         found.push({ test: 'Batch Queries', result: 'Blocked' });
       }
 
-      
       const deepQuery = { query: '{ a { b { c { d { e { f { g { h } } } } } } } }' };
       try {
         const result = await window.electronAPI.net.httpFetch(targetUrl, {
@@ -82,13 +79,12 @@ const GraphQLAdvanced: React.FC = () => {
           timeout: 5000,
         });
 
-        const blocked = result.status === 400 || String(result).includes('depth');
+        const blocked = result.status === 400 || (result.success && result.data?.includes('depth'));
         found.push({ test: 'Depth Limiting', result: blocked ? 'Protected' : 'NOT PROTECTED' });
       } catch {
         found.push({ test: 'Depth Limiting', result: 'Protected' });
       }
 
-      
       const costlyQuery = { query: '{ __schema { types { name fields { name } } } }' };
       try {
         await window.electronAPI.net.httpFetch(targetUrl, {

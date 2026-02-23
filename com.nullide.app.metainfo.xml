@@ -3,16 +3,16 @@
   <id>com.nullide.app</id>
   <name>Null IDE</name>
   <summary>The Ultimate Hacker's Code Editor &amp; Security Toolkit</summary>
-  <developer id="com.nullide">
-    <name>NullSec</name>
+  <developer id="io.github.4fqr">
+    <name>4fqr</name>
   </developer>
   <launchable type="desktop-id">com.nullide.app.desktop</launchable>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>MIT</project_license>
-  <url type="homepage">https://github.com/nullsec/null-ide</url>
-  <url type="bugtracker">https://github.com/nullsec/null-ide/issues</url>
-  <url type="vcs-browser">https://github.com/nullsec/null-ide</url>
-  <url type="donation">https://github.com/sponsors/nullsec</url>
+  <url type="homepage">https://github.com/4fqr/null-ide</url>
+  <url type="bugtracker">https://github.com/4fqr/null-ide/issues</url>
+  <url type="vcs-browser">https://github.com/4fqr/null-ide</url>
+  <url type="donation">https://github.com/sponsors/4fqr</url>
   <description>
     <p>
       Null IDE is a professional-grade code editor and security toolkit designed for 
@@ -46,15 +46,15 @@
   </description>
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/nullsec/null-ide/main/screenshots/main.png</image>
+      <image>https://raw.githubusercontent.com/4fqr/null-ide/main/screenshots/main.png</image>
       <caption>Main editor interface with security toolkit</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/nullsec/null-ide/main/screenshots/terminal.png</image>
+      <image>https://raw.githubusercontent.com/4fqr/null-ide/main/screenshots/terminal.png</image>
       <caption>Integrated terminal with PTY support</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/nullsec/null-ide/main/screenshots/tools.png</image>
+      <image>https://raw.githubusercontent.com/4fqr/null-ide/main/screenshots/tools.png</image>
       <caption>Security testing tools panel</caption>
     </screenshot>
   </screenshots>
@@ -129,7 +129,7 @@
           <li>Performance improvements and bug fixes</li>
         </ul>
       </description>
-      <url type="details">https://github.com/nullsec/null-ide/releases/tag/v3.5.0</url>
+      <url type="details">https://github.com/4fqr/null-ide/releases/tag/v3.5.0</url>
     </release>
     <release version="3.4.0" date="2025-02-22">
       <description>
@@ -143,7 +143,7 @@
           <li>Performance improvements for large files</li>
         </ul>
       </description>
-      <url type="details">https://github.com/nullsec/null-ide/releases/tag/v3.4.0</url>
+      <url type="details">https://github.com/4fqr/null-ide/releases/tag/v3.4.0</url>
     </release>
     <release version="3.3.0" date="2025-01-15">
       <description>

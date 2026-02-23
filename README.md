@@ -25,52 +25,6 @@ Null IDE is a code editor designed for security researchers, penetration testers
 
 ---
 
-## Installation
-
-### Windows
-
-Download and run the installer from [Releases](https://github.com/4fqr/null-ide/releases).
-
-```cmd
-Null-IDE-Installer.exe
-```
-
-### Linux
-
-#### Option 1: AppImage (Easiest)
-
-Download from [Releases](https://github.com/4fqr/null-ide/releases):
-
-```bash
-chmod +x Null-IDE-3.4.0.AppImage
-./Null-IDE-3.4.0.AppImage
-```
-
-#### Option 2: DEB Package (Debian/Ubuntu/Mint)
-
-```bash
-# Download from Releases, then:
-sudo dpkg -i null-ide_3.4.0_amd64.deb
-sudo apt-get install -f  # Fix dependencies if needed
-null-ide
-```
-
-#### Option 3: RPM Package (Fedora/RHEL/CentOS)
-
-```bash
-# Download from Releases, then:
-sudo dnf install null-ide-3.4.0.x86_64.rpm
-null-ide
-```
-
-#### Option 4: Snap Package
-
-```bash
-# Download from Releases, then:
-sudo snap install --dangerous null-ide_3.4.0_amd64.snap --classic
-null-ide
-```
-
 #### Option 5: Flatpak (Build from Source)
 
 **Prerequisites:**

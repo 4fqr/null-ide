@@ -95,7 +95,7 @@
         {
           "type": "archive",
           "url": "https://github.com/electron/electron/releases/download/v35.7.5/electron-v35.7.5-linux-x64.zip",
-          "sha256": "368d155a2189e1056d111d334b712779e77066fce1f5ab935b22c4ef544eaa29"",
+          "sha256": "368d155a2189e1056d111d334b712779e77066fce1f5ab935b22c4ef544eaa29",
           "strip-components": 0
         }
       ]

@@ -1,3 +1,11 @@
+/*
+ * Null IDE - The Ultimate Hacker's Code Editor & Security Toolkit
+ * Copyright (c) 2026 4fqr (https://github.com/4fqr)
+ *
+ * Licensed under a custom license - see LICENSE file for details.
+ * Commercial redistribution and reselling are strictly prohibited.
+ * Official distribution: https://github.com/4fqr/null-ide
+ */
 import { app, BrowserWindow, ipcMain, BrowserView } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';

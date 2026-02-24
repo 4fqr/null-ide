@@ -1,10 +1,10 @@
 {
   "name": "null-ide",
-  "version": "3.5.0",
+  "version": "3.7.0",
   "description": "The Ultimate Hacker's Code Editor & Security Toolkit - 80+ Tools: Terminal with node-pty, SQLi/XSS/LDAP/XPath/NoSQL Injection, JWT Analysis, GraphQL Scanner, Race Conditions, Cache Poisoning, DOM XSS, DNS Rebinding, API Rate Limiting, DeepChat AI Integration, Live Preview Server, and more",
   "main": "dist/main/main.js",
-  "author": "NullSec",
-  "license": "MIT",
+  "author": "4fqr",
+  "license": "SEE LICENSE IN LICENSE",
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run dev:renderer\" \"npm run dev:electron\"",

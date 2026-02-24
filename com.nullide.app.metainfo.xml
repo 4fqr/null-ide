@@ -8,7 +8,7 @@
   </developer>
   <launchable type="desktop-id">com.nullide.app.desktop</launchable>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>MIT</project_license>
+  <project_license>LicenseRef-proprietary=https://github.com/4fqr/null-ide/blob/main/LICENSE</project_license>
   <url type="homepage">https://github.com/4fqr/null-ide</url>
   <url type="bugtracker">https://github.com/4fqr/null-ide/issues</url>
   <url type="vcs-browser">https://github.com/4fqr/null-ide</url>
@@ -115,6 +115,19 @@
     <content_attribute id="social-chat">mild</content_attribute>
   </content_rating>
   <releases>
+    <release version="3.7.0" date="2026-02-24">
+      <description>
+        <p>Bug fixes and CI/CD improvements.</p>
+        <ul>
+          <li>Fixed PortScanner, RedisScanner, MongoScanner API response handling</li>
+          <li>Fixed GraphQLAdvanced data parsing</li>
+          <li>Added native WHOIS lookup via TCP protocol (no external API)</li>
+          <li>Improved Flatpak release automation</li>
+          <li>Updated license to prevent unauthorized redistribution</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/4fqr/null-ide/releases/tag/v3.7.0</url>
+    </release>
     <release version="3.5.0" date="2025-02-23">
       <description>
         <p>Major feature update with DeepChat AI integration and Live Preview Server.</p>

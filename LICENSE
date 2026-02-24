@@ -1,0 +1,72 @@
+Null IDE License
+================
+
+Copyright (c) 2026 4fqr (https://github.com/4fqr)
+
+Version 1.0
+
+TERMS AND CONDITIONS
+--------------------
+
+1. PERMISSIONS
+   You ARE permitted to:
+   - Use this software for personal, educational, and non-commercial purposes
+   - View, study, and modify the source code for learning purposes
+   - Share the original, unmodified source code with proper attribution
+   - Contribute improvements via pull requests to the official repository
+   - Create personal forks for your own use
+
+2. RESTRICTIONS
+   You are NOT permitted to:
+   - Sell, rent, lease, or license this software or any derivative works
+   - Redistribute this software commercially or for profit
+   - Remove, alter, or obscure any copyright notices, trademarks, or attribution
+   - Use this software as the basis for a competing product or service
+   - Rebrand this software under a different name for distribution
+   - Include this software in commercial software bundles
+   - Sublicense any rights granted under this license
+   - Use the "Null IDE", "NullIDE", or "NullSec" branding without written permission
+
+3. COMMERCIAL USE
+   Commercial use requires a separate commercial license. Contact the author
+   at the official repository for commercial licensing inquiries.
+
+4. DERIVATIVE WORKS
+   - Derivative works MUST clearly indicate they are derived from Null IDE
+   - Derivative works MUST include attribution to the original author
+   - Derivative works MUST be distributed under the same license terms
+   - Derivative works CANNOT be sold or commercially distributed
+
+5. ATTRIBUTION
+   Any use of this software must include the following attribution:
+   
+   "Null IDE by 4fqr - https://github.com/4fqr/null-ide"
+
+6. NO WARRANTY
+   THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
+
+7. TRADEMARKS
+   "Null IDE", "NullIDE", "NullSec", and associated logos are trademarks of the
+   author. Use of these trademarks is prohibited without written permission.
+
+8. ENFORCEMENT
+   Violation of any terms of this license automatically terminates your right to
+   use this software. The author reserves the right to pursue legal action
+   against any violation.
+
+9. OFFICIAL DISTRIBUTION
+   The only official distribution channels are:
+   - GitHub Repository: https://github.com/4fqr/null-ide
+   - GitHub Releases: https://github.com/4fqr/null-ide/releases
+   
+   Downloads from any other source are unauthorized and may contain malicious code.
+
+10. GOVERNING LAW
+    This license shall be governed by and construed in accordance with the laws
+    of the jurisdiction in which the author resides.

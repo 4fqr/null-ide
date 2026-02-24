@@ -343,7 +343,24 @@ npm run dev
 
 ## License
 
-MIT License - Copyright (c) 2026 NullSec
+**Custom License - All Rights Reserved**
+
+Copyright (c) 2026 4fqr
+
+- ✅ Free for personal, educational, and non-commercial use
+- ✅ Open source - view and learn from the code
+- ❌ **Commercial redistribution prohibited**
+- ❌ **Reselling prohibited**
+- ❌ **Rebranding prohibited**
+
+See [LICENSE](LICENSE) for full terms.
+
+**Official distribution only at:**
+
+- https://github.com/4fqr/null-ide
+- https://github.com/4fqr/null-ide/releases
+
+Downloads from other sources are unauthorized.
 
 ---
 

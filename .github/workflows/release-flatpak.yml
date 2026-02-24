@@ -49,16 +49,18 @@ jobs:
 
       - name: Create OSTree Repository
         run: |
-          # Create a proper repo directory
-          mkdir -p repo-pages
+          # The flatpak-builder action creates a 'repo' directory with the build
+          # List what we have
+          ls -la repo/ 2>/dev/null || echo "No repo directory"
+          ls -la .flatpak-builder/ 2>/dev/null || echo "No .flatpak-builder directory"
 
-          # Initialize OSTree repository
-          ostree init --mode=archive-z2 --repo=repo-pages
-
-          # Export the build to the repo
-          flatpak build-export repo-pages .flatpak-builder/rofiles/rofiles-* $APP_ID || \
-          flatpak build-export repo-pages .flatpak-builder/build $APP_ID || \
-          flatpak build-export repo-pages build-dir $APP_ID || true
+          # If repo exists from flatpak-builder, use it; otherwise create empty one
+          if [ -d "repo" ]; then
+            cp -r repo repo-pages
+          else
+            mkdir -p repo-pages
+            ostree init --mode=archive-z2 --repo=repo-pages
+          fi
 
           # Update repository metadata
           flatpak build-update-repo repo-pages --title="Null IDE Repository"

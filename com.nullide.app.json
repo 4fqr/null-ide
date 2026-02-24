@@ -105,9 +105,38 @@
       ]
     },
     {
-      "name": "null-ide",
+      "name": "electron-node-headers",
       "buildsystem": "simple",
       "build-commands": [
+        "mkdir -p /app/lib/electron-headers",
+        "tar -xzf node-headers.tar.gz -C /app/lib/electron-headers --strip-components=1"
+      ],
+      "sources": [
+        {
+          "type": "file",
+          "url": "https://electronjs.org/headers/v35.7.5/node-v35.7.5-headers.tar.gz",
+          "sha256": "517f40c12493db37bb95b1b2c9f81e66dcaeeab97ae8d1f9fd25c33778dfb197",
+          "dest-filename": "node-headers.tar.gz"
+        }
+      ]
+    },
+    {
+      "name": "null-ide",
+      "buildsystem": "simple",
+      "build-options": {
+        "env": {
+          "npm_config_cache": "/run/build/null-ide/npm-cache",
+          "npm_config_nodedir": "/app/lib/electron-headers",
+          "ELECTRON_SKIP_BINARY_DOWNLOAD": "1",
+          "HOME": "/run/build/null-ide"
+        },
+        "append-path": "/app/bin:/usr/bin",
+        "build-args": ["--share=network"]
+      },
+      "build-commands": [
+        "npm install --legacy-peer-deps",
+        "npm run build",
+        "npm rebuild node-pty",
         "install -Dm755 null-ide-flatpak.sh /app/bin/null-ide",
         "mkdir -p /app/lib/null-ide",
         "cp -r dist /app/lib/null-ide/",

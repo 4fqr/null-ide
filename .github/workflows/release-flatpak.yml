@@ -4,15 +4,18 @@ on:
   push:
     tags:
       - 'v*.*.*'
+  workflow_dispatch:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 env:
   APP_ID: com.nullide.app
 
 jobs:
-  build-and-release:
+  build:
     runs-on: ubuntu-latest
     container:
       image: bilelmoussaoui/flatpak-github-actions:freedesktop-24.08
@@ -41,6 +44,91 @@ jobs:
           manifest-path: com.nullide.app.json
           upload-artifact: false
 
+      - name: Create OSTree Repository
+        run: |
+          mkdir -p pages/repo
+          ostree init --mode=archive-z2 --repo=pages/repo
+          flatpak build-commit-from --src-repo=repo pages/repo $APP_ID
+          flatpak build-update-repo pages/repo --title="Null IDE Repository"
+
+          cat > pages/nullide.flatpakrepo << 'EOF'
+          [Flatpak Repo]
+          Title=Null IDE
+          Url=https://4fqr.github.io/null-ide/repo
+          Homepage=https://github.com/4fqr/null-ide
+          Comment=The Ultimate Hacker's Code Editor & Security Toolkit
+          Description=Professional IDE with 60+ security testing tools
+          Icon=https://raw.githubusercontent.com/4fqr/null-ide/main/null-ide.png
+          EOF
+
+          cat > pages/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Null IDE Flatpak Repository</title>
+            <style>
+              body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; background: #1a1a2e; color: #eee; }
+              h1 { color: #00d9ff; }
+              code { background: #16213e; padding: 2px 6px; border-radius: 4px; }
+              pre { background: #16213e; padding: 15px; border-radius: 8px; overflow-x: auto; }
+              .step { margin: 20px 0; }
+              a { color: #00d9ff; }
+            </style>
+          </head>
+          <body>
+            <h1>Null IDE Flatpak Repository</h1>
+            <p>Professional IDE with 60+ security testing tools.</p>
+            <div class="step">
+              <h3>1. Add the repository:</h3>
+              <pre><code>flatpak remote-add --user --if-not-exists nullide https://4fqr.github.io/null-ide/repo</code></pre>
+            </div>
+            <div class="step">
+              <h3>2. Install Null IDE:</h3>
+              <pre><code>flatpak install --user nullide com.nullide.app</code></pre>
+            </div>
+            <div class="step">
+              <h3>3. Update:</h3>
+              <pre><code>flatpak update com.nullide.app</code></pre>
+            </div>
+            <p><a href="https://github.com/4fqr/null-ide">GitHub Repository</a></p>
+          </body>
+          </html>
+          EOF
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages
+
+      - name: Upload bundle artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: flatpak-bundle
+          path: Null-IDE-${{ github.ref_name }}.flatpak
+          retention-days: 1
+
+  deploy-pages:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  release:
+    needs: [build, deploy-pages]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download bundle artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: flatpak-bundle
+
       - name: Get version
         id: version
         run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
@@ -54,19 +142,19 @@ jobs:
 
             ### Installation
 
-            Download the Flatpak bundle and install:
+            **Add the repository (one-time setup):**
             ```bash
-            # Download from the release assets below, then:
-            flatpak install --user Null-IDE-${{ github.ref_name }}.flatpak
+            flatpak remote-add --user --if-not-exists nullide https://4fqr.github.io/null-ide/repo
             ```
 
-            ### Update an Existing Installation
-
-            If you have a previous version installed from a bundle:
+            **Install:**
             ```bash
-            # Download the new bundle, then:
-            flatpak install --user Null-IDE-${{ github.ref_name }}.flatpak
-            # This will update the existing installation
+            flatpak install --user nullide com.nullide.app
+            ```
+
+            **Update to this version:**
+            ```bash
+            flatpak update com.nullide.app
             ```
 
             ### What's Changed

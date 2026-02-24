@@ -72,7 +72,7 @@ jobs:
           cat > repo-pages/nullide.flatpakrepo << 'EOF'
           [Flatpak Repo]
           Title=Null IDE
-          Url=https://4fqr.github.io/null-ide/repo
+          Url=https://4fqr.github.io/null-ide/
           Homepage=https://github.com/4fqr/null-ide
           Comment=The Ultimate Hacker's Code Editor & Security Toolkit
           Description=Professional IDE with 60+ security testing tools
@@ -87,7 +87,7 @@ jobs:
           <h1 style="color:#00d9ff">Null IDE Flatpak Repository</h1>
           <p>Professional IDE with 60+ security testing tools.</p>
           <h3>1. Add repository:</h3>
-          <pre style="background:#16213e;padding:15px;border-radius:8px">flatpak remote-add --user --if-not-exists --no-gpg-verify nullide https://4fqr.github.io/null-ide/repo</pre>
+          <pre style="background:#16213e;padding:15px;border-radius:8px">flatpak remote-add --user --if-not-exists --no-gpg-verify nullide https://4fqr.github.io/null-ide/</pre>
           <h3>2. Install:</h3>
           <pre style="background:#16213e;padding:15px;border-radius:8px">flatpak install --user nullide com.nullide.app</pre>
           <h3>3. Update:</h3>
@@ -142,7 +142,7 @@ jobs:
 
             **Add the repository (one-time setup):**
             ```bash
-            flatpak remote-add --user --if-not-exists --no-gpg-verify nullide https://4fqr.github.io/null-ide/repo
+            flatpak remote-add --user --if-not-exists --no-gpg-verify nullide https://4fqr.github.io/null-ide/
             ```
 
             **Install:**

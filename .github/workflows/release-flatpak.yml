@@ -26,8 +26,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install build tools
-        run: |
-          dnf install -y gcc g++ make python3
+        run: dnf install -y gcc g++ make python3
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -47,38 +46,22 @@ jobs:
           bundle: Null-IDE-${{ github.ref_name }}.flatpak
           manifest-path: com.nullide.app.json
           upload-artifact: false
+          export-parent: true
 
       - name: Create OSTree Repository
         run: |
-          # List what's in the repo directory
-          ls -la repo/ || ls -la .flatpak-builder/repo/ || true
-
-          # Find the actual repo location
-          if [ -d "repo" ]; then
-            SRC_REPO="repo"
-          elif [ -d ".flatpak-builder/repo" ]; then
-            SRC_REPO=".flatpak-builder/repo"
-          else
-            echo "Could not find flatpak repo"
-            exit 1
-          fi
-
-          # List refs in the source repo
-          flatpak list --user --show-details || true
-          ostree refs --repo=$SRC_REPO || true
+          # Use the repo created by flatpak-builder
+          REPO_PATH=".flatpak-builder/repo"
 
           # Create OSTree repository for GitHub Pages
           mkdir -p pages/repo
           ostree init --mode=archive-z2 --repo=pages/repo
 
-          # Copy all refs from source repo
-          for ref in $(ostree refs --repo=$SRC_REPO); do
-            echo "Copying ref: $ref"
-            ostree pull-local --repo=pages/repo $SRC_REPO $ref || true
-          done
+          # Import the app from the build repo
+          flatpak build-export pages/repo $REPO_PATH $APP_ID
 
-          # Update repository metadata
-          flatpak build-update-repo pages/repo --title="Null IDE Repository"
+          # Update repository metadata with GPG key disabled
+          flatpak build-update-repo pages/repo --title="Null IDE Repository" --gpg-keys=-
 
           cat > pages/nullide.flatpakrepo << 'EOF'
           [Flatpak Repo]
@@ -87,7 +70,6 @@ jobs:
           Homepage=https://github.com/4fqr/null-ide
           Comment=The Ultimate Hacker's Code Editor & Security Toolkit
           Description=Professional IDE with 60+ security testing tools
-          Icon=https://raw.githubusercontent.com/4fqr/null-ide/main/null-ide.png
           EOF
 
           cat > pages/index.html << 'EOF'

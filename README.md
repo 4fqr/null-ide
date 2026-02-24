@@ -2,7 +2,7 @@
 
 **Cross-Platform Security-Focused Code Editor**
 
-[![Version](https://img.shields.io/badge/version-3.4.0-00ffaa.svg)](https://github.com/4fqr/null-ide/releases)
+[![Version](https://img.shields.io/badge/version-3.7.0-00ffaa.svg)](https://github.com/4fqr/null-ide/releases)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)]()
 [![Electron](https://img.shields.io/badge/electron-35.7.5-47848f.svg)](https://www.electronjs.org/)
@@ -23,18 +23,38 @@ Null IDE is a code editor designed for security researchers, penetration testers
 - **Cross-Platform** - Windows, Linux, macOS support
 - **VS Code-like File Explorer** - Create files/folders, rename, delete, context menu
 
+---
 
 ---
----
+
 ---
 
 # INSTALLATION
-Go to the latest release and follow the instruction
-### ( Other installation ways are temporarily disabled. )
----
----
+
+### Linux (Flatpak)
+
+1. Download `Null-IDE-v3.7.0.flatpak` from [Releases](https://github.com/4fqr/null-ide/releases)
+2. Install:
+
+```bash
+flatpak install --user Null-IDE-v3.7.0.flatpak
+```
+
+3. Run:
+
+```bash
+flatpak run com.nullide.app
+```
+
+### Update
+
+Download the latest `.flatpak` bundle and install again - it will automatically update your installation.
+
 ---
 
+---
+
+---
 
 #### Option 5: Flatpak (Build from Source)
 

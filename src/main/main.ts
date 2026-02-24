@@ -621,18 +621,35 @@ ipcMain.handle('terminal:spawn', (event, terminalId: string, shell?: string, cwd
       } else if (process.platform === 'darwin') {
         shell = '/bin/zsh';
       } else {
-        shell = '/bin/bash';
+        // Linux - prefer bash, fallback to sh
+        const fs = require('fs');
+        if (fs.existsSync('/app/bin/bash')) {
+          shell = '/app/bin/bash';
+        } else if (fs.existsSync('/bin/bash')) {
+          shell = '/bin/bash';
+        } else if (fs.existsSync('/usr/bin/bash')) {
+          shell = '/usr/bin/bash';
+        } else {
+          shell = '/bin/sh';
+        }
       }
     }
 
     console.log(`Spawning terminal ${terminalId} with shell ${shell} on ${process.platform}`);
+
+    const env = { ...process.env } as { [key: string]: string };
+    // Ensure proper PATH for Flatpak
+    if (process.env.FLATPAK_ID) {
+      env.PATH = '/app/bin:/usr/bin:/bin:' + (env.PATH || '');
+      env.TERM = 'xterm-256color';
+    }
 
     const ptyProcess = pty.spawn(shell, [], {
       name: 'xterm-256color',
       cols: 80,
       rows: 30,
       cwd: cwd || process.env.HOME || process.cwd(),
-      env: process.env as { [key: string]: string },
+      env: env,
     });
 
     if (!ptyProcess || !ptyProcess.pid) {

@@ -115,6 +115,18 @@
     <content_attribute id="social-chat">mild</content_attribute>
   </content_rating>
   <releases>
+    <release version="3.7.3" date="2026-02-24">
+      <description>
+        <p>Critical fixes and security improvements.</p>
+        <ul>
+          <li>Fixed terminal in Flatpak - now includes bash</li>
+          <li>Fixed Password Generator - cryptographically secure with no modulo bias</li>
+          <li>Added entropy display and strength indicator for passwords</li>
+          <li>Improved terminal shell detection for Linux/Flatpak</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/4fqr/null-ide/releases/tag/v3.7.3</url>
+    </release>
     <release version="3.7.1" date="2026-02-24">
       <description>
         <p>Simplified installation and licensing update.</p>

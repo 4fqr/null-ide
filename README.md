@@ -2,7 +2,7 @@
 
 **Cross-Platform Security-Focused Code Editor**
 
-[![Version](https://img.shields.io/badge/version-3.7.2-00ffaa.svg)](https://github.com/4fqr/null-ide/releases)
+[![Version](https://img.shields.io/badge/version-3.7.3-00ffaa.svg)](https://github.com/4fqr/null-ide/releases)
 [![License](https://img.shields.io/badge/license-Custom-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)]()
 
@@ -15,11 +15,11 @@
 ### Linux (Flatpak)
 
 1. Go to **[Releases](https://github.com/4fqr/null-ide/releases/latest)**
-2. Download `Null-IDE-vX.X.X.flatpak`
+2. Download the latest `.flatpak` file
 3. Install:
 
 ```bash
-flatpak install --user Null-IDE-vX.x.x.flatpak
+flatpak install --user Null-IDE-*.flatpak
 ```
 
 4. Run:

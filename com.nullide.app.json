@@ -41,6 +41,17 @@
   ],
   "modules": [
     {
+      "name": "bash",
+      "buildsystem": "simple",
+      "build-commands": [
+        "install -Dm755 /usr/bin/bash /app/bin/bash",
+        "install -Dm755 /usr/bin/sh /app/bin/sh"
+      ],
+      "build-options": {
+        "no-debuginfo": true
+      }
+    },
+    {
       "name": "zypak",
       "buildsystem": "simple",
       "build-commands": [

@@ -27,8 +27,7 @@ jobs:
 
       - name: Install build tools
         run: |
-          apt-get update
-          apt-get install -y build-essential python3
+          dnf install -y gcc g++ make python3
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

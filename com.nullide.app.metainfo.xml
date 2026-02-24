@@ -115,6 +115,16 @@
     <content_attribute id="social-chat">mild</content_attribute>
   </content_rating>
   <releases>
+    <release version="3.8.1" date="2026-02-24">
+      <description>
+        <p>Fixed JSON syntax error in manifest.</p>
+        <ul>
+          <li>Fixed sha256 format in manifest</li>
+          <li>Terminal rebuilt with node-gyp</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/4fqr/null-ide/releases/tag/v3.8.1</url>
+    </release>
     <release version="3.8.0" date="2026-02-24">
       <description>
         <p>Terminal FIXED - native node-pty rebuilt inside Flatpak!</p>

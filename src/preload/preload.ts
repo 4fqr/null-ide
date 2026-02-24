@@ -49,6 +49,7 @@ const netAPI = {
   reverseDns: (ip: string) => ipcRenderer.invoke('net:reverseDns', ip),
   httpFetch: (url: string, options?: HttpFetchOptions) =>
     ipcRenderer.invoke('net:httpFetch', url, options),
+  whoisLookup: (domain: string) => ipcRenderer.invoke('net:whoisLookup', domain),
 };
 
 const deephatAPI = {

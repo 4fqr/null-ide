@@ -388,6 +388,104 @@ ipcMain.handle('net:reverseDns', async (event, ip: string) => {
   }
 });
 
+ipcMain.handle('net:whoisLookup', async (event, domain: string) => {
+  return new Promise((resolve) => {
+    const socket = new net.Socket();
+    let data = '';
+    const timeout = 10000;
+
+    const whoisServer = 'whois.iana.org';
+    const port = 43;
+
+    socket.setTimeout(timeout);
+
+    socket.on('connect', () => {
+      socket.write(domain + '\r\n');
+    });
+
+    socket.on('data', (chunk) => {
+      data += chunk.toString();
+    });
+
+    socket.on('end', () => {
+      const referralMatch = data.match(/refer:\s*(\S+)/i);
+      if (referralMatch && referralMatch[1]) {
+        const referredServer = referralMatch[1];
+        queryReferralWhois(domain, referredServer, resolve);
+      } else {
+        resolve({ success: true, data: parseWhoisData(data) });
+      }
+    });
+
+    socket.on('timeout', () => {
+      socket.destroy();
+      resolve({ success: false, error: 'WHOIS lookup timeout' });
+    });
+
+    socket.on('error', (err) => {
+      resolve({ success: false, error: err.message });
+    });
+
+    socket.connect(port, whoisServer);
+  });
+});
+
+function queryReferralWhois(domain: string, server: string, resolve: (value: unknown) => void) {
+  const socket = new net.Socket();
+  let data = '';
+  const timeout = 10000;
+
+  socket.setTimeout(timeout);
+
+  socket.on('connect', () => {
+    socket.write(domain + '\r\n');
+  });
+
+  socket.on('data', (chunk) => {
+    data += chunk.toString();
+  });
+
+  socket.on('end', () => {
+    resolve({ success: true, data: parseWhoisData(data) });
+  });
+
+  socket.on('timeout', () => {
+    socket.destroy();
+    resolve({ success: true, data: parseWhoisData(data) });
+  });
+
+  socket.on('error', () => {
+    resolve({ success: true, data: parseWhoisData(data) });
+  });
+
+  socket.connect(43, server);
+}
+
+function parseWhoisData(rawData: string) {
+  const registrarMatch = rawData.match(/Registrar:\s*(.+)/i);
+  const createdMatch = rawData.match(/Creation Date:\s*(.+)/i) || rawData.match(/created:\s*(.+)/i);
+  const expiresMatch =
+    rawData.match(/Registry Expiry Date:\s*(.+)/i) ||
+    rawData.match(/Expiry Date:\s*(.+)/i) ||
+    rawData.match(/paid-till:\s*(.+)/i);
+  const statusMatch = rawData.match(/Status:\s*(.+)/i);
+  const nsMatches = rawData.matchAll(/Name Server:\s*(.+)/gi);
+  const nameservers = [...nsMatches].map((m) => m[1].trim());
+
+  return {
+    domain:
+      rawData.match(/Domain Name:\s*(.+)/i)?.[1]?.trim() ||
+      rawData.match(/domain:\s*(.+)/i)?.[1]?.trim() ||
+      '',
+    registrar: registrarMatch?.[1]?.trim() || 'N/A',
+    created: createdMatch?.[1]?.trim() || 'N/A',
+    expires: expiresMatch?.[1]?.trim() || 'N/A',
+    status: statusMatch?.[1]?.trim() || 'N/A',
+    nameservers,
+    raw: rawData,
+  };
+}
+
 ipcMain.handle('net:httpFetch', async (event, url: string, options: HttpFetchOptions = {}) => {
   try {
     const https = require('https');

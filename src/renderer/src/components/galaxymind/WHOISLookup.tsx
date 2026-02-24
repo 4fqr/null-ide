@@ -29,24 +29,16 @@ export default function WHOISLookup() {
     setData(null);
 
     try {
-      const response = await fetch(
-        `https://www.whoisxmlapi.com/whoisserver/WhoisService?apiKey=at_FREE&domainName=${domain}&outputFormat=JSON`
-      );
+      const response = await window.electronAPI.net.whoisLookup(domain);
 
-      if (!response.ok) throw new Error('WHOIS lookup failed');
+      if (!response.success || !response.data) {
+        throw new Error(response.error || 'WHOIS lookup failed');
+      }
 
-      const result = await response.json();
-
-      setData({
-        domain: domain,
-        registrar: result.WhoisRecord?.registrarName || 'N/A',
-        created: result.WhoisRecord?.createdDate || 'N/A',
-        expires: result.WhoisRecord?.expiresDate || 'N/A',
-        status: result.WhoisRecord?.status || 'N/A',
-        nameservers: result.WhoisRecord?.nameServers?.hostNames || [],
-      });
-    } catch {
-      setError('WHOIS lookup failed. Free API has limited requests.');
+      setData(response.data);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'WHOIS lookup failed';
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -99,7 +91,7 @@ export default function WHOISLookup() {
                 <td>
                   <strong>Domain</strong>
                 </td>
-                <td>{data.domain}</td>
+                <td>{data.domain || 'N/A'}</td>
               </tr>
               <tr>
                 <td>
@@ -143,7 +135,7 @@ export default function WHOISLookup() {
         <ul>
           <li>Shows domain registration details</li>
           <li>Useful for OSINT and reconnaissance</li>
-          <li>Free API has request limits</li>
+          <li>Direct WHOIS protocol query (no rate limits)</li>
         </ul>
       </div>
     </ToolWrapper>

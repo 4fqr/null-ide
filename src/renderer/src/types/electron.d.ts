@@ -70,6 +70,19 @@ interface NetAPI {
   dnsLookup: (hostname: string) => Promise<DNSLookupResult>;
   reverseDns: (ip: string) => Promise<{ success: boolean; hostnames?: string[]; error?: string }>;
   httpFetch: (url: string, options?: HttpFetchOptions) => Promise<HttpResponse>;
+  whoisLookup: (domain: string) => Promise<{
+    success: boolean;
+    data?: {
+      domain: string;
+      registrar: string;
+      created: string;
+      expires: string;
+      status: string;
+      nameservers: string[];
+      raw?: string;
+    };
+    error?: string;
+  }>;
 }
 
 interface DeepHatAPI {

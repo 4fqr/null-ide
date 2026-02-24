@@ -5,6 +5,12 @@ node_modules/
 dist/
 release/
 
+# Flatpak build cache
+.flatpak-builder/
+flatpak-build/
+flatpak-repo/
+*.flatpak
+
 # Logs
 *.log
 npm-debug.log*

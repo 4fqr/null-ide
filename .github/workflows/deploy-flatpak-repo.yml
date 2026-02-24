@@ -1,0 +1,100 @@
+name: Deploy Flatpak Repo
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy-repo:
+    runs-on: ubuntu-latest
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:freedesktop-24.08
+
+    steps:
+      - name: Download latest release bundle
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release download --pattern "*.flatpak" --dir . || true
+          BUNDLE=$(ls *.flatpak | head -1)
+          echo "BUNDLE=$BUNDLE" >> $GITHUB_ENV
+
+      - name: Create OSTree Repository
+        run: |
+          # Initialize OSTree repository
+          mkdir -p pages/repo
+          ostree init --mode=archive-z2 --repo=pages/repo
+
+          # Import the bundle into the repo
+          if [ -n "$BUNDLE" ] && [ -f "$BUNDLE" ]; then
+            flatpak build-import-bundle pages/repo "$BUNDLE"
+          fi
+
+          # Update repository metadata
+          flatpak build-update-repo pages/repo --title="Null IDE Repository"
+
+          cat > pages/nullide.flatpakrepo << 'EOF'
+          [Flatpak Repo]
+          Title=Null IDE
+          Url=https://4fqr.github.io/null-ide/repo
+          Homepage=https://github.com/4fqr/null-ide
+          Comment=The Ultimate Hacker's Code Editor & Security Toolkit
+          Description=Professional IDE with 60+ security testing tools
+          EOF
+
+          cat > pages/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Null IDE Flatpak Repository</title>
+            <style>
+              body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; background: #1a1a2e; color: #eee; }
+              h1 { color: #00d9ff; }
+              code { background: #16213e; padding: 2px 6px; border-radius: 4px; }
+              pre { background: #16213e; padding: 15px; border-radius: 8px; overflow-x: auto; }
+              .step { margin: 20px 0; }
+              a { color: #00d9ff; }
+            </style>
+          </head>
+          <body>
+            <h1>Null IDE Flatpak Repository</h1>
+            <p>Professional IDE with 60+ security testing tools.</p>
+            <div class="step">
+              <h3>1. Add the repository:</h3>
+              <pre><code>flatpak remote-add --user --if-not-exists nullide https://4fqr.github.io/null-ide/repo</code></pre>
+            </div>
+            <div class="step">
+              <h3>2. Install Null IDE:</h3>
+              <pre><code>flatpak install --user nullide com.nullide.app</code></pre>
+            </div>
+            <div class="step">
+              <h3>3. Update:</h3>
+              <pre><code>flatpak update com.nullide.app</code></pre>
+            </div>
+            <p><a href="https://github.com/4fqr/null-ide">GitHub Repository</a></p>
+          </body>
+          </html>
+          EOF
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages
+
+  deploy-pages:
+    needs: deploy-repo
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

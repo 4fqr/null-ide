@@ -50,9 +50,34 @@ jobs:
 
       - name: Create OSTree Repository
         run: |
+          # List what's in the repo directory
+          ls -la repo/ || ls -la .flatpak-builder/repo/ || true
+
+          # Find the actual repo location
+          if [ -d "repo" ]; then
+            SRC_REPO="repo"
+          elif [ -d ".flatpak-builder/repo" ]; then
+            SRC_REPO=".flatpak-builder/repo"
+          else
+            echo "Could not find flatpak repo"
+            exit 1
+          fi
+
+          # List refs in the source repo
+          flatpak list --user --show-details || true
+          ostree refs --repo=$SRC_REPO || true
+
+          # Create OSTree repository for GitHub Pages
           mkdir -p pages/repo
           ostree init --mode=archive-z2 --repo=pages/repo
-          flatpak build-commit-from --src-repo=repo pages/repo $APP_ID
+
+          # Copy all refs from source repo
+          for ref in $(ostree refs --repo=$SRC_REPO); do
+            echo "Copying ref: $ref"
+            ostree pull-local --repo=pages/repo $SRC_REPO $ref || true
+          done
+
+          # Update repository metadata
           flatpak build-update-repo pages/repo --title="Null IDE Repository"
 
           cat > pages/nullide.flatpakrepo << 'EOF'

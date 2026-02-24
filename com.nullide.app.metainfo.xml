@@ -115,6 +115,17 @@
     <content_attribute id="social-chat">mild</content_attribute>
   </content_rating>
   <releases>
+    <release version="3.7.6" date="2026-02-24">
+      <description>
+        <p>Fixed Flatpak build - terminal now works!</p>
+        <ul>
+          <li>Fixed nodejs installation in Flatpak sandbox</li>
+          <li>Properly rebuild node-pty for Electron</li>
+          <li>Terminal fully functional with PTY support</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/4fqr/null-ide/releases/tag/v3.7.6</url>
+    </release>
     <release version="3.7.5" date="2026-02-24">
       <description>
         <p>Fixed terminal in Flatpak - native node-pty now works!</p>

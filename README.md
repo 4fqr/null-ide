@@ -2,25 +2,24 @@
 
 **Cross-Platform Security-Focused Code Editor**
 
-[![Version](https://img.shields.io/badge/version-3.7.1-00ffaa.svg)](https://github.com/4fqr/null-ide/releases)
+[![Version](https://img.shields.io/badge/version-3.7.2-00ffaa.svg)](https://github.com/4fqr/null-ide/releases)
 [![License](https://img.shields.io/badge/license-Custom-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)]()
-[![Electron](https://img.shields.io/badge/electron-35.7.5-47848f.svg)](https://www.electronjs.org/)
 
 ---
 
-# 📥 DOWNLOAD & INSTALL
+# 📥 Download & Install
 
 ## **Go to [Releases](https://github.com/4fqr/null-ide/releases) to download Null IDE**
 
 ### Linux (Flatpak)
 
 1. Go to **[Releases](https://github.com/4fqr/null-ide/releases/latest)**
-2. Download `Null-IDE-v3.7.1.flatpak`
+2. Download `Null-IDE-v3.7.2.flatpak`
 3. Install:
 
 ```bash
-flatpak install --user Null-IDE-v3.7.1.flatpak
+flatpak install --user Null-IDE-v3.7.2.flatpak
 ```
 
 4. Run:
@@ -31,11 +30,11 @@ flatpak run com.nullide.app
 
 ### Windows
 
-Download `Null-IDE-Setup-3.7.1.exe` from [Releases](https://github.com/4fqr/null-ide/releases/latest)
+Download `Null-IDE-Setup-3.7.2.exe` from [Releases](https://github.com/4fqr/null-ide/releases/latest)
 
 ### macOS
 
-Download `Null-IDE-3.7.1.dmg` from [Releases](https://github.com/4fqr/null-ide/releases/latest)
+Download `Null-IDE-3.7.2.dmg` from [Releases](https://github.com/4fqr/null-ide/releases/latest)
 
 ### Update
 
@@ -43,7 +42,7 @@ Download the latest release from [Releases](https://github.com/4fqr/null-ide/rel
 
 ---
 
-## Overview
+# About
 
 Null IDE is a code editor designed for security researchers, penetration testers, and software developers. It integrates 120+ security tools with a full-featured development environment.
 
@@ -59,88 +58,7 @@ Null IDE is a code editor designed for security researchers, penetration testers
 
 ---
 
----
-
----
-
-#### Option 5: Flatpak (Build from Source)
-
-**Prerequisites:**
-
-```bash
-# Ubuntu/Debian
-sudo apt install flatpak flatpak-builder
-
-# Fedora
-sudo dnf install flatpak flatpak-builder
-
-# Arch
-sudo pacman -S flatpak flatpak-builder
-```
-
-**Build and Install:**
-
-```bash
-# Clone the repository
-git clone https://github.com/4fqr/null-ide.git
-cd null-ide
-
-# Install dependencies
-npm install
-
-# Build the application
-npm run build
-
-# Build and install Flatpak (one command)
-bash scripts/build-flatpak.sh install
-
-# Run the installed Flatpak
-flatpak run com.nullide.app
-```
-
-**Create Distributable Bundle:**
-
-```bash
-# Build and create a .flatpak bundle file
-bash scripts/build-flatpak.sh bundle
-
-# This creates: Null-IDE-3.4.0.flatpak
-# Share this file, others can install with:
-flatpak install --user Null-IDE-3.4.0.flatpak
-```
-
-**Full Build (all steps):**
-
-```bash
-bash scripts/build-flatpak.sh all
-```
-
-**Available Flatpak Build Commands:**
-| Command | Description |
-|---------|-------------|
-| `bash scripts/build-flatpak.sh build` | Build Flatpak only |
-| `bash scripts/build-flatpak.sh install` | Build and install locally |
-| `bash scripts/build-flatpak.sh bundle` | Create distributable .flatpak file |
-| `bash scripts/build-flatpak.sh run` | Run installed Flatpak |
-| `bash scripts/build-flatpak.sh all` | Complete build process |
-| `bash scripts/build-flatpak.sh deps` | Install dependencies only |
-
-### macOS
-
-```bash
-brew install node
-git clone https://github.com/4fqr/null-ide.git
-cd null-ide
-npm install
-npm run build
-npx electron-builder --mac
-```
-
-Open `Null IDE-3.4.0.dmg` and drag to Applications.
-
----
-
-## Security Tools
+# Security Tools
 
 ### Network Security
 
@@ -267,55 +185,7 @@ Open `Null IDE-3.4.0.dmg` and drag to Applications.
 
 ---
 
-## Supported Languages
-
-Null IDE supports syntax highlighting for 112 programming languages including:
-
-**Mainstream**: JavaScript, TypeScript, Python, Java, C, C++, C#, Go, Rust, PHP, Ruby, Swift, Kotlin, Scala, Perl, Lua, R, SQL
-
-**Web**: HTML, CSS, SCSS, SASS, LESS, XML, JSON, YAML, Markdown
-
-**Systems**: Assembly (x86, x64, ARM), Rust, Zig, V, Odin, Nim
-
-**Functional**: Haskell, OCaml, F#, Elm, PureScript, Idris, Clojure, Scheme, Racket, Erlang, Elixir
-
-**Niche**: Fortran, COBOL, Pascal, Ada, Julia, Dart, Groovy, Prolog, Forth, APL, Solidity, Move, Cairo, Carbon, Mojo, and 60+ more.
-
----
-
-## Building from Source
-
-### Prerequisites
-
-- Node.js 18+
-- npm
-- Git
-
-### Quick Start
-
-```bash
-git clone https://github.com/4fqr/null-ide.git
-cd null-ide
-npm install
-npm run build
-npm run dev
-```
-
-### Build Commands
-
-| Command                 | Description                               |
-| ----------------------- | ----------------------------------------- |
-| `npm run dev`           | Start development server                  |
-| `npm run build`         | Build for production                      |
-| `npm run package`       | Package for current platform              |
-| `npm run package:win`   | Package Windows installer                 |
-| `npm run package:linux` | Package AppImage, DEB, RPM, Snap, Flatpak |
-| `npm run package:mac`   | Package macOS DMG                         |
-| `npm run package:all`   | Package for all platforms                 |
-
----
-
-## Keyboard Shortcuts
+# Keyboard Shortcuts
 
 | Action               | Shortcut       |
 | -------------------- | -------------- |
@@ -331,36 +201,32 @@ npm run dev
 
 ---
 
-## Tech Stack
+# Supported Languages
 
-- **Frontend**: React 18, TypeScript 5, Monaco Editor, Zustand, XTerm.js
-- **Backend**: Electron 35.7.5, Node.js
-- **Build**: Vite 6, electron-builder 26
+Null IDE supports syntax highlighting for 112 programming languages including:
+
+**Mainstream**: JavaScript, TypeScript, Python, Java, C, C++, C#, Go, Rust, PHP, Ruby, Swift, Kotlin, Scala, Perl, Lua, R, SQL
+
+**Web**: HTML, CSS, SCSS, SASS, LESS, XML, JSON, YAML, Markdown
+
+**Systems**: Assembly (x86, x64, ARM), Rust, Zig, V, Odin, Nim
+
+**Functional**: Haskell, OCaml, F#, Elm, PureScript, Idris, Clojure, Scheme, Racket, Erlang, Elixir
+
+**Niche**: Fortran, COBOL, Pascal, Ada, Julia, Dart, Groovy, Prolog, Forth, APL, Solidity, Move, Cairo, Carbon, Mojo, and 60+ more.
 
 ---
 
-## Discord Rich Presence
-
-1. Go to [Discord Developer Portal](https://discord.com/developers/applications)
-2. Application ID: `1459478156120428606`
-3. Upload assets: `nullide`, `code`, `idle` (512x512 each)
-4. Restart Null IDE
-
----
-
-## License
+# License
 
 **Custom License - All Rights Reserved**
 
 Copyright (c) 2026 4fqr
 
 - ✅ Free for personal, educational, and non-commercial use
-- ✅ Open source - view and learn from the code
 - ❌ **Commercial redistribution prohibited**
 - ❌ **Reselling prohibited**
 - ❌ **Rebranding prohibited**
-
-See [LICENSE](LICENSE) for full terms.
 
 **Official distribution only at:**
 
@@ -371,15 +237,6 @@ Downloads from other sources are unauthorized.
 
 ---
 
-## Contributing
-
-1. Fork the repository
-2. Create feature branch
-3. Make changes and test
-4. Submit Pull Request
-
----
-
-## Support
+# Support
 
 Report issues at [GitHub Issues](https://github.com/4fqr/null-ide/issues)

@@ -24,17 +24,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install build tools
-        run: dnf install -y gcc g++ make python3 libsecret-devel
-
-      - name: Setup Node.js for rebuild
-        shell: bash
+      - name: Install build tools and Node.js
         run: |
-          curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
-          apt-get install -y nodejs || dnf install -y nodejs npm || true
+          dnf install -y gcc g++ make python3 libsecret-devel nodejs npm
 
       - name: Install deps and rebuild native modules
-        shell: bash
         run: |
           npm install --legacy-peer-deps
           npm run build

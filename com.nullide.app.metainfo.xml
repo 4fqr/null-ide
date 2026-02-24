@@ -115,6 +115,17 @@
     <content_attribute id="social-chat">mild</content_attribute>
   </content_rating>
   <releases>
+    <release version="3.7.9" date="2026-02-24">
+      <description>
+        <p>Fixed CI build for terminal support.</p>
+        <ul>
+          <li>Fixed Node.js installation in Fedora container</li>
+          <li>Proper electron-rebuild for node-pty</li>
+          <li>Terminal works with fallback mode</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/4fqr/null-ide/releases/tag/v3.7.9</url>
+    </release>
     <release version="3.7.8" date="2026-02-24">
       <description>
         <p>Terminal completely fixed for Flatpak!</p>

@@ -15,11 +15,11 @@
 ### Linux (Flatpak)
 
 1. Go to **[Releases](https://github.com/4fqr/null-ide/releases/latest)**
-2. Download `Null-IDE-v3.7.2.flatpak`
+2. Download `Null-IDE-vX.X.X.flatpak`
 3. Install:
 
 ```bash
-flatpak install --user Null-IDE-v3.7.2.flatpak
+flatpak install --user Null-IDE-vX.x.x.flatpak
 ```
 
 4. Run:
@@ -27,14 +27,6 @@ flatpak install --user Null-IDE-v3.7.2.flatpak
 ```bash
 flatpak run com.nullide.app
 ```
-
-### Windows
-
-Download `Null-IDE-Setup-3.7.2.exe` from [Releases](https://github.com/4fqr/null-ide/releases/latest)
-
-### macOS
-
-Download `Null-IDE-3.7.2.dmg` from [Releases](https://github.com/4fqr/null-ide/releases/latest)
 
 ### Update
 

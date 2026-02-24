@@ -11,6 +11,7 @@ permissions:
 
 env:
   APP_ID: com.nullide.app
+  ELECTRON_VERSION: "35.7.5"
 
 jobs:
   build:
@@ -24,7 +25,20 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install build tools
-        run: dnf install -y gcc g++ make python3
+        run: dnf install -y gcc g++ make python3 libsecret-devel
+
+      - name: Setup Node.js for rebuild
+        shell: bash
+        run: |
+          curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+          apt-get install -y nodejs || dnf install -y nodejs npm || true
+
+      - name: Install deps and rebuild native modules
+        shell: bash
+        run: |
+          npm install --legacy-peer-deps
+          npm run build
+          npx @electron/rebuild -v $ELECTRON_VERSION -w node-pty -f
 
       - name: Build Flatpak
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6

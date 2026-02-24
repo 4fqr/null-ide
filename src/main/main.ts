@@ -13,7 +13,17 @@ import * as crypto from 'crypto';
 import * as net from 'net';
 import * as dns from 'dns';
 import { promisify } from 'util';
-import * as pty from 'node-pty';
+import { spawn, ChildProcess } from 'child_process';
+
+let pty: typeof import('node-pty') | null = null;
+try {
+  pty = require('node-pty');
+  console.log('node-pty loaded successfully');
+} catch (err) {
+  console.error('Failed to load node-pty:', err);
+  console.log('Terminal will use fallback mode (child_process)');
+}
+
 import {
   initDiscordRPC,
   updateActivity,
@@ -611,12 +621,11 @@ ipcMain.handle('dialog:openDirectory', async () => {
   }
 });
 
-const terminals = new Map<string, pty.IPty>();
+const terminals = new Map<string, any>();
+const fallbackTerminals = new Map<string, ChildProcess>();
 
 ipcMain.handle('terminal:spawn', (event, terminalId: string, shell?: string, cwd?: string) => {
   try {
-    const fs = require('fs');
-
     const findAvailableShell = (): string => {
       if (process.platform === 'win32') return 'powershell.exe';
       if (process.platform === 'darwin') return '/bin/zsh';
@@ -630,7 +639,6 @@ ipcMain.handle('terminal:spawn', (event, terminalId: string, shell?: string, cwd
       return '/bin/sh';
     };
 
-    // If user requests zsh/fish/dash but it doesn't exist, fall back
     if (shell) {
       const unavailableShells = [
         '/bin/zsh',
@@ -662,36 +670,79 @@ ipcMain.handle('terminal:spawn', (event, terminalId: string, shell?: string, cwd
       env.SHELL = shell;
     }
 
-    const ptyProcess = pty.spawn(shell, [], {
-      name: 'xterm-256color',
-      cols: 80,
-      rows: 30,
-      cwd: cwd || process.env.HOME || process.cwd(),
-      env: env,
-    });
+    if (pty) {
+      const ptyProcess = pty.spawn(shell, [], {
+        name: 'xterm-256color',
+        cols: 80,
+        rows: 30,
+        cwd: cwd || process.env.HOME || process.cwd(),
+        env: env,
+      });
 
-    if (!ptyProcess || !ptyProcess.pid) {
-      throw new Error('Failed to spawn terminal process');
+      if (!ptyProcess || !ptyProcess.pid) {
+        throw new Error('Failed to spawn terminal process');
+      }
+
+      terminals.set(terminalId, ptyProcess);
+
+      ptyProcess.onData((data: string) => {
+        if (mainWindow && !mainWindow.isDestroyed()) {
+          mainWindow.webContents.send('terminal:data', terminalId, data);
+        }
+      });
+
+      ptyProcess.onExit((exitInfo: { exitCode: number; signal?: number }) => {
+        console.log(`Terminal ${terminalId} exited with code ${exitInfo.exitCode}`);
+        if (mainWindow && !mainWindow.isDestroyed()) {
+          mainWindow.webContents.send('terminal:exit', terminalId, exitInfo.exitCode);
+        }
+        terminals.delete(terminalId);
+      });
+
+      console.log(`Terminal ${terminalId} spawned successfully with PID ${ptyProcess.pid}`);
+      return { success: true, pid: ptyProcess.pid };
+    } else {
+      console.log('Using fallback terminal mode (child_process)');
+      
+      const proc = spawn(shell, [], {
+        cwd: cwd || process.env.HOME || process.cwd(),
+        env: env,
+        stdio: ['pipe', 'pipe', 'pipe'],
+      });
+
+      if (!proc.pid) {
+        throw new Error('Failed to spawn fallback terminal process');
+      }
+
+      fallbackTerminals.set(terminalId, proc);
+
+      proc.stdout?.on('data', (data: Buffer) => {
+        if (mainWindow && !mainWindow.isDestroyed()) {
+          mainWindow.webContents.send('terminal:data', terminalId, data.toString());
+        }
+      });
+
+      proc.stderr?.on('data', (data: Buffer) => {
+        if (mainWindow && !mainWindow.isDestroyed()) {
+          mainWindow.webContents.send('terminal:data', terminalId, data.toString());
+        }
+      });
+
+      proc.on('close', (code: number) => {
+        console.log(`Terminal ${terminalId} exited with code ${code}`);
+        if (mainWindow && !mainWindow.isDestroyed()) {
+          mainWindow.webContents.send('terminal:exit', terminalId, code);
+        }
+        fallbackTerminals.delete(terminalId);
+      });
+
+      proc.on('error', (err: Error) => {
+        console.error(`Terminal ${terminalId} error:`, err);
+      });
+
+      console.log(`Fallback terminal ${terminalId} spawned successfully with PID ${proc.pid}`);
+      return { success: true, pid: proc.pid };
     }
-
-    terminals.set(terminalId, ptyProcess);
-
-    ptyProcess.onData((data: string) => {
-      if (mainWindow && !mainWindow.isDestroyed()) {
-        mainWindow.webContents.send('terminal:data', terminalId, data);
-      }
-    });
-
-    ptyProcess.onExit((exitInfo: { exitCode: number; signal?: number }) => {
-      console.log(`Terminal ${terminalId} exited with code ${exitInfo.exitCode}`);
-      if (mainWindow && !mainWindow.isDestroyed()) {
-        mainWindow.webContents.send('terminal:exit', terminalId, exitInfo.exitCode);
-      }
-      terminals.delete(terminalId);
-    });
-
-    console.log(`Terminal ${terminalId} spawned successfully with PID ${ptyProcess.pid}`);
-    return { success: true, pid: ptyProcess.pid };
   } catch (error) {
     console.error('Error spawning terminal:', error);
     return { success: false, error: (error as Error).message };
@@ -701,12 +752,18 @@ ipcMain.handle('terminal:spawn', (event, terminalId: string, shell?: string, cwd
 ipcMain.handle('terminal:write', (event, terminalId: string, data: string) => {
   try {
     const terminal = terminals.get(terminalId);
-    if (!terminal) {
-      return { success: false, error: 'Terminal not found' };
+    if (terminal) {
+      terminal.write(data);
+      return { success: true };
     }
 
-    terminal.write(data);
-    return { success: true };
+    const fallbackProc = fallbackTerminals.get(terminalId);
+    if (fallbackProc && fallbackProc.stdin) {
+      fallbackProc.stdin.write(data);
+      return { success: true };
+    }
+
+    return { success: false, error: 'Terminal not found' };
   } catch (error) {
     console.error('Error writing to terminal:', error);
     return { success: false, error: (error as Error).message };
@@ -720,6 +777,11 @@ ipcMain.handle('terminal:resize', (_event, terminalId: string, cols: number, row
       terminal.resize(cols, rows);
       return { success: true };
     }
+
+    const fallbackProc = fallbackTerminals.get(terminalId);
+    if (fallbackProc) {
+      return { success: true };
+    }
     return { success: false, error: 'Terminal not found' };
   } catch (error) {
     return { success: false, error: (error as Error).message };
@@ -731,6 +793,12 @@ ipcMain.handle('terminal:kill', (event, terminalId: string) => {
   if (terminal) {
     terminal.kill();
     terminals.delete(terminalId);
+  }
+
+  const fallbackProc = fallbackTerminals.get(terminalId);
+  if (fallbackProc) {
+    fallbackProc.kill();
+    fallbackTerminals.delete(terminalId);
   }
   return { success: true };
 });

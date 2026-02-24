@@ -17,27 +17,38 @@ jobs:
       image: bilelmoussaoui/flatpak-github-actions:freedesktop-24.08
 
     steps:
+      - name: Install GitHub CLI
+        run: |
+          dnf install -y gh
+
       - name: Download latest release bundle
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release download --pattern "*.flatpak" --dir . || true
-          BUNDLE=$(ls *.flatpak | head -1)
+          gh release download v3.5.8 --pattern "*.flatpak" --repo 4fqr/null-ide || true
+          ls -la *.flatpak 2>/dev/null || echo "No flatpak files found"
+          BUNDLE=$(ls *.flatpak 2>/dev/null | head -1)
           echo "BUNDLE=$BUNDLE" >> $GITHUB_ENV
+          echo "Found bundle: $BUNDLE"
 
       - name: Create OSTree Repository
         run: |
+          set -x
+
+          if [ -z "$BUNDLE" ] || [ ! -f "$BUNDLE" ]; then
+            echo "ERROR: No bundle found!"
+            exit 1
+          fi
+
           # Initialize OSTree repository
           mkdir -p pages/repo
           ostree init --mode=archive-z2 --repo=pages/repo
 
           # Import the bundle into the repo
-          if [ -n "$BUNDLE" ] && [ -f "$BUNDLE" ]; then
-            flatpak build-import-bundle pages/repo "$BUNDLE"
-          fi
+          flatpak build-import-bundle pages/repo "$BUNDLE"
 
-          # Update repository metadata
-          flatpak build-update-repo pages/repo --title="Null IDE Repository"
+          # Update repository metadata - disable GPG verification
+          flatpak build-update-repo pages/repo --title="Null IDE Repository" --no-summary-index
 
           cat > pages/nullide.flatpakrepo << 'EOF'
           [Flatpak Repo]
@@ -46,6 +57,7 @@ jobs:
           Homepage=https://github.com/4fqr/null-ide
           Comment=The Ultimate Hacker's Code Editor & Security Toolkit
           Description=Professional IDE with 60+ security testing tools
+          GPGKey=mQINB...
           EOF
 
           cat > pages/index.html << 'EOF'
@@ -66,8 +78,8 @@ jobs:
             <h1>Null IDE Flatpak Repository</h1>
             <p>Professional IDE with 60+ security testing tools.</p>
             <div class="step">
-              <h3>1. Add the repository:</h3>
-              <pre><code>flatpak remote-add --user --if-not-exists nullide https://4fqr.github.io/null-ide/repo</code></pre>
+              <h3>1. Add the repository (no GPG verify):</h3>
+              <pre><code>flatpak remote-add --user --if-not-exists --no-gpg-verify nullide https://4fqr.github.io/null-ide/repo</code></pre>
             </div>
             <div class="step">
               <h3>2. Install Null IDE:</h3>
@@ -81,6 +93,9 @@ jobs:
           </body>
           </html>
           EOF
+
+          # List repo contents
+          ostree refs --repo=pages/repo
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

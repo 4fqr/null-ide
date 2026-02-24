@@ -94,7 +94,7 @@ const RightSidebar: React.FC = () => {
             <RobotIcon size={20} />
           </span>
           <div className={styles.titleText}>
-            <div className={styles.name}>DeepChat AI</div>
+            <div className={styles.name}>DeepHat AI</div>
             <div className={styles.subtitle}>
               {mode === 'code' ? 'Code Assistant' : 'Security Expert'}
             </div>
@@ -114,7 +114,7 @@ const RightSidebar: React.FC = () => {
         {isLoading && (
           <div className={styles.loadingOverlay}>
             <div className={styles.spinner} />
-            <span>Loading DeepChat AI...</span>
+            <span>Loading DeepHat AI...</span>
           </div>
         )}
         <webview

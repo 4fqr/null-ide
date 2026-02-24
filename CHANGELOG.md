@@ -4,9 +4,9 @@
 
 ### 🚀 Major Feature Update
 
-**DeepChat AI Integration**
+**DeepHat AI Integration**
 
-- ✅ Added DeepChat AI sidebar with live connection to app.deephat.ai
+- ✅ Added DeepHat AI sidebar with live connection to app.deephat.ai
 - ✅ Full OAuth login support (GitHub & Google authentication)
 - ✅ Webview-based integration with popup window support
 - ✅ Resizable sidebar panel (300px - 800px width)

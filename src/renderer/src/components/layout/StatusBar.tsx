@@ -235,10 +235,10 @@ const StatusBar: React.FC = () => {
         <button
           className={`${styles.aiButton} ${rightSidebarVisible ? styles.active : ''}`}
           onClick={toggleRightSidebar}
-          title="Toggle DeepChat AI"
+          title="Toggle DeepHat AI"
         >
           <span className={styles.aiIcon}>AI</span>
-          <span>{rightSidebarVisible ? 'Hide AI' : 'DeepChat AI'}</span>
+          <span>{rightSidebarVisible ? 'Hide AI' : 'DeepHat AI'}</span>
         </button>
         <div className={styles.separator} />
         <div className={styles.item}>

@@ -615,33 +615,51 @@ const terminals = new Map<string, pty.IPty>();
 
 ipcMain.handle('terminal:spawn', (event, terminalId: string, shell?: string, cwd?: string) => {
   try {
-    if (!shell) {
-      if (process.platform === 'win32') {
-        shell = 'powershell.exe';
-      } else if (process.platform === 'darwin') {
-        shell = '/bin/zsh';
-      } else {
-        // Linux - prefer bash, fallback to sh
-        const fs = require('fs');
-        if (fs.existsSync('/app/bin/bash')) {
-          shell = '/app/bin/bash';
-        } else if (fs.existsSync('/bin/bash')) {
-          shell = '/bin/bash';
-        } else if (fs.existsSync('/usr/bin/bash')) {
-          shell = '/usr/bin/bash';
-        } else {
-          shell = '/bin/sh';
+    const fs = require('fs');
+
+    const findAvailableShell = (): string => {
+      if (process.platform === 'win32') return 'powershell.exe';
+      if (process.platform === 'darwin') return '/bin/zsh';
+
+      const candidates = ['/app/bin/bash', '/bin/bash', '/usr/bin/bash', '/bin/sh'];
+      for (const s of candidates) {
+        try {
+          if (fs.existsSync(s)) return s;
+        } catch {}
+      }
+      return '/bin/sh';
+    };
+
+    // If user requests zsh/fish/dash but it doesn't exist, fall back
+    if (shell) {
+      const unavailableShells = [
+        '/bin/zsh',
+        '/usr/bin/zsh',
+        '/bin/fish',
+        '/usr/bin/fish',
+        '/bin/dash',
+      ];
+      if (unavailableShells.includes(shell)) {
+        try {
+          if (!fs.existsSync(shell)) {
+            console.log(`Requested shell ${shell} not available, using fallback`);
+            shell = findAvailableShell();
+          }
+        } catch {
+          shell = findAvailableShell();
         }
       }
+    } else {
+      shell = findAvailableShell();
     }
 
-    console.log(`Spawning terminal ${terminalId} with shell ${shell} on ${process.platform}`);
+    console.log(`Spawning terminal ${terminalId} with shell ${shell}`);
 
     const env = { ...process.env } as { [key: string]: string };
-    // Ensure proper PATH for Flatpak
     if (process.env.FLATPAK_ID) {
       env.PATH = '/app/bin:/usr/bin:/bin:' + (env.PATH || '');
       env.TERM = 'xterm-256color';
+      env.SHELL = shell;
     }
 
     const ptyProcess = pty.spawn(shell, [], {

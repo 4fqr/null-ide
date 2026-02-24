@@ -2,10 +2,44 @@
 
 **Cross-Platform Security-Focused Code Editor**
 
-[![Version](https://img.shields.io/badge/version-3.7.0-00ffaa.svg)](https://github.com/4fqr/null-ide/releases)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-3.7.1-00ffaa.svg)](https://github.com/4fqr/null-ide/releases)
+[![License](https://img.shields.io/badge/license-Custom-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)]()
 [![Electron](https://img.shields.io/badge/electron-35.7.5-47848f.svg)](https://www.electronjs.org/)
+
+---
+
+# 📥 DOWNLOAD & INSTALL
+
+## **Go to [Releases](https://github.com/4fqr/null-ide/releases) to download Null IDE**
+
+### Linux (Flatpak)
+
+1. Go to **[Releases](https://github.com/4fqr/null-ide/releases/latest)**
+2. Download `Null-IDE-v3.7.1.flatpak`
+3. Install:
+
+```bash
+flatpak install --user Null-IDE-v3.7.1.flatpak
+```
+
+4. Run:
+
+```bash
+flatpak run com.nullide.app
+```
+
+### Windows
+
+Download `Null-IDE-Setup-3.7.1.exe` from [Releases](https://github.com/4fqr/null-ide/releases/latest)
+
+### macOS
+
+Download `Null-IDE-3.7.1.dmg` from [Releases](https://github.com/4fqr/null-ide/releases/latest)
+
+### Update
+
+Download the latest release from [Releases](https://github.com/4fqr/null-ide/releases/latest) and install again.
 
 ---
 
@@ -22,33 +56,6 @@ Null IDE is a code editor designed for security researchers, penetration testers
 - **Discord Rich Presence** - Activity display integration
 - **Cross-Platform** - Windows, Linux, macOS support
 - **VS Code-like File Explorer** - Create files/folders, rename, delete, context menu
-
----
-
----
-
----
-
-# INSTALLATION
-
-### Linux (Flatpak)
-
-1. Download `Null-IDE-v3.7.0.flatpak` from [Releases](https://github.com/4fqr/null-ide/releases)
-2. Install:
-
-```bash
-flatpak install --user Null-IDE-v3.7.0.flatpak
-```
-
-3. Run:
-
-```bash
-flatpak run com.nullide.app
-```
-
-### Update
-
-Download the latest `.flatpak` bundle and install again - it will automatically update your installation.
 
 ---
 

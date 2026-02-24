@@ -1,6 +1,6 @@
 {
   "name": "null-ide",
-  "version": "3.7.0",
+  "version": "3.7.1",
   "description": "The Ultimate Hacker's Code Editor & Security Toolkit - 80+ Tools: Terminal with node-pty, SQLi/XSS/LDAP/XPath/NoSQL Injection, JWT Analysis, GraphQL Scanner, Race Conditions, Cache Poisoning, DOM XSS, DNS Rebinding, API Rate Limiting, DeepChat AI Integration, Live Preview Server, and more",
   "main": "dist/main/main.js",
   "author": "4fqr",

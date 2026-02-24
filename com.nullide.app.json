@@ -71,7 +71,7 @@
     {
       "name": "nodejs",
       "buildsystem": "simple",
-      "build-commands": ["tar -xzf node.tar.gz --strip-components=1 -C /app"],
+      "build-commands": ["tar --no-same-owner -xzf node.tar.gz --strip-components=1 -C /app"],
       "sources": [
         {
           "type": "file",
@@ -103,7 +103,7 @@
       "buildsystem": "simple",
       "build-commands": [
         "mkdir -p /app/lib/electron-headers",
-        "tar -xzf node-headers.tar.gz -C /app/lib/electron-headers --strip-components=1"
+        "tar --no-same-owner -xzf node-headers.tar.gz -C /app/lib/electron-headers --strip-components=1"
       ],
       "sources": [
         {

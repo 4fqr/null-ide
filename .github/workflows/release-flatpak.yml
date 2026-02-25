@@ -33,13 +33,24 @@ jobs:
       - name: Build application
         run: npm run build
 
-      - name: Rebuild node-pty for Electron
+      - name: Download Electron headers
         run: |
-          npm install -g @electron/rebuild
-          npx @electron/rebuild -v $ELECTRON_VERSION -w node-pty -f
+          mkdir -p /tmp/electron-headers
+          curl -sL "https://electronjs.org/headers/v${ELECTRON_VERSION}/node-v${ELECTRON_VERSION}-headers.tar.gz" | tar xz -C /tmp/electron-headers --strip-components=1
+          echo '{"name":"electron","version":"'"${ELECTRON_VERSION}"'","main":"index.js"}' > /tmp/electron-headers/package.json
+          echo "=== Downloaded Electron $ELECTRON_VERSION headers ==="
+          ls -la /tmp/electron-headers/
+
+      - name: Rebuild node-pty with node-gyp
+        run: |
+          npm install -g node-gyp
+          cd node_modules/node-pty
+          node-gyp rebuild --nodedir=/tmp/electron-headers
           echo "=== Rebuilt node-pty for Electron $ELECTRON_VERSION ==="
-          ls -la node_modules/node-pty/build/Release/ || echo "No build directory found"
-          file node_modules/node-pty/build/Release/pty.node || echo "No pty.node found"
+          ls -la build/Release/ || echo "No build directory found"
+          file build/Release/pty.node || echo "No pty.node found"
+          echo "=== Checking module ABI ==="
+          readelf -d build/Release/pty.node 2>/dev/null | grep -i needed || echo "Could not read elf"
 
       - name: Build Flatpak
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6

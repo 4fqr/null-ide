@@ -21,6 +21,7 @@ const MenuBar: React.FC = () => {
     activeTabId,
     tabs,
     toggleTerminal,
+    markTabSaved,
   } = useStore();
 
   const menus: Record<string, MenuItem[]> = {
@@ -78,12 +79,14 @@ const MenuBar: React.FC = () => {
         const tab = tabs.find((t) => t.id === activeTabId);
         if (tab?.path) {
           await window.electronAPI?.fs.writeFile(tab.path, tab.content);
+          markTabSaved(activeTabId);
         }
       }
     } else if (action === 'saveAll') {
       const modifiedTabs = tabs.filter((t) => t.modified && t.path);
       for (const tab of modifiedTabs) {
         await window.electronAPI?.fs.writeFile(tab.path, tab.content);
+        markTabSaved(tab.id);
       }
       if (modifiedTabs.length > 0) {
         console.log(`Saved ${modifiedTabs.length} file(s)`);

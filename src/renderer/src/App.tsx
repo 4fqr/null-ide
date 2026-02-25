@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useStore } from './store/store';
+import React, { useEffect, useState } from 'react';
+import { useStore, EditorTab } from './store/store';
 import { initializeTheme } from './utils/themeManager';
 import TopBar from './components/layout/TopBar';
 import LeftSidebar from './components/layout/LeftSidebar';
@@ -75,6 +75,86 @@ class ErrorBoundary extends React.Component<
   }
 }
 
+const UnsavedDialog: React.FC<{
+  tabName: string;
+  onSave: () => void;
+  onDiscard: () => void;
+  onCancel: () => void;
+}> = ({ tabName, onSave, onDiscard, onCancel }) => (
+  <div
+    style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: 'rgba(0, 0, 0, 0.7)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 10000,
+    }}
+  >
+    <div
+      style={{
+        background: '#1e1e1e',
+        border: '1px solid #444',
+        borderRadius: 8,
+        padding: 24,
+        minWidth: 400,
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
+      }}
+    >
+      <h3 style={{ margin: '0 0 16px 0', color: '#fff', fontSize: 18 }}>Unsaved Changes</h3>
+      <p style={{ margin: '0 0 24px 0', color: '#aaa', fontSize: 14 }}>
+        Do you want to save changes to "{tabName}"?
+      </p>
+      <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end' }}>
+        <button
+          onClick={onCancel}
+          style={{
+            padding: '8px 16px',
+            background: 'transparent',
+            border: '1px solid #555',
+            borderRadius: 4,
+            color: '#aaa',
+            cursor: 'pointer',
+          }}
+        >
+          Cancel
+        </button>
+        <button
+          onClick={onDiscard}
+          style={{
+            padding: '8px 16px',
+            background: 'transparent',
+            border: '1px solid #555',
+            borderRadius: 4,
+            color: '#f44',
+            cursor: 'pointer',
+          }}
+        >
+          Don't Save
+        </button>
+        <button
+          onClick={onSave}
+          style={{
+            padding: '8px 16px',
+            background: '#00d4aa',
+            border: 'none',
+            borderRadius: 4,
+            color: '#000',
+            cursor: 'pointer',
+            fontWeight: 'bold',
+          }}
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+);
+
 const App: React.FC = () => {
   console.log('App rendering...');
   const {
@@ -90,9 +170,73 @@ const App: React.FC = () => {
     closeAbout,
   } = useStore();
 
+  const [unsavedDialog, setUnsavedDialog] = useState<{
+    tabId: string;
+    tabName: string;
+    action: 'close' | 'closeAll';
+  } | null>(null);
+
   useEffect(() => {
     initializeTheme();
   }, []);
+
+  const saveTab = async (tabId: string): Promise<boolean> => {
+    const store = useStore.getState();
+    const tab = store.tabs.find((t) => t.id === tabId);
+    if (!tab) return false;
+
+    if (tab.path) {
+      await window.electronAPI.fs.writeFile(tab.path, tab.content);
+      store.markTabSaved(tabId);
+      return true;
+    } else {
+      const result = await window.electronAPI.dialog.saveFile();
+      if (!result.canceled && result.filePath) {
+        await window.electronAPI.fs.writeFile(result.filePath, tab.content);
+        const name = result.filePath.split('/').pop() || result.filePath;
+        const updatedTabs = store.tabs.map((t) =>
+          t.id === tabId
+            ? { ...t, path: result.filePath, name, modified: false, originalContent: tab.content }
+            : t
+        ) as EditorTab[];
+        useStore.setState({ tabs: updatedTabs });
+        return true;
+      }
+      return false;
+    }
+  };
+
+  const closeTabWithCheck = async (tabId: string) => {
+    const store = useStore.getState();
+    const tab = store.tabs.find((t) => t.id === tabId);
+
+    if (tab?.modified) {
+      setUnsavedDialog({ tabId, tabName: tab.name, action: 'close' });
+    } else {
+      store.closeTab(tabId);
+    }
+  };
+
+  const handleUnsavedSave = async () => {
+    if (!unsavedDialog) return;
+    const saved = await saveTab(unsavedDialog.tabId);
+    if (saved) {
+      const store = useStore.getState();
+      if (unsavedDialog.action === 'close') {
+        store.closeTab(unsavedDialog.tabId);
+      }
+    }
+    setUnsavedDialog(null);
+  };
+
+  const handleUnsavedDiscard = () => {
+    if (!unsavedDialog) return;
+    const store = useStore.getState();
+    if (unsavedDialog.action === 'close') {
+      store.closeTab(unsavedDialog.tabId);
+    }
+    setUnsavedDialog(null);
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -107,32 +251,44 @@ const App: React.FC = () => {
           language: 'plaintext',
           path: '',
           modified: false,
+          originalContent: '',
         });
         return;
       }
 
       if (e.ctrlKey && e.key === 's') {
         e.preventDefault();
-        const { activeTabId, tabs } = store;
-        if (activeTabId) {
-          const tab = tabs.find((t) => t.id === activeTabId);
-          if (tab && tab.path) {
-            window.electronAPI.fs.writeFile(tab.path, tab.content);
-          }
+        if (store.activeTabId) {
+          saveTab(store.activeTabId);
         }
+        return;
+      }
+
+      if (e.ctrlKey && e.shiftKey && e.key === 'S') {
+        e.preventDefault();
+        const modifiedTabs = store.tabs.filter((t) => t.modified);
+        modifiedTabs.forEach((tab) => {
+          if (tab.path) {
+            saveTab(tab.id);
+          }
+        });
         return;
       }
 
       if (e.ctrlKey && e.key === 'w') {
         e.preventDefault();
         if (store.activeTabId) {
-          store.closeTab(store.activeTabId);
+          closeTabWithCheck(store.activeTabId);
         }
         return;
       }
 
       if (e.ctrlKey && e.shiftKey && e.key === 'W') {
         e.preventDefault();
+        const modifiedTabs = store.tabs.filter((t) => t.modified);
+        if (modifiedTabs.length > 0) {
+          return;
+        }
         store.tabs.forEach((tab) => store.closeTab(tab.id));
         return;
       }
@@ -209,6 +365,15 @@ const App: React.FC = () => {
         {settingsOpen && <SettingsModal onClose={closeSettings} />}
         {aboutOpen && <AboutModal onClose={closeAbout} />}
         <ThemeModal />
+
+        {unsavedDialog && (
+          <UnsavedDialog
+            tabName={unsavedDialog.tabName}
+            onSave={handleUnsavedSave}
+            onDiscard={handleUnsavedDiscard}
+            onCancel={() => setUnsavedDialog(null)}
+          />
+        )}
       </div>
     </ErrorBoundary>
   );

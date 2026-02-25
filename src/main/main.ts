@@ -13,15 +13,31 @@ import * as crypto from 'crypto';
 import * as net from 'net';
 import * as dns from 'dns';
 import { promisify } from 'util';
-import { spawn, ChildProcess } from 'child_process';
+import { spawn, ChildProcess, execSync } from 'child_process';
 
 let pty: typeof import('node-pty') | null = null;
+let ptyLoadError: Error | null = null;
+
 try {
   pty = require('node-pty');
   console.log('node-pty loaded successfully');
+  console.log('node-pty version:', require('node-pty/package.json')?.version || 'unknown');
+  console.log('Process versions:', process.versions);
+  console.log('Process platform:', process.platform);
+  console.log('Process arch:', process.arch);
+  if (process.env.FLATPAK_ID) {
+    console.log('Running in Flatpak sandbox');
+    console.log('PATH:', process.env.PATH);
+  }
 } catch (err) {
-  console.error('Failed to load node-pty:', err);
-  console.log('Terminal will use fallback mode (child_process)');
+  ptyLoadError = err as Error;
+  console.error('=== NODE-PTY LOAD ERROR ===');
+  console.error('Error:', err);
+  console.error('Process versions:', process.versions);
+  console.error('Process platform:', process.platform);
+  console.error('Process arch:', process.arch);
+  console.error('Module search paths:', module.paths);
+  console.error('===========================');
 }
 
 import {
@@ -703,7 +719,7 @@ ipcMain.handle('terminal:spawn', (event, terminalId: string, shell?: string, cwd
       return { success: true, pid: ptyProcess.pid };
     } else {
       console.log('Using fallback terminal mode (child_process)');
-      
+
       const proc = spawn(shell, [], {
         cwd: cwd || process.env.HOME || process.cwd(),
         env: env,

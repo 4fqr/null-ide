@@ -142,8 +142,13 @@ export const useStore = create<UIState>((set) => ({
 - VS Code-like File Explorer
 - DeepHat AI Integration (app.deephat.ai)
 - Live Preview Server (localhost:8080)
+- Monaco Editor with 112 language support
+- Integrated Terminal
+- VS Code-like File Explorer
+- DeepHat AI Integration (app.deephat.ai)
+- Live Preview Server
 
-**v3.5.0 Updates**: DeepHat AI sidebar with OAuth login, Go Live button for live preview, enhanced webview support, improved status bar
+**v3.8.0 Updates**: Terminal fixed, improved file save behavior
 `,
       originalContent: `# Welcome to Null IDE
 
@@ -158,7 +163,7 @@ export const useStore = create<UIState>((set) => ({
 - DeepHat AI Integration (app.deephat.ai)
 - Live Preview Server (localhost:8080)
 
-**v3.5.0 Updates**: DeepHat AI sidebar with OAuth login, Go Live button for live preview, enhanced webview support, improved status bar
+**v3.8.0 Updates**: Terminal fixed, improved file save behavior
 `,
       modified: false,
     },

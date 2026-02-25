@@ -69,21 +69,6 @@
       ]
     },
     {
-      "name": "nodejs",
-      "buildsystem": "simple",
-      "build-commands": [
-        "tar --no-same-owner -xzf node.tar.gz --strip-components=1 -C /app"
-      ],
-      "sources": [
-        {
-          "type": "file",
-          "url": "https://nodejs.org/dist/v20.11.0/node-v20.11.0-linux-x64.tar.gz",
-          "sha256": "9556262f6cd4c020af027782afba31ca6d1a37e45ac0b56cecd2d5a4daf720e0",
-          "dest-filename": "node.tar.gz"
-        }
-      ]
-    },
-    {
       "name": "electron",
       "buildsystem": "simple",
       "build-commands": [
@@ -101,41 +86,9 @@
       ]
     },
     {
-      "name": "electron-headers",
-      "buildsystem": "simple",
-      "build-commands": [
-        "mkdir -p /app/lib/electron-headers",
-        "tar --no-same-owner -xzf headers.tar.gz -C /app/lib/electron-headers --strip-components=1",
-        "echo '{\"name\":\"electron\",\"version\":\"35.7.5\",\"main\":\"index.js\"}' > /app/lib/electron-headers/package.json"
-      ],
-      "sources": [
-        {
-          "type": "file",
-          "url": "https://electronjs.org/headers/v35.7.5/node-v35.7.5-headers.tar.gz",
-          "sha256": "517f40c12493db37bb95b1b2c9f81e66dcaeeab97ae8d1f9fd25c33778dfb197",
-          "dest-filename": "headers.tar.gz"
-        }
-      ]
-    },
-    {
       "name": "null-ide",
       "buildsystem": "simple",
-      "build-options": {
-        "env": {
-          "npm_config_cache": "/run/build/null-ide/npm-cache",
-          "npm_config_nodedir": "/app/lib/electron-headers",
-          "ELECTRON_SKIP_BINARY_DOWNLOAD": "1",
-          "HOME": "/run/build/null-ide"
-        },
-        "append-path": "/app/bin:/usr/bin",
-        "build-args": ["--share=network"]
-      },
       "build-commands": [
-        "rm -rf node_modules dist",
-        "npm install -g node-gyp",
-        "npm install --legacy-peer-deps",
-        "npm run build",
-        "cd node_modules/node-pty && node-gyp rebuild --nodedir=/app/lib/electron-headers",
         "install -Dm755 null-ide-flatpak.sh /app/bin/null-ide",
         "mkdir -p /app/lib/null-ide",
         "cp -r dist /app/lib/null-ide/",

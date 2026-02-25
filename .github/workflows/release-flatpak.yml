@@ -11,6 +11,7 @@ permissions:
 
 env:
   APP_ID: com.nullide.app
+  ELECTRON_VERSION: '35.7.5'
 
 jobs:
   build:
@@ -25,6 +26,20 @@ jobs:
 
       - name: Install build tools
         run: dnf install -y gcc g++ make python3 libsecret-devel nodejs npm
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Build application
+        run: npm run build
+
+      - name: Rebuild node-pty for Electron
+        run: |
+          npm install -g @electron/rebuild
+          npx @electron/rebuild -v $ELECTRON_VERSION -w node-pty -f
+          echo "=== Rebuilt node-pty for Electron $ELECTRON_VERSION ==="
+          ls -la node_modules/node-pty/build/Release/ || echo "No build directory found"
+          file node_modules/node-pty/build/Release/pty.node || echo "No pty.node found"
 
       - name: Build Flatpak
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
